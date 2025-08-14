@@ -3,15 +3,13 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dro
 import {Button} from '@heroui/button';
 import {Checkbox} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
-import {useMemo, useState} from 'react';
+import {useContext} from 'react';
+import {RatesContext} from '@/shared/hooks/useRates';
 
 const FiscalPanel = () => {
-    const [selectedKeys, setSelectedKeys] = useState(new Set(['NET -> BRUT']));
 
-    const selectedValue = useMemo(
-        () => Array.from(selectedKeys).join(', ').replace(/_/g, ''),
-        [selectedKeys],
-    );
+    const {reFetch} = useContext(RatesContext);
+
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-lg'>
@@ -56,7 +54,7 @@ const FiscalPanel = () => {
                 <Dropdown>
                     <DropdownTrigger>
                         <Button className='capitalize w-[300px] h-14' variant='faded' radius='md'>
-                            {selectedValue}
+                            {/*{selectedValue}*/}
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -88,7 +86,7 @@ const FiscalPanel = () => {
                 <Dropdown isDisabled={false}>
                     <DropdownTrigger>
                         <Button className='capitalize w-full text-default-500' variant='faded' size='lg' radius='md'>
-                            {selectedValue}
+                            {/*{selectedValue}*/}
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -104,7 +102,7 @@ const FiscalPanel = () => {
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            <Button variant='solid' color='primary' size='lg'>Calculeaza</Button>
+            <Button variant='solid' color='primary' size='lg' onPress={() => reFetch()}>Calculeaza</Button>
         </div>
     )
 }
