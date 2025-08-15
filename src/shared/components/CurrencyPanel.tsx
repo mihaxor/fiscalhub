@@ -34,7 +34,10 @@ const CurrencyPanel = ({}) => {
     } = useCurrency(rates);
 
     const handleValueChange =
-        (e: React.ChangeEvent<HTMLInputElement>, cb: (value: string) => void, _initialValue?: number) => {
+        (e: React.ChangeEvent<HTMLInputElement>, cb: (
+             value: string) => void,
+         // initialValue?: number
+        ) => {
             // if (isEmpty(e.target.value)) {
             //     cb(initialValue.toString());
             //     return;
