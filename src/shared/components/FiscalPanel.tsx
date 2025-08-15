@@ -3,13 +3,19 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dro
 import {Button} from '@heroui/button';
 import {Checkbox} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
-import {useContext} from 'react';
+import {useContext, useMemo, useState} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 
 const FiscalPanel = () => {
     const {reFetch} = useContext(RatesContext);
     const isMobile = useMediaQuery('(max-width: 400px)');
+
+    const [selectedKeys, setSelectedKeys] = useState(new Set(['monthly']));
+    const selectedValue = useMemo(() => Array.from(selectedKeys), [selectedKeys]);
+
+    const [selectedMode, setSelectedMode] = useState(new Set(['NET - BRUT']));
+    const selectedModeValue = useMemo(() => Array.from(selectedMode), [selectedMode]);
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
@@ -51,10 +57,10 @@ const FiscalPanel = () => {
                     placeholder='0.00'
                 />
                 /
-                <Dropdown>
+                <Dropdown backdrop='blur'>
                     <DropdownTrigger>
                         <Button className='capitalize w-[300px] h-14' variant='faded' radius='md'>
-                            {/*{selectedValue}*/}
+                            {selectedValue}
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -63,12 +69,12 @@ const FiscalPanel = () => {
                         selectedKeys='t1'
                         selectionMode='single'
                         variant='flat'
-                        // onSelectionChange={setSelectedKeys}
+                        onSelectionChange={(keys) => setSelectedKeys(new Set(Array.from(keys as Set<string>)))}
                     >
                         <DropdownItem key='hour'>hour</DropdownItem>
-                        <DropdownItem key='t2'>daily</DropdownItem>
-                        <DropdownItem key='t3'>monthly</DropdownItem>
-                        <DropdownItem key='t4'>yearly</DropdownItem>
+                        <DropdownItem key='daily'>daily</DropdownItem>
+                        <DropdownItem key='monthly'>monthly</DropdownItem>
+                        <DropdownItem key='yearly'>yearly</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -83,10 +89,10 @@ const FiscalPanel = () => {
                 <Chip variant='flat' radius='md' size='lg' className='text-default-500 h-12'>
                     Se calculeaza din:
                 </Chip>
-                <Dropdown isDisabled={false}>
+                <Dropdown backdrop='blur' isDisabled={false}>
                     <DropdownTrigger>
                         <Button className='capitalize w-full text-default-500' variant='faded' size='lg' radius='md'>
-                            {/*{selectedValue}*/}
+                            {selectedModeValue}
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -95,10 +101,10 @@ const FiscalPanel = () => {
                         selectedKeys='text1'
                         selectionMode='single'
                         variant='flat'
-                        // onSelectionChange={setSelectedKeys}
+                        onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}
                     >
-                        <DropdownItem key='text1'>NET - BRUT</DropdownItem>
-                        <DropdownItem key='text2'>BRUT - NET</DropdownItem>
+                        <DropdownItem key='NET - BRUT'>NET - BRUT</DropdownItem>
+                        <DropdownItem key='BRUT - NET'>BRUT - NET</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
