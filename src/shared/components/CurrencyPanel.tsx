@@ -41,11 +41,11 @@ const CurrencyPanel = ({}) => {
             cb(e.target.value);
         }
 
-    if (isLoading) return <Spinner size='md' />;
+    if (isLoading) return <div className='flex h-[250px]'><Spinner size='md' /></div>;
 
     return (
         <div className='flex flex-col justify-between gap-4 w-[450px]'>
-            <div className='flex flex-row items-center gap-4 w-full'>
+            <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
                     size='sm'
@@ -75,7 +75,7 @@ const CurrencyPanel = ({}) => {
                     }
                 />
             </div>
-            <div className='flex flex-row items-center gap-4 w-full'>
+            <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
                     size='sm'
@@ -104,7 +104,7 @@ const CurrencyPanel = ({}) => {
                     }
                 />
             </div>
-            <div className='flex flex-row items-center gap-4 w-full'>
+            <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
                     size='sm'
@@ -133,7 +133,7 @@ const CurrencyPanel = ({}) => {
                     }
                 />
             </div>
-            <div className='flex flex-row items-center gap-4 w-full'>
+            <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
                     size='sm'
@@ -206,6 +206,9 @@ const CurrencyPanel = ({}) => {
                         </div>
                     }
                 />
+            </div>
+            <div className='flex flex-row justify-end gap-4 w-full'>
+                <p className='text-xs text-default-400'>curs actualizat automat, sursa <strong>BNR</strong>.</p>
             </div>
         </div>
     )
