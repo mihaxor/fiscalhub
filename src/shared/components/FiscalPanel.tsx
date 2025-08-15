@@ -5,13 +5,15 @@ import {Checkbox} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
 import {useContext} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
+import useMediaQuery from '@/shared/hooks/useMediaQuery';
 
 const FiscalPanel = () => {
     const {reFetch} = useContext(RatesContext);
+    const isMobile = useMediaQuery('(max-width: 400px)');
 
     return (
-        <div className='flex flex-col justify-center items-stretch gap-5 w-lg'>
-            <div className='flex flex-row items-center justify-stretch gap-4 w-full'>
+        <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
+            <div className='flex flex-row items-center justify-stretch gap-4'>
                 <NumberInput
                     className='w-full md:w-min-[230px]'
                     variant='flat'
@@ -71,11 +73,11 @@ const FiscalPanel = () => {
                 </Dropdown>
             </div>
             <div className='flex flex-row items-center justify-between w-full'>
-                <Checkbox defaultSelected>CIM</Checkbox>
-                <Checkbox defaultSelected>SRL</Checkbox>
-                <Checkbox isDisabled>MICRO 1</Checkbox>
-                <Checkbox defaultSelected>MICRO 3</Checkbox>
-                <Checkbox defaultSelected>PFA</Checkbox>
+                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>CIM</Checkbox>
+                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>SRL</Checkbox>
+                <Checkbox size={isMobile ? 'sm' : 'md'} isDisabled>MICRO 1</Checkbox>
+                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>MICRO 3</Checkbox>
+                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>PFA</Checkbox>
             </div>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
                 <Chip variant='flat' radius='md' size='lg' className='text-default-500 h-12'>

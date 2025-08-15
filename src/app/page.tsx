@@ -8,14 +8,14 @@ import Footer from '@/shared/components/Footer';
 const Home = () => {
 
     return (<>
-            <div className='flex flex-col items-center gap-25 m-15 max-w-[1920px]'>
+            <div className='min-h-screen flex flex-col gap-25 mt-10 md:mx-10 mb-0 max-w-[1920px] mx-5'>
                 <Header />
-                <main className='flex flex-row flex-wrap gap-8 items-start justify-evenly w-full'>
+                <main className='flex-1 flex flex-row flex-wrap gap-8 items-start justify-evenly w-full'>
                     <FiscalPanel />
                     <CurrencyPanel />
                 </main>
+                <Footer />
             </div>
-            <Footer />
         </>
     );
 }

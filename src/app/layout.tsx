@@ -1,5 +1,5 @@
 import React from 'react';
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import {Providers} from '@/app/provider';
 import './globals.css';
@@ -14,9 +14,15 @@ const geistMono = Geist_Mono({
     subsets: ['latin'],
 });
 
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1.0,
+    userScalable: false
+}
+
 export const metadata: Metadata = {
-    title: 'Fiscal hub',
-    description: 'Fiscal calculator for salaries, micro-enterprises, LLCs, dividends, and social contributions.',
+    title: 'Fiscal Hub',
+    description: 'Fiscal calculator for salaries, micro-enterprises, LLCs, dividends, and social contributions.'
 };
 
 const RootLayout = ({children}: Readonly<{ children: React.ReactNode; }>) => (
