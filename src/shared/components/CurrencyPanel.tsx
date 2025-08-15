@@ -6,7 +6,7 @@ import React, {useContext} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
 import {Spinner} from '@heroui/spinner';
 import {Button} from '@heroui/button';
-import {ArrowLeftRight} from 'lucide-react';
+import {ArrowLeftRight, ArrowRightLeft} from 'lucide-react';
 import {CurrencySymbol, RateType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
 
@@ -28,6 +28,7 @@ const CurrencyPanel = ({}) => {
         setGbp,
         currency,
         setCurrency,
+        lastEditedSide,
         setLastEditedSide,
         calculateCurrency,
         calculateSwitchedCurrency
@@ -149,7 +150,6 @@ const CurrencyPanel = ({}) => {
                     type='number'
                     label='Valoare'
                     variant='bordered'
-                    // value={currency.left.value}
                     value={calculateSwitchedCurrency?.leftValue?.toString()}
                     onChange={(e) => {
                         setLastEditedSide('left');
@@ -190,7 +190,7 @@ const CurrencyPanel = ({}) => {
                     }
                 />
                 <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat'>
-                    <ArrowLeftRight />
+                    {lastEditedSide === 'left' ? <ArrowLeftRight /> : <ArrowRightLeft />}
                 </Button>
                 <Input
                     color='primary'
@@ -198,7 +198,6 @@ const CurrencyPanel = ({}) => {
                     type='number'
                     label='Valoare'
                     variant='bordered'
-                    // value={currency.right.value}
                     value={calculateSwitchedCurrency?.rightValue?.toString()}
                     onChange={(e) => {
                         setLastEditedSide('right');
