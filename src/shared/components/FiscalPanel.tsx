@@ -7,9 +7,7 @@ import {useContext} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
 
 const FiscalPanel = () => {
-
     const {reFetch} = useContext(RatesContext);
-
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-lg'>

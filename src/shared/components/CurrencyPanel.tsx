@@ -2,49 +2,50 @@
 
 import {Chip} from '@heroui/chip';
 import {Input} from '@heroui/input';
-import React, {useContext, useMemo, useState} from 'react';
+import React, {useContext} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
 import {Spinner} from '@heroui/spinner';
-import {isEmpty} from '@heroui/shared-utils';
+import {Button} from '@heroui/button';
+import {ArrowLeftRight} from 'lucide-react';
+import {CurrencySymbol, RateType} from '@/shared/hooks/fiscal.types';
+import useCurrency from '@/shared/hooks/useCurrency';
 
-const INITIAL_EUR_VALUE = 1;
-const INITIAL_USD_VALUE = 1;
-const INITIAL_GBP_VALUE = 1;
+const INITIAL_CURRENCY_OPTIONS = [
+    'RON', 'AED', 'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK',
+    'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW',
+    'MDL', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RSD', 'RUB', 'SEK',
+    'SGD', 'THB', 'TRY', 'UAH', 'USD', 'XAU', 'XDR', 'ZAR', 'EGP'
+].sort((a, b) => a.localeCompare(b));
 
 const CurrencyPanel = ({}) => {
     const {data: rates, isLoading} = useContext(RatesContext);
-    const [eur, setEur] = useState<string>(INITIAL_EUR_VALUE.toString());
-    const [usd, setUsd] = useState<string>(INITIAL_USD_VALUE.toString());
-    const [gbp, setGbp] = useState<string>(INITIAL_GBP_VALUE.toString());
-
-    const calculateCurrency = useMemo(() => {
-        if (!rates || isEmpty(rates)) return;
-
-        const eurValue = (parseFloat(eur) * rates.EUR).toFixed(4);
-        const usdValue = (parseFloat(usd) * rates.USD).toFixed(4);
-        const gbpValue = (parseFloat(gbp) * rates.GBP).toFixed(4);
-
-        return {
-            EUR: eurValue,
-            USD: usdValue,
-            GBP: gbpValue
-        }
-    }, [eur, usd, gbp, rates]);
-
+    const {
+        eur,
+        setEur,
+        usd,
+        setUsd,
+        gbp,
+        setGbp,
+        currency,
+        setCurrency,
+        setLastEditedSide,
+        calculateCurrency,
+        calculateSwitchedCurrency
+    } = useCurrency(rates);
 
     const handleValueChange =
-        (e: React.ChangeEvent<HTMLInputElement>, cb: (value: string) => void, initialValue: number) => {
-            if (isEmpty(e.target.value)) {
-                cb(initialValue.toString());
-                return;
-            }
+        (e: React.ChangeEvent<HTMLInputElement>, cb: (value: string) => void, _initialValue?: number) => {
+            // if (isEmpty(e.target.value)) {
+            //     cb(initialValue.toString());
+            //     return;
+            // }
             cb(e.target.value);
         }
 
     if (isLoading) return <div className='flex h-[250px]'><Spinner size='md' /></div>;
 
     return (
-        <div className='flex flex-col justify-between gap-4 w-[450px]'>
+        <div className='flex flex-col justify-between gap-4 w-lg'>
             <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
@@ -53,7 +54,7 @@ const CurrencyPanel = ({}) => {
                     label='Valoare'
                     value={eur}
                     variant='bordered'
-                    onChange={(e) => handleValueChange(e, setEur, INITIAL_EUR_VALUE)}
+                    onChange={(e) => handleValueChange(e, setEur)}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
                             <span className='text-default-400 text-small'>€</span>
@@ -64,13 +65,14 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
-                    label='Currency'
+                    type='number'
+                    label='Valuta'
                     value={calculateCurrency?.EUR.toString()}
                     variant='faded'
                     isReadOnly={true}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
-                            <span className='text-default-700 text-small'>RON</span>
+                            <span className='text-default-700 text-small'>lei</span>
                         </div>
                     }
                 />
@@ -79,10 +81,11 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
+                    type='number'
                     label='Valoare'
                     value={usd}
                     variant='bordered'
-                    onChange={(e) => handleValueChange(e, setUsd, INITIAL_USD_VALUE)}
+                    onChange={(e) => handleValueChange(e, setUsd)}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
                             <span className='text-default-400 text-small'>$</span>
@@ -93,13 +96,14 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
-                    label='Currency'
+                    type='number'
+                    label='Valuta'
                     value={calculateCurrency?.USD.toString()}
                     variant='faded'
                     isReadOnly={true}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
-                            <span className='text-default-700 text-small'>RON</span>
+                            <span className='text-default-700 text-small'>lei</span>
                         </div>
                     }
                 />
@@ -108,10 +112,11 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
+                    type='number'
                     label='Valoare'
                     value={gbp}
                     variant='bordered'
-                    onChange={(e) => handleValueChange(e, setGbp, INITIAL_GBP_VALUE)}
+                    onChange={(e) => handleValueChange(e, setGbp)}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
                             <span className='text-default-400 text-small'>£</span>
@@ -122,13 +127,14 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
-                    label='Currency'
+                    type='number'
+                    label='Valuta'
                     value={calculateCurrency?.GBP.toString()}
                     variant='faded'
                     isReadOnly={true}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
-                            <span className='text-default-700 text-small'>RON</span>
+                            <span className='text-default-700 text-small'>lei</span>
                         </div>
                     }
                 />
@@ -137,71 +143,95 @@ const CurrencyPanel = ({}) => {
                 <Input
                     color='primary'
                     size='sm'
+                    type='number'
                     label='Valoare'
-                    value='1'
                     variant='bordered'
+                    // value={currency.left.value}
+                    value={calculateSwitchedCurrency?.leftValue?.toString()}
+                    onChange={(e) => {
+                        setLastEditedSide('left');
+                        setCurrency(prev => ({
+                            ...prev,
+                            left: {...prev.left, value: e.target.value}
+                        }))
+                    }}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
-                            <span className='text-default-400 text-small'>€</span>
+                            <span
+                                className='text-default-400 text-small'>{CurrencySymbol[currency.left.currency as keyof typeof CurrencySymbol]}</span>
                         </div>
                     }
                     endContent={
                         <div className='flex items-center'>
-                            <label className='sr-only' htmlFor='currency'>
-                                Currency
-                            </label>
                             <select
                                 aria-label='Select currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
-                                defaultValue='USD'
+                                defaultValue={currency.left.currency}
                                 id='currency'
                                 name='currency'
+                                onChange={(e) => {
+                                    setLastEditedSide('left');
+                                    setCurrency(prev => ({
+                                        ...prev,
+                                        left: {...prev.left, currency: e.target.value as RateType}
+                                    }))
+                                }}
                             >
-                                <option aria-label='US Dollar' value='USD'>
-                                    RON
-                                </option>
-                                <option aria-label='Argentine Peso' value='ARS'>
-                                    EUR
-                                </option>
-                                <option aria-label='Euro' value='EUR'>
-                                    USD
-                                </option>
+                                {INITIAL_CURRENCY_OPTIONS.map((option: string, key: number) => (
+                                    <option key={key} aria-label={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     }
                 />
+                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat'>
+                    <ArrowLeftRight />
+                </Button>
                 <Input
                     color='primary'
                     size='sm'
-                    label='Currency'
-                    value='5.123123'
+                    type='number'
+                    label='Valoare'
                     variant='bordered'
+                    // value={currency.right.value}
+                    value={calculateSwitchedCurrency?.rightValue?.toString()}
+                    onChange={(e) => {
+                        setLastEditedSide('right');
+                        setCurrency(prev => ({
+                            ...prev,
+                            right: {...prev.right, value: e.target.value}
+                        }))
+                    }
+                    }
                     startContent={
                         <div className='pointer-events-none flex items-center'>
-                            <span className='text-default-400 text-small'>RON</span>
+                            <span
+                                className='text-default-400 text-small'>{CurrencySymbol[currency.right.currency as keyof typeof CurrencySymbol]}</span>
                         </div>
                     }
                     endContent={
                         <div className='flex items-center'>
-                            <label className='sr-only' htmlFor='currency'>
-                                Currency
-                            </label>
                             <select
                                 aria-label='Select currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
-                                defaultValue='USD'
+                                defaultValue={currency.right.currency}
                                 id='currency'
                                 name='currency'
+                                onChange={(e) => {
+                                    setLastEditedSide('right');
+                                    setCurrency(prev => ({
+                                        ...prev,
+                                        right: {...prev.right, currency: e.target.value as RateType}
+                                    }))
+                                }}
                             >
-                                <option aria-label='US Dollar' value='USD'>
-                                    RON
-                                </option>
-                                <option aria-label='Argentine Peso' value='ARS'>
-                                    EUR
-                                </option>
-                                <option aria-label='Euro' value='EUR'>
-                                    USD
-                                </option>
+                                {INITIAL_CURRENCY_OPTIONS.map((option: string, key: number) => (
+                                    <option key={key} aria-label={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     }

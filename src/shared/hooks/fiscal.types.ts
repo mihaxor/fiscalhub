@@ -28,6 +28,17 @@ interface FiscalPayrollResult {
     shares: { employee: number; state: number; };
 }
 
-type RateType = 'EUR' | 'GBP' | 'USD' | 'AED' | 'AUD' | 'BGN' | 'BRL' | 'CAD';
+type RateType = 'RON'
+    | 'AED' | 'AUD' | 'BGN' | 'BRL' | 'CAD' | 'CHF' | 'CNY' | 'CZK' | 'DKK' | 'EGP'
+    | 'EUR' | 'GBP' | 'HKD' | 'HUF' | 'IDR' | 'ILS' | 'INR' | 'ISK' | 'JPY' | 'KRW'
+    | 'MDL' | 'MXN' | 'MYR' | 'NOK' | 'NZD' | 'PHP' | 'PLN' | 'RSD' | 'RUB' | 'SEK'
+    | 'SGD' | 'THB' | 'TRY' | 'UAH' | 'USD' | 'XAU' | 'XDR' | 'ZAR';
+
+export enum CurrencySymbol {
+    RON = 'lei',
+    EUR = '€',
+    GBP = '£',
+    USD = '$'
+}
 
 export type {FiscalPayroll, FiscalPayrollResult, RateType};

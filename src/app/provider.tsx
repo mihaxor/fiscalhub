@@ -2,7 +2,7 @@
 
 import {HeroUIProvider} from '@heroui/react'
 import React from 'react';
-import {ThemeProvider} from 'next-theme';
+import {ThemeProvider} from 'next-themes';
 import {RatesProvider} from '@/shared/hooks/useRates';
 
 export const Providers = ({children}: { children: React.ReactNode }) => (

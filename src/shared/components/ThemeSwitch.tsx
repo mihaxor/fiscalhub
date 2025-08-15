@@ -2,7 +2,7 @@
 
 import {Switch} from '@heroui/switch';
 import {JSX, SVGProps, useEffect, useState} from 'react';
-import useTheme from 'next-theme';
+import {useTheme} from 'next-themes'
 
 type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 
@@ -41,17 +41,18 @@ const SunIcon = (props: IconType) =>
 
 const ThemeSwitch = () => {
     const [mounted, setMounted] = useState(false);
-    const { theme, setTheme } = useTheme();
+    const {theme, setTheme} = useTheme();
 
     useEffect(() => {
         setMounted(true);
+        setTheme(process.env.NEXT_PUBLIC_APP_THEME as string);
     }, []);
 
     if (!mounted) return null;
 
     return (
         <Switch
-            isSelected={theme != 'dark'}
+            isSelected={theme !== 'dark'}
             onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             color='warning'
             endContent={<MoonIcon />}
