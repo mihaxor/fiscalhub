@@ -6,7 +6,6 @@ import {Chip} from '@heroui/chip';
 import {useContext, useMemo, useState} from 'react';
 import {RatesContext} from '@/shared/hooks/useRates';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
-import {ArrowRight} from 'lucide-react';
 
 const FiscalPanel = () => {
     const {reFetch} = useContext(RatesContext);
