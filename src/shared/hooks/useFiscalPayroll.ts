@@ -1,25 +1,33 @@
 import {useCallback} from 'react';
 import {FiscalPayroll, FiscalPayrollResult} from '@/shared/hooks/fiscal.types';
 
+const DEFAULT_TAXES = {
+    cas: 0.25,              // 25% CAS (contributii asigurari sociale - pensie)
+    cass: 0.10,             // 10% CASS (contributii asigurari sociale - sanatate)
+    iv: 0.10,               // 10% IV (Impozit venit)
+    cam: 0.0225             // 2.25% CAM (contributii asigurari munca)
+}
+const DEFAULT_DP = 0;       // Deducere personala (lei)
+
 const useFiscalPayroll = () => {
 
     /**
      * Payroll calculator (RO) – unificat: din NET sau din BRUT
      *
      * @param {Object} opts
-     * @param {'net'|'gross'} opts.from   - de unde pornești calculul
-     * @param {number} opts.value         - valoarea (net sau brut, după `from`)
-     * @param {number} [opts.dp=0]        - deducere personala (lei)
-     * @param {Object} [opts.rates]       - procente (implicite: CAS 25%, CASS 10%, IV 10%, CAM 2.25%)
-     * @param {number} [opts.rates.cas=0.25]
-     * @param {number} [opts.rates.cass=0.10]
-     * @param {number} [opts.rates.iv=0.10]
-     * @param {number} [opts.rates.cam=0.0225]
-     * @param {number} [opts.eurRate=5.0683] - curs lei/€ pentru coloana EUR
-     * @param {'round'|'floor'|'ceil'} [opts.roundMode="round"] - rotunjire pentru afisarea in lei
+     * @param {'net'|'gross'} opts.fromType                         - baza de calcul (implicit: 'net')
+     * @param {number} opts.value                                   - valoarea (net sau brut, după `fromType`)
+     * @param {number} [opts.dp=0]                                  - deducere personala (lei)
+     * @param {Object} [opts.taxes]                                 - procente (implicite: CAS 25%, CASS 10%, IV 10%, CAM 2.25%)
+     * @param {number} [opts.taxes.cas=0.25]                        - CAS (contributii asigurari sociale - pensie)
+     * @param {number} [opts.taxes.cass=0.10]                       - CASS (contributii asigurari sociale - sanatate)
+     * @param {number} [opts.taxes.iv=0.10]                         - IV (Impozit venit)
+     * @param {number} [opts.taxes.cam=0.0225]                      - CAM (contributii asigurari munca)
+     * @param {number} [opts.rate]                                  - cursul valutar
+     * @param {'round'|'floor'|'ceil'} [opts.roundMode="round"]     - rotunjire pentru afisarea in lei
      *
      * @returns {{
-     *   inputs: {from:'net'|'gross', value:number},
+     *   inputs: {fromType:'net'|'gross', value:number},
      *   gross:{lei:number, eur:number},
      *   cas:{lei:number, eur:number},
      *   cass:{lei:number, eur:number},
@@ -27,54 +35,48 @@ const useFiscalPayroll = () => {
      *   iv:{lei:number, eur:number},
      *   net:{lei:number, eur:number},
      *   cam:{lei:number, eur:number},
-     *   totalEmployerCost:{lei:number, eur:number},
-     *   taxesEmployee:{lei:number, eur:number},
-     *   taxesEmployer:{lei:number, eur:number},
-     *   taxesState:{lei:number, eur:number},
-     *   shares:{ employee:number, state:number }
+     *   totalEmployerCost:{lei:number, eur:number},                - total cost angajator
+     *   taxesEmployee:{lei:number, eur:number},                    - taxe angajat
+     *   taxesEmployer:{lei:number, eur:number},                    - taxe angajator
+     *   taxesState:{lei:number, eur:number},                       - taxe stat
+     *   shares:{ employee:number, state:number }                   - procentajul din costul total
      * }}
      */
     const calcPayroll = useCallback((opts: FiscalPayroll): FiscalPayrollResult => {
         const {
-            from,
+            fromType,
             value,
-            dp = 0,
-            rates = {
-                cas: 0.25,
-                cass: 0.10,
-                iv: 0.10,
-                cam: 0.0225
-            },
-            eurRate = 5.0683,
+            dp = DEFAULT_DP,
+            taxes = DEFAULT_TAXES,
+            rate,
             roundMode = 'round',
         } = opts;
 
         const rounders = {round: Math.round, floor: Math.floor, ceil: Math.ceil};
-        const r = rounders[roundMode] || Math.round;
-        const toEur = (v: number) => v / eurRate;
+        const roundValue = rounders[roundMode] || Math.round;
+        const exchange = (v: number) => v / rate;
 
-        // — helpers —
-        const cas = (g: number) => g * rates.cas;
-        const cass = (g: number) => g * rates.cass;
+        const cas = (g: number) => g * taxes.cas;
+        const cass = (g: number) => g * taxes.cass;
         const ivVal = (g: number) => {
             const base = Math.max(0, g - cas(g) - cass(g) - dp);
-            return base * rates.iv;
+            return base * taxes.iv;
         };
         const net = (g: number) => g - cas(g) - cass(g) - ivVal(g);
-        const cam = (g: number) => g * rates.cam;
+        const cam = (g: number) => g * taxes.cam;
         const totalEmployer = (g: number) => g + cam(g);
 
         let gross;
 
-        if (from === 'gross') {
+        if (fromType === 'gross') {
             gross = value;
-        } else if (from === 'net') {
-            const A = 1 - rates.cas - rates.cass;
-            const denom = A * (1 - rates.iv);
+        } else if (fromType === 'net') {
+            const A = 1 - taxes.cas - taxes.cass;
+            const denom = A * (1 - taxes.iv);
 
-            if (denom <= 0) throw new Error('Rate invalide pentru inversare net->brut.');
-            gross = (value - rates.iv * dp) / denom;
-        } else throw new Error('Parametrul "from" trebuie să fie "net" sau "gross".');
+            if (denom <= 0) throw new Error('Rate invalid conversion.');
+            gross = (value - taxes.iv * dp) / denom;
+        } else throw new Error('The parameter "fromType" should be "net" or "gross".');
 
         const casLei = cas(gross);
         const cassLei = cass(gross);
@@ -88,18 +90,18 @@ const useFiscalPayroll = () => {
         const taxesState = taxesEmployee + taxesEmployer;
 
         return {
-            inputs: {from, value},
-            gross: {lei: r(gross), eur: toEur(gross)},
-            cas: {lei: r(casLei), eur: toEur(casLei)},
-            cass: {lei: r(cassLei), eur: toEur(cassLei)},
-            dp: {lei: r(dp), eur: toEur(dp)},
-            iv: {lei: r(ivLei), eur: toEur(ivLei)},
-            net: {lei: r(netLei), eur: toEur(netLei)},
-            cam: {lei: r(camLei), eur: toEur(camLei)},
-            totalEmployerCost: {lei: r(totalCost), eur: toEur(totalCost)},
-            taxesEmployee: {lei: r(taxesEmployee), eur: toEur(taxesEmployee)},
-            taxesEmployer: {lei: r(taxesEmployer), eur: toEur(taxesEmployer)},
-            taxesState: {lei: r(taxesState), eur: toEur(taxesState)},
+            inputs: {fromType, value},
+            gross: {lei: roundValue(gross), currency: exchange(gross)},
+            cas: {lei: roundValue(casLei), currency: exchange(casLei)},
+            cass: {lei: roundValue(cassLei), currency: exchange(cassLei)},
+            dp: {lei: roundValue(dp), currency: exchange(dp)},
+            iv: {lei: roundValue(ivLei), currency: exchange(ivLei)},
+            net: {lei: roundValue(netLei), currency: exchange(netLei)},
+            cam: {lei: roundValue(camLei), currency: exchange(camLei)},
+            totalEmployerCost: {lei: roundValue(totalCost), currency: exchange(totalCost)},
+            taxesEmployee: {lei: roundValue(taxesEmployee), currency: exchange(taxesEmployee)},
+            taxesEmployer: {lei: roundValue(taxesEmployer), currency: exchange(taxesEmployer)},
+            taxesState: {lei: roundValue(taxesState), currency: exchange(taxesState)},
             shares: {
                 employee: netLei / totalCost,
                 state: taxesState / totalCost

@@ -1,30 +1,32 @@
+type FiscalType = 'net' | 'gross';
+
 interface FiscalPayroll {
-    from: 'net' | 'gross';
+    fromType: FiscalType;
     value: number;
-    dp?: number; // deducere personala
-    rates?: {
-        cas: number; // CAS
-        cass: number; // CASS
-        iv: number; // impozit venit
-        cam: number; // contributii asigurari munca
+    dp?: number;                // deducere personala
+    taxes?: {
+        cas: number;            // CAS
+        cass: number;           // CASS
+        iv: number;             // impozit venit
+        cam: number;            // contributii asigurari munca
     };
-    eurRate?: number; // curs lei/€
+    rate: number;               // cursul valutar
     roundMode?: 'round' | 'floor' | 'ceil'; // mod de rotunjire
 }
 
 interface FiscalPayrollResult {
-    inputs: { from: 'net' | 'gross'; value: number; };
-    gross: { lei: number; eur: number; };
-    cas: { lei: number; eur: number; };
-    cass: { lei: number; eur: number; };
-    dp: { lei: number; eur: number; };
-    iv: { lei: number; eur: number; };
-    net: { lei: number; eur: number; };
-    cam: { lei: number; eur: number; };
-    totalEmployerCost: { lei: number; eur: number; };
-    taxesEmployee: { lei: number; eur: number; };
-    taxesEmployer: { lei: number; eur: number; };
-    taxesState: { lei: number; eur: number; };
+    inputs: { fromType: 'net' | 'gross'; value: number; };
+    gross: { lei: number; currency: number; };
+    cas: { lei: number; currency: number; };
+    cass: { lei: number; currency: number; };
+    dp: { lei: number; currency: number; };
+    iv: { lei: number; currency: number; };
+    net: { lei: number; currency: number; };
+    cam: { lei: number; currency: number; };
+    totalEmployerCost: { lei: number; currency: number; };
+    taxesEmployee: { lei: number; currency: number; };
+    taxesEmployer: { lei: number; currency: number; };
+    taxesState: { lei: number; currency: number; };
     shares: { employee: number; state: number; };
 }
 
@@ -41,4 +43,4 @@ export enum CurrencySymbol {
     USD = '$'
 }
 
-export type {FiscalPayroll, FiscalPayrollResult, RateType};
+export type {FiscalType, FiscalPayroll, FiscalPayrollResult, RateType};

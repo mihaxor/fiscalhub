@@ -1,10 +1,12 @@
-import {useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {isEmpty} from '@heroui/shared-utils';
 import {RateType} from '@/shared/hooks/fiscal.types';
 
 const INITIAL_EUR_VALUE = 1;
 const INITIAL_USD_VALUE = 1;
 const INITIAL_GBP_VALUE = 1;
+
+const DEFAULT_CURRENCY_EXCHANGE = 'EUR';
 
 type CurrencyType = {
     left: {
@@ -105,6 +107,23 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
         };
     }, [currency, rates, lastEditedSide]);
 
+    const verifyCurrency = useCallback((currency: RateType, rates: Record<RateType, number> | undefined):
+    { type: RateType; rate: number } => {
+
+        if (!rates) return {
+            type: DEFAULT_CURRENCY_EXCHANGE,
+            rate: 1,
+        };
+
+        if (currency === 'RON') return {
+            type: DEFAULT_CURRENCY_EXCHANGE,
+            rate: rates[DEFAULT_CURRENCY_EXCHANGE],
+        };
+
+        if (!rates[currency]) throw new Error(`${currency} is not a valid currency.`);
+
+        return {type: currency, rate: rates[currency]};
+    }, []);
 
     return {
         eur,
@@ -119,6 +138,7 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
         calculateSwitchedCurrency,
         lastEditedSide,
         setLastEditedSide,
+        verifyCurrency
     }
 }
 
