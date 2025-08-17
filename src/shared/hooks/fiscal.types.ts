@@ -1,4 +1,6 @@
 type FiscalType = 'net' | 'gross';
+type FiscalPeriodType = 'hour' | 'daily' | 'monthly' | 'yearly';
+type FiscalCalculationType = 'CIM' | 'SRL' | 'MICRO1' | 'MICRO3' | 'PFA';
 
 interface FiscalPayroll {
     fromType: FiscalType;
@@ -43,4 +45,4 @@ export enum CurrencySymbol {
     USD = '$'
 }
 
-export type {FiscalType, FiscalPayroll, FiscalPayrollResult, RateType};
+export type {FiscalType, FiscalPeriodType, FiscalCalculationType, FiscalPayroll, FiscalPayrollResult, RateType};
