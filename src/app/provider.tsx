@@ -3,7 +3,7 @@
 import {HeroUIProvider} from '@heroui/react'
 import React from 'react';
 import {ThemeProvider} from 'next-themes';
-import {RatesProvider} from '@/shared/hooks/useRates';
+import {RatesProvider} from '@/shared/store/useRatesStore';
 
 export const Providers = ({children}: { children: React.ReactNode }) => (
     <ThemeProvider attribute='class'>

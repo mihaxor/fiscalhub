@@ -3,14 +3,14 @@
 import {Chip} from '@heroui/chip';
 import {Input} from '@heroui/input';
 import React, {useContext} from 'react';
-import {RatesContext} from '@/shared/hooks/useRates';
+import {RatesContext} from '@/shared/store/useRatesStore';
 import {Spinner} from '@heroui/spinner';
 import {Button} from '@heroui/button';
 import {ArrowLeftRight, ArrowRightLeft} from 'lucide-react';
 import {CurrencySymbol, RateType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
 
-const INITIAL_CURRENCY_OPTIONS = [
+const DEFAULT_CURRENCY_OPTIONS = [
     'RON', 'AED', 'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK',
     'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW',
     'MDL', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RSD', 'RUB', 'SEK',
@@ -180,7 +180,7 @@ const CurrencyPanel = ({}) => {
                                     }))
                                 }}
                             >
-                                {INITIAL_CURRENCY_OPTIONS.map((option: string, key: number) => (
+                                {DEFAULT_CURRENCY_OPTIONS.map((option: string, key: number) => (
                                     <option key={key} aria-label={option} value={option}>
                                         {option}
                                     </option>
@@ -229,7 +229,7 @@ const CurrencyPanel = ({}) => {
                                     }))
                                 }}
                             >
-                                {INITIAL_CURRENCY_OPTIONS.map((option: string, key: number) => (
+                                {DEFAULT_CURRENCY_OPTIONS.map((option: string, key: number) => (
                                     <option key={key} aria-label={option} value={option}>
                                         {option}
                                     </option>

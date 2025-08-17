@@ -4,29 +4,32 @@ import {Button} from '@heroui/button';
 import {Checkbox} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
 import {useContext, useMemo, useState} from 'react';
-import {RatesContext} from '@/shared/hooks/useRates';
+import {useFiscalStore} from '@/shared/store/useFiscalStore';
+import {RatesContext} from '@/shared/store/useRatesStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
-import {CurrencySymbol, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
+import {CurrencySymbol, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
 
-const INITIAL_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
+const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
 
 const FiscalPanel = () => {
+    const {fiscalInputs, setFiscalInputs} = useFiscalStore();
+
     const {data: rates} = useContext(RatesContext);
     const isMobile = useMediaQuery('(max-width: 400px)');
 
-    const [selectedPeriodKeys, setSelectedPeriodKeys] = useState(new Set(['monthly']));
+    const [selectedPeriodKeys, setSelectedPeriodKeys] = useState<Set<FiscalPeriodType>>(new Set([fiscalInputs.period]));
     const selectedPeriodValue = useMemo(() => Array.from(selectedPeriodKeys), [selectedPeriodKeys]);
 
-    const [selectedMode, setSelectedMode] = useState(new Set(['NET']));
+    const [selectedMode, setSelectedMode] = useState(new Set([fiscalInputs.fromType.toUpperCase()]));
     const selectedModeValue = useMemo(() => Array.from(selectedMode)[0], [selectedMode]);
 
     const {calcPayroll} = useFiscalPayroll();
     const {verifyCurrency} = useCurrency(rates);
-    const [selectedCurrency, setSelectedCurrency] = useState<RateType>('RON');
-    const [value, setValue] = useState<number>(0.00);
+    const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
+    const [value, setValue] = useState<number>(fiscalInputs.value);
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
@@ -55,7 +58,7 @@ const FiscalPanel = () => {
                                 name='currency'
                                 onChange={(e) => setSelectedCurrency(e.target.value as RateType)}
                             >
-                                {INITIAL_CURRENCY_OPTIONS.map((option, key) => {
+                                {DEFAULT_CURRENCY_OPTIONS.map((option, key) => {
                                     return (
                                         <option key={key} aria-label={option} value={option}>
                                             {option}
@@ -88,7 +91,7 @@ const FiscalPanel = () => {
                         selectedKeys='t1'
                         selectionMode='single'
                         variant='flat'
-                        onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<string>)))}
+                        onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}
                     >
                         <DropdownItem key='hour'>hour</DropdownItem>
                         <DropdownItem key='daily'>daily</DropdownItem>
@@ -128,6 +131,13 @@ const FiscalPanel = () => {
                 </Dropdown>
             </div>
             <Button variant='solid' color='primary' size='lg' onPress={() => {
+                setFiscalInputs({
+                    value,
+                    currency: selectedCurrency,
+                    period: selectedPeriodValue[0],
+                    fromType: selectedModeValue.toLowerCase() as FiscalType,
+                    calculationType: ['CIM', 'SRL']
+                })
                 console.log(calcPayroll({
                     fromType: selectedModeValue.toLowerCase() as FiscalType,
                     value,

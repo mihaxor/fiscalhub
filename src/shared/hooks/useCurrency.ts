@@ -2,9 +2,9 @@ import {useCallback, useMemo, useState} from 'react';
 import {isEmpty} from '@heroui/shared-utils';
 import {RateType} from '@/shared/hooks/fiscal.types';
 
-const INITIAL_EUR_VALUE = 1;
-const INITIAL_USD_VALUE = 1;
-const INITIAL_GBP_VALUE = 1;
+const DEFAULT_EUR_VALUE = 1;
+const DEFAULT_USD_VALUE = 1;
+const DEFAULT_GBP_VALUE = 1;
 
 const DEFAULT_CURRENCY_EXCHANGE = 'EUR';
 
@@ -20,14 +20,14 @@ type CurrencyType = {
 }
 
 const useCurrency = (rates: Record<RateType, number> | undefined) => {
-    const [eur, setEur] = useState<string>(INITIAL_EUR_VALUE.toString());
-    const [usd, setUsd] = useState<string>(INITIAL_USD_VALUE.toString());
-    const [gbp, setGbp] = useState<string>(INITIAL_GBP_VALUE.toString());
+    const [eur, setEur] = useState<string>(DEFAULT_EUR_VALUE.toString());
+    const [usd, setUsd] = useState<string>(DEFAULT_USD_VALUE.toString());
+    const [gbp, setGbp] = useState<string>(DEFAULT_GBP_VALUE.toString());
     const [currency, setCurrency] = useState<CurrencyType>(
         {
             left: {
                 currency: 'EUR',
-                value: INITIAL_EUR_VALUE.toString()
+                value: DEFAULT_EUR_VALUE.toString()
             },
             right: {
                 currency: 'RON',

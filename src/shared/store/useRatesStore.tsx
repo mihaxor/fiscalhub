@@ -3,7 +3,7 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {RateType} from '@/shared/hooks/fiscal.types';
 
-const useRates = () => {
+const useRatesStore = () => {
     const [data, setData] = useState<Record<RateType, number> | undefined>(undefined);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,7 +48,7 @@ export const RatesContext = createContext({
 });
 
 export const RatesProvider = ({children}: { children: React.ReactNode }) => {
-    const {data, isLoading, isError, error, reFetch} = useRates();
+    const {data, isLoading, isError, error, reFetch} = useRatesStore();
 
     return (
         <RatesContext.Provider value={{data, isLoading, isError, error, reFetch}}>
