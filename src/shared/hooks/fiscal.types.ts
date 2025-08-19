@@ -1,19 +1,30 @@
 type FiscalType = 'net' | 'gross';
 type FiscalPeriodType = 'hour' | 'daily' | 'monthly' | 'yearly';
-type FiscalCalculationType = 'CIM' | 'SRL' | 'MICRO1' | 'MICRO3' | 'PFA';
+
+export const FiscalCalculationType = {
+    CIM: 'CIM',
+    SRL: 'SRL',
+    MICRO1: 'MICRO1',
+    MICRO3: 'MICRO3',
+    PFA: 'PFA'
+} as const;
+
+export type FiscalCalculationType = typeof FiscalCalculationType[keyof typeof FiscalCalculationType];
+
+type Taxes = {
+    cas: number;
+    cass: number;
+    iv: number;
+    cam: number;
+}
 
 interface FiscalPayroll {
     fromType: FiscalType;
     value: number;
-    dp?: number;                // deducere personala
-    taxes?: {
-        cas: number;            // CAS
-        cass: number;           // CASS
-        iv: number;             // impozit venit
-        cam: number;            // contributii asigurari munca
-    };
-    rate: number;               // cursul valutar
-    roundMode?: 'round' | 'floor' | 'ceil'; // mod de rotunjire
+    dp?: number;
+    taxes?: Taxes;
+    rate: number;
+    roundMode?: 'round' | 'floor' | 'ceil';
 }
 
 interface FiscalPayrollResult {
@@ -45,4 +56,4 @@ export enum CurrencySymbol {
     USD = '$'
 }
 
-export type {FiscalType, FiscalPeriodType, FiscalCalculationType, FiscalPayroll, FiscalPayrollResult, RateType};
+export type {FiscalType, FiscalPeriodType, FiscalPayroll, FiscalPayrollResult, RateType, Taxes};

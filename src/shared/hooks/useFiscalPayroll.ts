@@ -1,12 +1,12 @@
 import {useCallback} from 'react';
-import {FiscalPayroll, FiscalPayrollResult} from '@/shared/hooks/fiscal.types';
+import {FiscalPayroll, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 
 const DEFAULT_TAXES = {
     cas: 0.25,              // 25% CAS (contributii asigurari sociale - pensie)
     cass: 0.10,             // 10% CASS (contributii asigurari sociale - sanatate)
     iv: 0.10,               // 10% IV (Impozit venit)
     cam: 0.0225             // 2.25% CAM (contributii asigurari munca)
-}
+} as Taxes;
 const DEFAULT_DP = 0;       // Deducere personala (lei)
 
 const useFiscalPayroll = () => {
@@ -109,7 +109,8 @@ const useFiscalPayroll = () => {
         };
     }, []);
     return {
-        calcPayroll
+        calcPayroll,
+        taxes: DEFAULT_TAXES
     };
 }
 
