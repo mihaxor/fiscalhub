@@ -3,12 +3,9 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dro
 import {Button} from '@heroui/button';
 import {Checkbox} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
-import {useContext, useMemo, useState} from 'react';
+import {useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
-import {RatesContext} from '@/shared/store/useRatesStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
-import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
-import useCurrency from '@/shared/hooks/useCurrency';
 import {CurrencySymbol, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
@@ -17,7 +14,6 @@ const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
 const FiscalPanel = () => {
     const {fiscalInputs, setFiscalInputs} = useFiscalStore();
 
-    const {data: rates} = useContext(RatesContext);
     const isMobile = useMediaQuery('(max-width: 400px)');
 
     const [selectedPeriodKeys, setSelectedPeriodKeys] = useState<Set<FiscalPeriodType>>(new Set([fiscalInputs.period]));
@@ -26,8 +22,6 @@ const FiscalPanel = () => {
     const [selectedMode, setSelectedMode] = useState(new Set([fiscalInputs.fromType.toUpperCase()]));
     const selectedModeValue = useMemo(() => Array.from(selectedMode)[0], [selectedMode]);
 
-    const {calcPayroll} = useFiscalPayroll();
-    const {verifyCurrency} = useCurrency(rates);
     const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
     const [value, setValue] = useState<number>(fiscalInputs.value);
 
@@ -130,20 +124,14 @@ const FiscalPanel = () => {
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            <Button variant='solid' color='primary' size='lg' onPress={() => {
+            <Button variant='solid' color='primary' size='lg' onPress={() =>
                 setFiscalInputs({
                     value,
                     currency: selectedCurrency,
                     period: selectedPeriodValue[0],
                     fromType: selectedModeValue.toLowerCase() as FiscalType,
                     calculationType: ['CIM', 'SRL']
-                })
-                console.log(calcPayroll({
-                    fromType: selectedModeValue.toLowerCase() as FiscalType,
-                    value,
-                    rate: verifyCurrency(selectedCurrency, rates)?.rate
-                }))
-            }}>Calculeaza</Button>
+                })}>Calculeaza</Button>
         </div>
     )
 }
