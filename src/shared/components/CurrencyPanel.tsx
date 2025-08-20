@@ -46,7 +46,7 @@ const CurrencyPanel = ({}) => {
             cb(e.target.value);
         }
 
-    if (isLoading) return <div className='flex h-[250px]'><Spinner size='md' /></div>;
+    if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
 
     return (
         <div className='flex flex-col justify-between gap-4 w-full sm:w-lg'>
