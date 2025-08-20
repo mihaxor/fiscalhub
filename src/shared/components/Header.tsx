@@ -1,6 +1,7 @@
 import ThemeSwitch from '@/shared/components/ThemeSwitch';
 import Logo from '../../../public/logo.svg';
 import Image from 'next/image';
+import BlurText from '@/shared/components/BlurText';
 
 const Header = () =>
     (
@@ -9,10 +10,24 @@ const Header = () =>
                 <Image priority src={Logo} alt={'logo'} width={52} height={52} />
                 <ThemeSwitch />
             </div>
-            <div>
-                <h1 className='text-3xl font-bold text-center'>Fiscal Hub</h1>
-                <p className='text-center text-gray-500'>Calculator fiscal complet: salarii, microîntreprinderi,
-                    SRL-uri, dividende și contribuții sociale.</p>
+            <div className='flex justify-center'>
+                <BlurText
+                    text='Fiscal Hub'
+                    delay={100}
+                    animateBy='letters'
+                    direction='top'
+                    className='text-3xl font-bold'
+                />
+            </div>
+            <div className='flex justify-center'>
+                <BlurText
+                    text='Calculator fiscal complet: salarii, microîntreprinderi,
+                    SRL-uri, dividende și contribuții sociale.'
+                    delay={100}
+                    animateBy='words'
+                    direction='top'
+                    className='text-lg text-gray-500 font-medium'
+                />
             </div>
         </header>
     )
