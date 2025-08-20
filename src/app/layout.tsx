@@ -1,6 +1,7 @@
 import React from 'react';
 import type {Metadata, Viewport} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
+import DarkVeil from '@/shared/components/DarkVeil';
 import {Providers} from '@/app/provider';
 import './globals.css';
 
@@ -25,14 +26,22 @@ export const metadata: Metadata = {
     description: 'Fiscal calculator for salaries, micro-enterprises, LLCs, dividends, and social contributions.'
 };
 
-const RootLayout = ({children}: Readonly<{ children: React.ReactNode; }>) => (
+const RootLayout = ({children}: Readonly<{ children: React.ReactNode; }>) =>
     <html lang='en' className={process.env.NEXT_PUBLIC_APP_THEME} suppressHydrationWarning>
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
+    <DarkVeil
+        hueShift={25}
+        scanlineIntensity={2}
+        speed={1}
+        warpAmount={3}
+        resolutionScale={1.4}
+    />
     <Providers>
         {children}
     </Providers>
+
     </body>
     </html>
-);
 
 export default RootLayout;
