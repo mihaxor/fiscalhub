@@ -86,13 +86,13 @@ type Props = {
 };
 
 const DarkVeilBackground = ({
-                                hueShift = 0,
+                                hueShift = 25,
                                 noiseIntensity = 0,
-                                scanlineIntensity = 0,
-                                speed = 0.5,
+                                scanlineIntensity = 2,
+                                speed = 1,
                                 scanlineFrequency = 0,
-                                warpAmount = 0,
-                                resolutionScale = 1,
+                                warpAmount = 3,
+                                resolutionScale = 1.4,
                             }: Props) => {
     const ref = useRef<HTMLCanvasElement>(null);
 
