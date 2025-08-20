@@ -8,6 +8,7 @@ import useCurrency from '@/shared/hooks/useCurrency';
 import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
+import AnimatedContent from '@/shared/components/AnimatedContent';
 
 const FiscalOverview = () => {
     const [isVertical, setIsVertical] = useState<boolean>(false);
@@ -59,17 +60,19 @@ const FiscalOverview = () => {
     if (fiscalInputs.value === 0) return null;
 
     return (
-        <div className='flex flex-col justify-center items-start w-full sm:w-lg'>
-            <Switch className='mb-4' color='secondary' isSelected={isVertical} onValueChange={setIsVertical}>
-                Vertical
-            </Switch>
-            <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
-                  isVertical={isVertical}
-                  onSelectionChange={setSelected}
-            >
-                {calculationType(fiscalInputs.calculationType)}
-            </Tabs>
-        </div>
+        <AnimatedContent>
+            <div className='flex flex-col justify-center items-start w-full sm:w-lg'>
+                <Switch className='mb-4' color='secondary' isSelected={isVertical} onValueChange={setIsVertical}>
+                    Vertical
+                </Switch>
+                <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
+                      isVertical={isVertical}
+                      onSelectionChange={setSelected}
+                >
+                    {calculationType(fiscalInputs.calculationType)}
+                </Tabs>
+            </div>
+        </AnimatedContent>
     );
 }
 

@@ -7,6 +7,7 @@ import {useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import {CurrencySymbol, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
+import {StarBorder} from '@/shared/components/StarBorder';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
@@ -124,14 +125,16 @@ const FiscalPanel = () => {
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            <Button variant='solid' color='primary' size='lg' onPress={() =>
-                setFiscalInputs({
-                    value,
-                    currency: selectedCurrency,
-                    period: selectedPeriodValue[0],
-                    fromType: selectedModeValue.toLowerCase() as FiscalType,
-                    calculationType: ['CIM', 'SRL']
-                })}>Calculeaza</Button>
+            <StarBorder as='div'>
+                <Button className='w-full' variant='solid' color='primary' size='lg' onPress={() =>
+                    setFiscalInputs({
+                        value,
+                        currency: selectedCurrency,
+                        period: selectedPeriodValue[0],
+                        fromType: selectedModeValue.toLowerCase() as FiscalType,
+                        calculationType: ['CIM', 'SRL']
+                    })}>Calculeaza</Button>
+            </StarBorder>
         </div>
     )
 }
