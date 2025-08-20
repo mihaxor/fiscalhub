@@ -26,7 +26,7 @@ const Header = () =>
                     delay={100}
                     animateBy='words'
                     direction='top'
-                    className='text-lg text-gray-500 font-medium'
+                    className='text-lg text-gray-500 font-medium flex justify-center'
                 />
             </div>
         </header>
