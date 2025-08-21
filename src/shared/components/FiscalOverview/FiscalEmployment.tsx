@@ -48,13 +48,13 @@ const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }>
 
     return (
         <Card radius='md'>
-            <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center '>
+            <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center gap-4'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes).map((table, index) => (
-                        <Table key={index} removeWrapper>
+                        <Table key={index} removeWrapper layout='auto' isCompact={false}>
                             <TableHeader>
                                 {table.header.map((column, index) => (
-                                    <TableColumn key={index}>{column} </TableColumn>))}
+                                    <TableColumn key={index} width={index === 0 ? 340 : 80}>{column} </TableColumn>))}
                             </TableHeader>
                             <TableBody>
                                 {table.rows.map((row, index) => (
@@ -67,7 +67,7 @@ const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }>
                     ))}
                 </div>
                 {/*<Divider className='h-[200px]' orientation='vertical' />*/}
-                <div className='m-5'>
+                <div className='m-10 lg:m-20'>
                     <CircularProgress
                         classNames={{
                             svg: 'w-36 h-36 drop-shadow-md',
