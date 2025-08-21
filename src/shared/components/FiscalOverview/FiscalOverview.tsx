@@ -4,7 +4,7 @@ import {Tab, Tabs} from '@heroui/tabs';
 import React, {useContext, useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
-import {FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
+import {CurrencySymbol, FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
 import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
@@ -22,11 +22,18 @@ const FiscalOverview = () => {
 
     console.log('Fiscal Inputs:', fiscalInputs);
 
-    const payrollResult = useMemo(() => calcPayroll({
-        fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-        value: fiscalInputs.value,
-        rate: verifyCurrency(fiscalInputs.currency, rates)?.rate
-    }), [fiscalInputs]);
+    const payrollResult = useMemo(() => {
+        const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
+
+        return ({
+            ...calcPayroll({
+                fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
+                value: fiscalInputs.value * (rates?.[fiscalInputs.currency] ?? 1),
+                rate: currencyVerified.rate
+            }),
+            symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
+        });
+    }, [fiscalInputs]);
 
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode => {
         return types.map((type) =>

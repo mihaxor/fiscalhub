@@ -17,6 +17,7 @@ import {
 } from '@/shared/hooks/fiscal.types';
 import {StarBorder} from '@/shared/components/StarBorder';
 import {useRouter} from 'next/navigation';
+import {wait} from 'next/dist/lib/wait';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
@@ -79,12 +80,10 @@ const FiscalPanel = () => {
                                 name='currency'
                                 onChange={(e) => setSelectedCurrency(e.target.value as RateType)}
                             >
-                                {DEFAULT_CURRENCY_OPTIONS.map((option, key) => {
-                                    return (
-                                        <option key={key} aria-label={option} value={option}>
-                                            {option}
-                                        </option>)
-                                })}
+                                {DEFAULT_CURRENCY_OPTIONS.map((option, key) =>
+                                    <option key={key} aria-label={option} value={option}>
+                                        {option}
+                                    </option>)}
                             </select>
                         </div>
                     }

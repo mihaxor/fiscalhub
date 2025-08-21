@@ -1,8 +1,12 @@
 import React from 'react';
 import {Card, CardBody} from '@heroui/card';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
+import {CurrencySymbol, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 import {CircularProgress} from '@heroui/progress';
+
+type FiscalPayroll = FiscalPayrollResult & {
+    symbol: CurrencySymbol
+}
 
 type TableOrganizer = {
     header: (string | null)[];
@@ -12,7 +16,7 @@ type TableOrganizer = {
     }[];
 }
 
-const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes): TableOrganizer[] => {
+const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes): TableOrganizer[] => {
 
     const transformToRo = (value: number, decimals: number = 0): string => {
         return new Intl.NumberFormat('ro-RO', {
@@ -31,7 +35,7 @@ const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes): TableOrgan
 
     return [
         {
-            header: ['ANGAJAT', null, 'RON', 'VALUTA'],
+            header: ['ANGAJAT', null, 'RON', `VALUTA ${payroll.symbol}`],
             rows: [
                 {
                     cells: ['Salariu Brut', null, transformToRo(payroll.gross.lei), transformToRo(payroll.gross.currency, 2)],
@@ -68,7 +72,10 @@ const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes): TableOrgan
     ]
 };
 
-const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }> = ({payroll, taxes}) => {
+const FiscalEmployment: React.FC<{
+    payroll: FiscalPayrollResult & { symbol: CurrencySymbol },
+    taxes: Taxes
+}> = ({payroll, taxes}) => {
 
     console.log('FiscalEmployment Component Rendered', payroll, taxes);
 
@@ -81,7 +88,8 @@ const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }>
                                aria-label={`Table for ${table.header[0]}`}>
                             <TableHeader>
                                 {table.header.map((column, index) => (
-                                    <TableColumn key={index} width={index === 0 ? 340 : 100}>{column} </TableColumn>))}
+                                    <TableColumn key={index}
+                                                 width={index === 0 ? 340 : 100}>{column} </TableColumn>))}
                             </TableHeader>
                             <TableBody>
                                 {table.rows.map((row, index) => (
