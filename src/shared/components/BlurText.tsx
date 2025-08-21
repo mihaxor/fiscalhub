@@ -1,3 +1,5 @@
+'use client';
+
 import {motion, Transition} from 'motion/react';
 import {EasingFunction} from 'motion-utils';
 import React, {useEffect, useMemo, useRef, useState} from 'react';

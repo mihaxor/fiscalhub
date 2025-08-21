@@ -1,17 +1,28 @@
+'use client';
+
 import {NumberInput} from '@heroui/number-input';
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dropdown';
 import {Button} from '@heroui/button';
-import {Checkbox} from '@heroui/checkbox';
+import {Checkbox, CheckboxGroup} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
 import {useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
-import {CurrencySymbol, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
+import {
+    CurrencySymbol,
+    FiscalCalculationType,
+    FiscalPeriodType,
+    FiscalType,
+    RateType
+} from '@/shared/hooks/fiscal.types';
 import {StarBorder} from '@/shared/components/StarBorder';
 import {useRouter} from 'next/navigation';
+import {wait} from 'next/dist/lib/wait';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
+
+const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'SRL', 'MICRO3'];
 
 const FiscalPanel = () => {
     const router = useRouter();
@@ -27,8 +38,8 @@ const FiscalPanel = () => {
     const selectedModeValue = useMemo(() => Array.from(selectedMode)[0], [selectedMode]);
 
     const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
+    const [selectedCalcTypes, setSelectedCalcTypes] = useState<FiscalCalculationType[]>(DEFAULT_CALC_TYPES_CHECKED);
     const [value, setValue] = useState<number>(fiscalInputs.value);
-
 
     const handleFiscalAction = () => {
         setFiscalInputs({
@@ -36,7 +47,7 @@ const FiscalPanel = () => {
             currency: selectedCurrency,
             period: selectedPeriodValue[0],
             fromType: selectedModeValue.toLowerCase() as FiscalType,
-            calculationType: ['CIM', 'SRL']
+            calculationType: setSelectedCalcTypes.length ? selectedCalcTypes : []
         });
 
         router.push('#result');
@@ -69,12 +80,10 @@ const FiscalPanel = () => {
                                 name='currency'
                                 onChange={(e) => setSelectedCurrency(e.target.value as RateType)}
                             >
-                                {DEFAULT_CURRENCY_OPTIONS.map((option, key) => {
-                                    return (
-                                        <option key={key} aria-label={option} value={option}>
-                                            {option}
-                                        </option>)
-                                })}
+                                {DEFAULT_CURRENCY_OPTIONS.map((option, key) =>
+                                    <option key={key} aria-label={option} value={option}>
+                                        {option}
+                                    </option>)}
                             </select>
                         </div>
                     }
@@ -111,13 +120,20 @@ const FiscalPanel = () => {
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            <div className='flex flex-row items-center justify-between w-full'>
-                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>CIM</Checkbox>
-                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>SRL</Checkbox>
-                <Checkbox size={isMobile ? 'sm' : 'md'} isDisabled>MICRO 1</Checkbox>
-                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>MICRO 3</Checkbox>
-                <Checkbox size={isMobile ? 'sm' : 'md'} defaultSelected>PFA</Checkbox>
-            </div>
+            <CheckboxGroup
+                color='primary'
+                defaultValue={selectedCalcTypes}
+                orientation='horizontal'
+                onValueChange={e => setSelectedCalcTypes(e as FiscalCalculationType[])}
+            >
+                <div className='flex flex-row items-center justify-between w-full'>
+                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.CIM}>CIM</Checkbox>
+                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.SRL}>SRL</Checkbox>
+                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.MICRO1}>MICRO 1</Checkbox>
+                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.MICRO3}>MICRO 3</Checkbox>
+                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.PFA}>PFA</Checkbox>
+                </div>
+            </CheckboxGroup>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
                 <Chip variant='flat' radius='md' size='lg' className='text-default-500 h-12'>
                     Se calculeaza din:

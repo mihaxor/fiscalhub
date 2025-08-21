@@ -7,6 +7,12 @@
 @theme inline {
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+
+    --color-fiscal-primary: #006FEE;
+    --color-fiscal-secondary: #9353d3;
+    --color-fiscal-success: #17c964;
+    --color-fiscal-warning: #f5a524;
+    --color-fiscal-danger: #f31260;
 }
 
 html {

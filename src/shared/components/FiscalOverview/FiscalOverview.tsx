@@ -1,14 +1,16 @@
+'use client';
+
 import {Tab, Tabs} from '@heroui/tabs';
 import React, {useContext, useMemo, useState} from 'react';
-import {Switch} from '@heroui/switch';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
-import {FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
+import {CurrencySymbol, FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
 import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
+import FiscalCompanyMicro3 from '@/shared/components/FiscalOverview/FiscalCompantMicro3';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
@@ -20,17 +22,18 @@ const FiscalOverview = () => {
 
     console.log('Fiscal Inputs:', fiscalInputs);
 
-    console.log(calcPayroll({
-        fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-        value: fiscalInputs.value,
-        rate: verifyCurrency(fiscalInputs.currency, rates)?.rate
-    }))
+    const payrollResult = useMemo(() => {
+        const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
 
-    const payrollResult = useMemo(() => calcPayroll({
-        fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-        value: fiscalInputs.value,
-        rate: verifyCurrency(fiscalInputs.currency, rates)?.rate
-    }), [fiscalInputs]);
+        return ({
+            ...calcPayroll({
+                fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
+                value: fiscalInputs.value * (rates?.[fiscalInputs.currency] ?? 1),
+                rate: currencyVerified.rate
+            }),
+            symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
+        });
+    }, [fiscalInputs]);
 
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode => {
         return types.map((type) =>
@@ -44,7 +47,7 @@ const FiscalOverview = () => {
                         case FiscalCalculationType.MICRO1:
                             return null;
                         case FiscalCalculationType.MICRO3:
-                            return null;
+                            return <FiscalCompanyMicro3 />;
                         case FiscalCalculationType.PFA:
                             return null;
                         default:
@@ -55,7 +58,9 @@ const FiscalOverview = () => {
         )
     }
 
-    if (fiscalInputs.value === 0) return null;
+    console.log('Payroll Result:', payrollResult);
+
+    if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;
 
     return (
         <AnimatedContent>
