@@ -11,8 +11,6 @@ import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 
 const FiscalOverview = () => {
-    const [isVertical, setIsVertical] = useState<boolean>(false);
-
     const {data: rates} = useContext(RatesContext);
     const {verifyCurrency} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
@@ -57,18 +55,13 @@ const FiscalOverview = () => {
         )
     }
 
-    // if (fiscalInputs.value === 0) return null;
+    if (fiscalInputs.value === 0) return null;
 
     return (
         <AnimatedContent>
-            <div className='flex flex-col justify-center items-start w-full'>
-                <Switch className='mb-4' color='secondary' isSelected={isVertical} onValueChange={setIsVertical}>
-                    Vertical
-                </Switch>
+            <div id='result' className='flex flex-col justify-center items-start w-full'>
                 <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
-                      isVertical={isVertical}
-                      onSelectionChange={setSelected}
-                >
+                      onSelectionChange={setSelected}>
                     {calculationType(fiscalInputs.calculationType)}
                 </Tabs>
             </div>

@@ -8,11 +8,14 @@ import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import {CurrencySymbol, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
 import {StarBorder} from '@/shared/components/StarBorder';
+import {useRouter} from 'next/navigation';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
 
 const FiscalPanel = () => {
+    const router = useRouter();
+
     const {fiscalInputs, setFiscalInputs} = useFiscalStore();
 
     const isMobile = useMediaQuery('(max-width: 400px)');
@@ -25,6 +28,19 @@ const FiscalPanel = () => {
 
     const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
     const [value, setValue] = useState<number>(fiscalInputs.value);
+
+
+    const handleFiscalAction = () => {
+        setFiscalInputs({
+            value,
+            currency: selectedCurrency,
+            period: selectedPeriodValue[0],
+            fromType: selectedModeValue.toLowerCase() as FiscalType,
+            calculationType: ['CIM', 'SRL']
+        });
+
+        router.push('#result');
+    }
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
@@ -126,14 +142,8 @@ const FiscalPanel = () => {
                 </Dropdown>
             </div>
             <StarBorder as='div'>
-                <Button className='w-full' variant='solid' color='primary' size='lg' onPress={() =>
-                    setFiscalInputs({
-                        value,
-                        currency: selectedCurrency,
-                        period: selectedPeriodValue[0],
-                        fromType: selectedModeValue.toLowerCase() as FiscalType,
-                        calculationType: ['CIM', 'SRL']
-                    })}>Calculeaza</Button>
+                <Button className='w-full' variant='solid' color='primary' size='lg'
+                        onPress={handleFiscalAction}>Calculeaza</Button>
             </StarBorder>
         </div>
     )
