@@ -57,11 +57,11 @@ const FiscalOverview = () => {
         )
     }
 
-    if (fiscalInputs.value === 0) return null;
+    // if (fiscalInputs.value === 0) return null;
 
     return (
         <AnimatedContent>
-            <div className='flex flex-col justify-center items-start w-full sm:w-lg'>
+            <div className='flex flex-col justify-center items-start w-full'>
                 <Switch className='mb-4' color='secondary' isSelected={isVertical} onValueChange={setIsVertical}>
                     Vertical
                 </Switch>
