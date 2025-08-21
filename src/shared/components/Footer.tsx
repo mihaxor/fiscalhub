@@ -13,7 +13,7 @@ const Footer = () => {
             <div className='w-full flex flex-col justify-center items-center md:mb-2'>
                 <Divider />
                 <div className='w-full flex items-center justify-center sm:justify-normal space-x-2 m-6 md:mb-0'>
-                    <Image priority src={Logo} alt={'logo'} width={40} height={40} />
+                    <Image loading='lazy' src={Logo} alt={'logo'} width={40} height={40} />
                     <span className='text-xl font-bold'>Fiscal Hub</span>
                     <span className='text-xs font-bold text-primary'>v{appVersion}</span>
                 </div>

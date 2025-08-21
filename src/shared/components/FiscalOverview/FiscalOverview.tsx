@@ -51,7 +51,9 @@ const FiscalOverview = () => {
         )
     }
 
-    if (fiscalInputs.value === 0) return null;
+    console.log('Payroll Result:', payrollResult);
+
+    if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;
 
     return (
         <AnimatedContent>
