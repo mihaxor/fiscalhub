@@ -46,12 +46,15 @@ const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes): TableOrgan
 
 const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }> = ({payroll, taxes}) => {
 
+    console.log('FiscalEmployment Component Rendered', payroll, taxes);
+
     return (
         <Card radius='md'>
             <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center gap-4'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes).map((table, index) => (
-                        <Table key={index} removeWrapper layout='auto' isCompact={false}>
+                        <Table key={index} removeWrapper layout='auto' isCompact={false}
+                               aria-label={`Table for ${table.header[0]}`}>
                             <TableHeader>
                                 {table.header.map((column, index) => (
                                     <TableColumn key={index} width={index === 0 ? 340 : 80}>{column} </TableColumn>))}
@@ -69,6 +72,7 @@ const FiscalEmployment: React.FC<{ payroll: FiscalPayrollResult, taxes: Taxes }>
                 {/*<Divider className='h-[200px]' orientation='vertical' />*/}
                 <div className='m-10 lg:m-20'>
                     <CircularProgress
+                        aria-label='Circle Taxes Percentage'
                         classNames={{
                             svg: 'w-36 h-36 drop-shadow-md',
                             indicator: 'stroke-white',

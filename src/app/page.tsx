@@ -1,5 +1,3 @@
-'use client';
-
 import Header from '@/shared/components/Header';
 import FiscalPanel from '@/shared/components/FiscalPanel';
 import CurrencyPanel from '@/shared/components/CurrencyPanel';

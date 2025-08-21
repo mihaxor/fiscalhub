@@ -1,3 +1,5 @@
+'use client';
+
 import {useCallback, useMemo, useState} from 'react';
 import {isEmpty} from '@heroui/shared-utils';
 import {RateType} from '@/shared/hooks/fiscal.types';

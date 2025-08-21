@@ -1,6 +1,7 @@
+'use client';
+
 import {Tab, Tabs} from '@heroui/tabs';
 import React, {useContext, useMemo, useState} from 'react';
-import {Switch} from '@heroui/switch';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
 import {FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
@@ -9,6 +10,7 @@ import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
+import FiscalCompanyMicro3 from '@/shared/components/FiscalOverview/FiscalCompantMicro3';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
@@ -19,12 +21,6 @@ const FiscalOverview = () => {
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
     console.log('Fiscal Inputs:', fiscalInputs);
-
-    console.log(calcPayroll({
-        fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-        value: fiscalInputs.value,
-        rate: verifyCurrency(fiscalInputs.currency, rates)?.rate
-    }))
 
     const payrollResult = useMemo(() => calcPayroll({
         fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
@@ -44,7 +40,7 @@ const FiscalOverview = () => {
                         case FiscalCalculationType.MICRO1:
                             return null;
                         case FiscalCalculationType.MICRO3:
-                            return null;
+                            return <FiscalCompanyMicro3 />;
                         case FiscalCalculationType.PFA:
                             return null;
                         default:
