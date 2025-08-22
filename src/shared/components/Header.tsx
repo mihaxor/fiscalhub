@@ -1,4 +1,4 @@
-import ThemeSwitch from '@/shared/components/ThemeSwitch';
+// import ThemeSwitch from '@/shared/components/ThemeSwitch';
 import Logo from '../../../public/logo.svg';
 import Image from 'next/image';
 import BlurText from '@/shared/components/BlurText';
@@ -8,7 +8,7 @@ const Header = () =>
         <header className='flex flex-col w-full gap-4'>
             <div className='flex gap-4'>
                 <Image priority src={Logo} alt={'logo'} width={52} height={52} />
-                <ThemeSwitch />
+                {/*<ThemeSwitch />*/}
             </div>
             <div className='flex justify-center'>
                 <BlurText
