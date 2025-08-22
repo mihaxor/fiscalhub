@@ -6,7 +6,7 @@ import {FiscalOverview} from '@/shared/components/FiscalOverview';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 
 const Home = () => (
-    <div className='max-w-[1920px] w-full flex flex-col gap-10 sm:gap-20 mt-10 md:mx-10 mb-0 mx-5'>
+    <div className='max-w-[1920px] w-full flex flex-col gap-10 sm:gap-20 mt-5 md:mx-10'>
         <Header />
         <AnimatedContent>
             <main className='flex flex-col gap-8 items-center w-full min-h-screen'>

@@ -17,7 +17,7 @@ export const Providers = ({children}: { children: React.ReactNode }) => {
 
     return (
         <ThemeProvider attribute='class'>
-            <HeroUIProvider className='flex justify-center'>
+            <HeroUIProvider className='flex justify-center mx-5'>
                 <RatesProvider>
                     {children}
                 </RatesProvider>
