@@ -3,6 +3,8 @@ import {Card, CardBody} from '@heroui/card';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
 import {CurrencySymbol, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 import {CircularProgress} from '@heroui/progress';
+import {Chip} from '@heroui/chip';
+import {toPercentage, transformToRo} from '@/shared/libs/transform';
 
 type FiscalPayroll = FiscalPayrollResult & {
     symbol: CurrencySymbol
@@ -17,15 +19,6 @@ type TableOrganizer = {
 }
 
 const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes): TableOrganizer[] => {
-
-    const transformToRo = (value: number, decimals: number = 0): string => {
-        return new Intl.NumberFormat('ro-RO', {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals,
-        }).format(value);
-    };
-
-    const toPercentage = (value: number): string => `${(value * 100)}%`;
 
     const verifyNetType = (value: string) =>
         value === 'net' ? 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md' : 'text-fiscal-primary [&>td]:font-bold';
@@ -54,7 +47,7 @@ const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes): TableOrganizer[]
         {
             header: ['ANGAJATOR', null, 'RON', 'VALUTA'],
             rows: [
-                {cells: ['Contributie Asiguratorie pentru Munca (CAM)', toPercentage(taxes.cam), transformToRo(payroll.cam.lei), transformToRo(payroll.cam.currency, 2)]},
+                {cells: ['Contributie Asiguratorie pentru Munca (CAM)', toPercentage(taxes.cam, 2), transformToRo(payroll.cam.lei), transformToRo(payroll.cam.currency, 2)]},
                 {cells: ['Salariu Complet', null, transformToRo(payroll.totalEmployerCost.lei), transformToRo(payroll.totalEmployerCost.currency, 2)]}
             ]
         },
@@ -80,12 +73,15 @@ const FiscalEmployment: React.FC<{
     console.log('FiscalEmployment Component Rendered', payroll, taxes);
 
     return (
-        <Card radius='md'>
-            <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center gap-4'>
+        <Card radius='md' classNames={{
+            base: 'bg-[unset] shadow-none'
+        }}>
+            <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center p-0 gap-4 xl:gap-15'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes).map((table, index) => (
-                        <Table key={index} removeWrapper layout='auto' isCompact={false}
-                               aria-label={`Table for ${table.header[0]}`}>
+                        <Table key={index} layout='auto' isCompact={false}
+                               aria-label={`Table for ${table.header[0]}`}
+                               className='mb-3'>
                             <TableHeader>
                                 {table.header.map((column, index) => (
                                     <TableColumn key={index}
@@ -100,22 +96,30 @@ const FiscalEmployment: React.FC<{
                             </TableBody>
                         </Table>
                     ))}
+                    <div className='m-2 text-xs sm:text-small text-center'>Pentru a plati un salariu net de <span
+                        className='text-fiscal-primary'>{payroll.net.lei} lei</span>,
+                        angajatorul cheltuie <span
+                            className='text-fiscal-warning'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
-                {/*<Divider className='h-[200px]' orientation='vertical' />*/}
-                <div className='m-10 lg:m-20'>
-                    <CircularProgress
-                        aria-label='Circle Taxes Percentage'
-                        classNames={{
-                            svg: 'w-40 h-40 drop-shadow-lg',
-                            indicator: 'stroke-warning',
-                            track: 'stroke-white/10',
-                            value: 'text-2xl font-semibold text-white',
-                        }}
-                        showValueLabel={true}
-                        strokeWidth={3}
-                        value={payroll.shares.state * 100}
-                    />
-
+                <div className='m-10 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
+                    <div>
+                        <CircularProgress
+                            aria-label='Circle Taxes Percentage'
+                            classNames={{
+                                svg: 'w-40 h-40 drop-shadow-lg',
+                                indicator: 'stroke-warning',
+                                track: 'stroke-primary/90',
+                                value: 'text-2xl font-semibold text-white',
+                            }}
+                            showValueLabel={true}
+                            strokeWidth={2.5}
+                            value={payroll.shares.state * 100}
+                        />
+                    </div>
+                    <div className='flex justify-center gap-3'>
+                        <Chip className='bg-fiscal-primary/90'>Venit {toPercentage(payroll.shares.employee)}</Chip>
+                        <Chip className='bg-fiscal-warning text-black'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                    </div>
                 </div>
             </CardBody>
         </Card>
