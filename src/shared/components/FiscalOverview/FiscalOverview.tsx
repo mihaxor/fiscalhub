@@ -63,14 +63,16 @@ const FiscalOverview = () => {
     if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;
 
     return (
-        <AnimatedContent>
-            <div id='result' className='flex flex-col justify-center items-start w-full'>
-                <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
-                      onSelectionChange={setSelected}>
-                    {calculationType(fiscalInputs.calculationType)}
-                </Tabs>
-            </div>
-        </AnimatedContent>
+        <div id='result'>
+            <AnimatedContent>
+                <div className='flex flex-col justify-center items-center w-full'>
+                    <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
+                          onSelectionChange={setSelected}>
+                        {calculationType(fiscalInputs.calculationType)}
+                    </Tabs>
+                </div>
+            </AnimatedContent>
+        </div>
     );
 }
 
