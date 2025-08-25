@@ -30,7 +30,7 @@ const RootLayout = ({children}: Readonly<{ children: React.ReactNode; }>) =>
     <html lang='en' className={process.env.NEXT_PUBLIC_APP_THEME} suppressHydrationWarning>
     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 
-    <DarkVeil/>
+    <DarkVeil />
     <Providers>
         {children}
     </Providers>

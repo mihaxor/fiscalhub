@@ -1,10 +1,7 @@
 'use client';
 
 import React, {ReactNode, useEffect, useRef} from 'react';
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import useGsap from '@/shared/hooks/useGsap';
 
 interface AnimatedContentProps {
     children: ReactNode;
@@ -38,8 +35,11 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
                                                              onComplete,
                                                          }) => {
     const ref = useRef<HTMLDivElement>(null);
+    const {gsap, ScrollTrigger, isReady} = useGsap();
 
     useEffect(() => {
+        if (!isReady || !gsap || !ScrollTrigger) return;
+
         const el = ref.current;
         if (!el) return;
 
@@ -53,7 +53,7 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
             opacity: animateOpacity ? initialOpacity : 1,
         });
 
-        gsap.to(el, {
+        const animation = gsap.to(el, {
             [axis]: 0,
             scale: 1,
             opacity: 1,
@@ -70,10 +70,14 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
         });
 
         return () => {
-            ScrollTrigger.getAll().forEach((t) => t.kill());
+            if (animation) animation.kill();
+            ScrollTrigger.getAll().forEach((t: ScrollTrigger) => t.kill());
             gsap.killTweensOf(el);
         };
     }, [
+        isReady,
+        gsap,
+        ScrollTrigger,
         distance,
         direction,
         reverse,
@@ -86,6 +90,22 @@ const AnimatedContent: React.FC<AnimatedContentProps> = ({
         delay,
         onComplete,
     ]);
+
+    if (!isReady) {
+        return (
+            <div
+                className={`${className} opacity-0`}
+                ref={ref}
+                style={{
+                    transform: direction === 'horizontal'
+                        ? `translateX(${reverse ? -distance : distance}px) scale(${scale})`
+                        : `translateY(${reverse ? -distance : distance}px) scale(${scale})`
+                }}
+            >
+                {children}
+            </div>
+        );
+    }
 
     return <div className={className} ref={ref}>{children}</div>;
 };
