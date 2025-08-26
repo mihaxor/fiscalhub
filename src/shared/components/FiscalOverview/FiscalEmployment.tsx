@@ -33,7 +33,9 @@ const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes, isMobile: boolean
 
     return [
         {
-            header: ['ANGAJAT', null, 'RON', `VALUTA ${payroll.symbol}`],
+            header: ['ANGAJAT', null, 'RON', (
+                <>VALUTA <span className='text-fiscal-warning text-small'>{payroll.symbol}</span></>
+            )],
             rows: [
                 {
                     cells: ['Salariu Brut', null, transformToRo(payroll.gross.lei), transformToRo(payroll.gross.currency, 2)],
@@ -74,9 +76,7 @@ const FiscalEmployment: React.FC<{
     payroll: FiscalPayrollResult & { symbol: CurrencySymbol },
     taxes: Taxes
 }> = ({payroll, taxes}) => {
-    const isMobile = useMediaQuery('(max-width: 500px)');
-
-    console.log('FiscalEmployment Component Rendered', payroll, taxes);
+    const isMobile = useMediaQuery('(max-width: 480px)');
 
     return (
         <Card radius='md' classNames={{
@@ -107,7 +107,7 @@ const FiscalEmployment: React.FC<{
                         angajatorul cheltuie <span
                             className='text-fiscal-warning'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
-                <div className='m-10 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
+                <div className='m-3 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
                     <div>
                         <CircularProgress
                             aria-label='Circle Taxes Percentage'

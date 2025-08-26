@@ -17,7 +17,7 @@ import {
 } from '@/shared/hooks/fiscal.types';
 import {StarBorder} from '@/shared/components/StarBorder';
 import {useRouter} from 'next/navigation';
-import {wait} from 'next/dist/lib/wait';
+import {toAllPeriods} from '@/shared/libs/transform';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
@@ -46,6 +46,7 @@ const FiscalPanel = () => {
             value,
             currency: selectedCurrency,
             period: selectedPeriodValue[0],
+            periods: toAllPeriods(value, selectedPeriodValue[0]),
             fromType: selectedModeValue.toLowerCase() as FiscalType,
             calculationType: setSelectedCalcTypes.length ? selectedCalcTypes : []
         });
@@ -60,6 +61,7 @@ const FiscalPanel = () => {
                     className='w-full md:w-min-[230px]'
                     variant='flat'
                     size='md'
+                    maxLength={7}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
                             <span className='text-default-400 text-small'>
@@ -108,15 +110,14 @@ const FiscalPanel = () => {
                     <DropdownMenu
                         disallowEmptySelection
                         aria-label='Single selection example'
-                        selectedKeys='t1'
                         selectionMode='single'
                         variant='flat'
                         onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}
                     >
                         <DropdownItem key='hour'>hour</DropdownItem>
-                        <DropdownItem key='daily'>daily</DropdownItem>
-                        <DropdownItem key='monthly'>monthly</DropdownItem>
-                        <DropdownItem key='yearly'>yearly</DropdownItem>
+                        <DropdownItem key='day'>day</DropdownItem>
+                        <DropdownItem key='month'>month</DropdownItem>
+                        <DropdownItem key='year'>year</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -147,13 +148,12 @@ const FiscalPanel = () => {
                     <DropdownMenu
                         disallowEmptySelection
                         aria-label='Single selection example'
-                        selectedKeys='text1'
                         selectionMode='single'
                         variant='flat'
                         onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}
                     >
-                        <DropdownItem key='net' textValue='NET'>NET &nbsp;{'->'}&nbsp; BRUT</DropdownItem>
-                        <DropdownItem key='gross' textValue='BRUT'>BRUT &nbsp;{'->'}&nbsp; NET</DropdownItem>
+                        <DropdownItem key='net' textValue='NET'>NET &nbsp;{'->'}&nbsp; GROSS</DropdownItem>
+                        <DropdownItem key='gross' textValue='GROSS'>GROSS &nbsp;{'->'}&nbsp; NET</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>

@@ -1,5 +1,5 @@
 type FiscalType = 'net' | 'gross';
-type FiscalPeriodType = 'hour' | 'daily' | 'monthly' | 'yearly';
+type FiscalPeriodType = 'hour' | 'day' | 'month' | 'year';
 
 export const FiscalCalculationType = {
     CIM: 'CIM',

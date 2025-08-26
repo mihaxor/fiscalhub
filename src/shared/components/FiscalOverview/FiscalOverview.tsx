@@ -20,15 +20,13 @@ const FiscalOverview = () => {
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
-    console.log('Fiscal Inputs:', fiscalInputs);
-
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
 
         return ({
             ...calcPayroll({
                 fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-                value: fiscalInputs.value * (rates?.[fiscalInputs.currency] ?? 1),
+                value: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
                 rate: currencyVerified.rate
             }),
             symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
@@ -58,6 +56,7 @@ const FiscalOverview = () => {
         )
     }
 
+    console.log('Fiscal Inputs:', fiscalInputs);
     console.log('Payroll Result:', payrollResult);
 
     if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;

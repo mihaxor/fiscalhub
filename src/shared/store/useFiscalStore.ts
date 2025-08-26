@@ -4,7 +4,13 @@ import {FiscalCalculationType, FiscalPeriodType, FiscalType, RateType} from '@/s
 const DEFAULT_FISCAL_INPUTS = {
     value: 0.00,
     currency: 'RON' as RateType,
-    period: 'monthly' as FiscalPeriodType,
+    period: 'month' as FiscalPeriodType,
+    periods: {
+        hour: 0,
+        day: 0,
+        month: 0,
+        year: 0
+    },
     fromType: 'net' as FiscalType,
     calculationType: ['CIM', 'SRL'] as FiscalCalculationType[]
 }
@@ -14,6 +20,12 @@ type FiscalState = {
         value: number;
         currency: RateType;
         period: FiscalPeriodType;
+        periods: {
+            hour: number;
+            day: number;
+            month: number;
+            year: number;
+        },
         fromType: FiscalType;
         calculationType: FiscalCalculationType[];
     },
