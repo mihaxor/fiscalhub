@@ -107,24 +107,27 @@ const FiscalEmployment: React.FC<{
                         angajatorul cheltuie <span
                             className='text-fiscal-warning'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
-                <div className='m-3 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
-                    <div>
-                        <CircularProgress
-                            aria-label='Circle Taxes Percentage'
-                            classNames={{
-                                svg: 'w-40 h-40 drop-shadow-lg',
-                                indicator: 'stroke-warning',
-                                track: 'stroke-primary/90',
-                                value: 'text-2xl font-semibold text-white',
-                            }}
-                            showValueLabel={true}
-                            strokeWidth={2.5}
-                            value={payroll.shares.state * 100}
-                        />
-                    </div>
-                    <div className='flex justify-center gap-3'>
-                        <Chip className='bg-fiscal-primary/90'>Venit {toPercentage(payroll.shares.employee)}</Chip>
-                        <Chip className='bg-fiscal-warning text-black'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                <div>
+                    <div className='m-3 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
+                        <div>
+                            <CircularProgress
+                                aria-label='Circle Taxes Percentage'
+                                classNames={{
+                                    svg: 'w-40 h-40 drop-shadow-lg',
+                                    indicator: 'stroke-warning',
+                                    track: 'stroke-primary/90',
+                                    value: 'text-2xl font-semibold text-white',
+                                }}
+                                showValueLabel={true}
+                                strokeWidth={2.5}
+                                value={payroll.shares.state * 100}
+                            />
+                        </div>
+                        <div className='flex justify-center gap-3'>
+                            <Chip className='bg-fiscal-primary/90'>Venit {toPercentage(payroll.shares.employee)}</Chip>
+                            <Chip
+                                className='bg-fiscal-warning text-black'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                        </div>
                     </div>
                 </div>
             </CardBody>

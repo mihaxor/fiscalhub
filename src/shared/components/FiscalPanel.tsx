@@ -41,27 +41,42 @@ const FiscalPanel = () => {
     const [selectedCalcTypes, setSelectedCalcTypes] = useState<FiscalCalculationType[]>(DEFAULT_CALC_TYPES_CHECKED);
     const [value, setValue] = useState<number>(fiscalInputs.value);
 
-    const handleFiscalAction = () => {
-        setFiscalInputs({
-            value,
-            currency: selectedCurrency,
-            period: selectedPeriodValue[0],
-            periods: toAllPeriods(value, selectedPeriodValue[0]),
-            fromType: selectedModeValue.toLowerCase() as FiscalType,
-            calculationType: setSelectedCalcTypes.length ? selectedCalcTypes : []
-        });
+    const [isValid, setIsValid] = useState<boolean>(true);
 
-        router.push('#result');
+    const checkValidity = (value: number) => !!value && value > 0
+
+    const handleValueChange = (value: number) => {
+        setIsValid(checkValidity(value));
+        setValue(Number(value));
+    }
+
+    const handleFiscalAction = () => {
+        if (checkValidity(value)) {
+            setFiscalInputs({
+                value,
+                currency: selectedCurrency,
+                period: selectedPeriodValue[0],
+                periods: toAllPeriods(value, selectedPeriodValue[0]),
+                fromType: selectedModeValue.toLowerCase() as FiscalType,
+                calculationType: setSelectedCalcTypes.length ? selectedCalcTypes : []
+            });
+
+            router.push('#result');
+        } else setIsValid(false);
     }
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
-            <div className='flex flex-row items-center justify-stretch gap-4'>
+            <div className='flex flex-row items-start justify-stretch gap-4'>
                 <NumberInput
-                    className='w-full md:w-min-[230px]'
+                    isRequired
+                    defaultValue={0}
                     variant='flat'
                     size='md'
                     maxLength={7}
+                    step={100}
+                    errorMessage='Adauga o valoare incepand cu 100.'
+                    isInvalid={!isValid}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
                             <span className='text-default-400 text-small'>
@@ -91,7 +106,7 @@ const FiscalPanel = () => {
                     }
                     label='Valoare'
                     placeholder={value.toString()}
-                    onValueChange={(value) => setValue(Number(value))}
+                    onValueChange={(value) => handleValueChange(value)}
                     // onChange={(e) => setValue(Number((e as ChangeEvent<HTMLInputElement>).target?.value))}
                     // onKeyDown={(e) => {
                     //     if (e.key === 'Enter') {
@@ -100,26 +115,28 @@ const FiscalPanel = () => {
                     //     }
                     // }}
                 />
-                /
-                <Dropdown backdrop='blur'>
-                    <DropdownTrigger>
-                        <Button className='w-[300px] h-14' variant='faded' radius='md'>
-                            {selectedPeriodValue}
-                        </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                        disallowEmptySelection
-                        aria-label='Single selection example'
-                        selectionMode='single'
-                        variant='flat'
-                        onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}
-                    >
-                        <DropdownItem key='hour'>hour</DropdownItem>
-                        <DropdownItem key='day'>day</DropdownItem>
-                        <DropdownItem key='month'>month</DropdownItem>
-                        <DropdownItem key='year'>year</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+                <div className='self-start flex items-center gap-4'>/
+                    <Dropdown backdrop='blur'>
+                        <DropdownTrigger
+                        >
+                            <Button className='w-[140px] sm:w-[180px] h-14' variant='faded' radius='md'>
+                                {selectedPeriodValue}
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu
+                            disallowEmptySelection
+                            aria-label='Single selection example'
+                            selectionMode='single'
+                            variant='flat'
+                            onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}
+                        >
+                            <DropdownItem key='hour'>hour</DropdownItem>
+                            <DropdownItem key='day'>day</DropdownItem>
+                            <DropdownItem key='month'>month</DropdownItem>
+                            <DropdownItem key='year'>year</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
             </div>
             <CheckboxGroup
                 color='primary'
