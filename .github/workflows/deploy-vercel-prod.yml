@@ -5,10 +5,10 @@ env:
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: [ "Vercel Pre-Prod Deployment" ]
-    types:
-      - completed
+#  workflow_run:
+#    workflows: [ "Vercel Pre-Prod Deployment" ]
+#    types:
+#      - completed
 
 jobs:
   Deploy-Production:

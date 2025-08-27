@@ -5,10 +5,10 @@ env:
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: [ "Release Version Workflow" ]
-    types:
-      - completed
+#  workflow_run:
+#    workflows: [ "Release Version Workflow" ]
+#    types:
+#      - completed
 
 jobs:
   Deploy-Preview:
