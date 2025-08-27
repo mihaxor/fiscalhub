@@ -8,6 +8,7 @@ import {toPercentage, transformToRo} from '@/shared/libs/transform';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import InfoTooltip from '@/shared/components/InfoTooltip';
 import PayRateOverview from '@/features/PayRateOverview';
+import {useTheme} from 'next-themes';
 
 type TableOrganizer = {
     header: (React.ReactElement | string | null)[];
@@ -74,6 +75,7 @@ const FiscalEmployment: React.FC<{
     taxes: Taxes
 }> = ({payroll, taxes}) => {
     const isMobile = useMediaQuery('(max-width: 480px)');
+    const {theme} = useTheme();
 
     return (
         <Card radius='md' classNames={{
@@ -114,7 +116,7 @@ const FiscalEmployment: React.FC<{
                                     svg: 'w-40 h-40 drop-shadow-lg',
                                     indicator: 'stroke-primary/90',
                                     track: 'stroke-warning',
-                                    value: 'text-2xl font-semibold text-white',
+                                    value: `text-2xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`,
                                 }}
                                 showValueLabel={true}
                                 strokeWidth={2.5}
