@@ -7,6 +7,10 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - .github/workflows/release-candidate-version.yml
+      - .github/workflows/deploy-vercel-pp.yml
+      - .github/workflows/deploy-vercel-prod.yml
   workflow_dispatch:
     inputs:
       bump_type:
@@ -83,9 +87,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  Deploy-Preview:
+  Deploy-Pre-Production:
     runs-on: ubuntu-latest
-    needs: [Bump-Version]
+    needs: [ Bump-Version ]
     if: success()
     environment: Pre-Production
 
@@ -109,7 +113,7 @@ jobs:
 
   Deploy-Production:
     runs-on: ubuntu-latest
-    needs: [Deploy-Preview]
+    needs: [ Deploy-Pre-Production ]
     if: success()
     environment: Production
 
