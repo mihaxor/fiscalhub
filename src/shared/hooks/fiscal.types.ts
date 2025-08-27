@@ -41,6 +41,7 @@ interface FiscalPayrollResult {
     taxesEmployer: { lei: number; currency: number; };
     taxesState: { lei: number; currency: number; };
     shares: { employee: number; state: number; };
+    symbol?: CurrencySymbol
 }
 
 type RateType = 'RON'

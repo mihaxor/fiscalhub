@@ -1,16 +1,13 @@
 import React from 'react';
 import {Card, CardBody} from '@heroui/card';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {CurrencySymbol, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
+import {FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 import {CircularProgress} from '@heroui/progress';
 import {Chip} from '@heroui/chip';
 import {toPercentage, transformToRo} from '@/shared/libs/transform';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import InfoTooltip from '@/shared/components/InfoTooltip';
-
-type FiscalPayroll = FiscalPayrollResult & {
-    symbol: CurrencySymbol
-}
+import PayRateOverview from '@/shared/components/PayRateOverview';
 
 type TableOrganizer = {
     header: (React.ReactElement | string | null)[];
@@ -20,7 +17,7 @@ type TableOrganizer = {
     }[];
 }
 
-const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes, isMobile: boolean): TableOrganizer[] => {
+const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes, isMobile: boolean): TableOrganizer[] => {
 
     const verifyNetType = (value: string) =>
         value === 'net' ? 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md' : 'text-fiscal-primary [&>td]:font-bold';
@@ -73,7 +70,7 @@ const TABLE_ORGANIZER = (payroll: FiscalPayroll, taxes: Taxes, isMobile: boolean
 };
 
 const FiscalEmployment: React.FC<{
-    payroll: FiscalPayrollResult & { symbol: CurrencySymbol },
+    payroll: FiscalPayrollResult,
     taxes: Taxes
 }> = ({payroll, taxes}) => {
     const isMobile = useMediaQuery('(max-width: 480px)');
@@ -82,7 +79,7 @@ const FiscalEmployment: React.FC<{
         <Card radius='md' classNames={{
             base: 'bg-[unset] shadow-none'
         }}>
-            <CardBody className='flex flex-row flex-wrap-reverse justify-center items-center p-0 gap-4 xl:gap-15'>
+            <CardBody className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-4 lg:gap-20'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes, isMobile).map((table, index) => (
                         <Table key={index} layout='auto' isCompact={false}
@@ -107,8 +104,8 @@ const FiscalEmployment: React.FC<{
                         angajatorul cheltuie <span
                             className='text-fiscal-warning'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
-                <div>
-                    <div className='m-3 lg:m-20 flex flex-row xl:flex-col items-center gap-4'>
+                <div className='xl:w-xs flex flex-col justify-evenly'>
+                    <div className='m-2 xl:m-20 flex flex-row xl:flex-col items-center gap-4'>
                         <div>
                             <CircularProgress
                                 aria-label='Circle Taxes Percentage'
@@ -129,6 +126,7 @@ const FiscalEmployment: React.FC<{
                                 className='bg-fiscal-warning text-black'>Taxe {toPercentage(payroll.shares.state)}</Chip>
                         </div>
                     </div>
+                    <PayRateOverview/>
                 </div>
             </CardBody>
         </Card>

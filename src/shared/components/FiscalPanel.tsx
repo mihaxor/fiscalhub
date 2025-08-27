@@ -74,7 +74,7 @@ const FiscalPanel = () => {
                     variant='flat'
                     size='md'
                     maxLength={7}
-                    step={100}
+                    step={10}
                     errorMessage='Adauga o valoare incepand cu 100.'
                     isInvalid={!isValid}
                     startContent={
