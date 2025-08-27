@@ -2,6 +2,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {Mesh, Program, Renderer, Triangle, Vec2} from 'ogl';
+import {useTheme} from 'next-themes';
 
 const vertex = `
 attribute vec2 position;
@@ -172,44 +173,16 @@ const DarkVeilBackground = ({
     );
 };
 
-
 const DarkVeil: React.FC<Props> = (props) => {
-    const [showVeil, setShowVeil] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    const {theme} = useTheme();
 
     useEffect(() => {
-
-        const checkTheme = () => {
-            const theme = localStorage.getItem('theme');
-            setShowVeil(theme === 'dark');
-        };
-
-        checkTheme();
-
-        const handleStorageChange = (e: StorageEvent) => {
-            if (e.key === 'theme') {
-                checkTheme();
-            }
-        };
-
-        const originalSetItem = localStorage.setItem;
-        localStorage.setItem = function (key, value) {
-            originalSetItem.call(this, key, value);
-            if (key === 'theme') {
-                setShowVeil(value === 'dark');
-            }
-        };
-
-        window.addEventListener('storage', handleStorageChange);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            localStorage.setItem = originalSetItem;
-        };
+        setMounted(true);
     }, []);
 
-    if (!showVeil) {
-        return null;
-    }
+    if (!mounted) return null;
+    if (theme === 'light') return null;
 
     return (
         <div className='fixed inset-0 -z-10'>
@@ -225,5 +198,4 @@ const DarkVeil: React.FC<Props> = (props) => {
         </div>
     );
 };
-
 export default DarkVeil;

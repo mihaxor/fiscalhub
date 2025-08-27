@@ -5,15 +5,18 @@ import {JSX, SVGProps, useEffect, useState} from 'react';
 import {useTheme} from 'next-themes'
 
 type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
+type ThemeSwitchType = {
+    type: 'toggle' | 'button';
+}
 
 const MoonIcon = (props: IconType) =>
     <svg
         aria-hidden='true'
         focusable='false'
-        height='1em'
+        height='1.1em'
         role='presentation'
-        viewBox='0 0 24 24'
-        width='1em'
+        viewBox='0 0 22 24'
+        width='1.1em'
         {...props}
     >
         <path
@@ -26,10 +29,10 @@ const SunIcon = (props: IconType) =>
     <svg
         aria-hidden='true'
         focusable='false'
-        height='1em'
+        height='1.1em'
         role='presentation'
-        viewBox='0 0 24 24'
-        width='1em'
+        viewBox='0 0 22 24'
+        width='1.1em'
         {...props}
     >
         <g fill='currentColor'>
@@ -39,27 +42,43 @@ const SunIcon = (props: IconType) =>
         </g>
     </svg>;
 
-const ThemeSwitch = () => {
+const ThemeSwitch = ({type}: ThemeSwitchType) => {
     const [mounted, setMounted] = useState(false);
     const {theme, setTheme} = useTheme();
+    const isSelected = theme === 'dark';
 
     useEffect(() => {
         setMounted(true);
-        setTheme(process.env.NEXT_PUBLIC_APP_THEME as string);
     }, []);
 
     if (!mounted) return null;
 
-    return (
-        <Switch
-            isSelected={theme !== 'dark'}
-            onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            color='warning'
-            endContent={<MoonIcon />}
-            size='lg'
-            startContent={<SunIcon />}
-        />
-    );
+    return (({type}: ThemeSwitchType) => {
+        switch (type) {
+            case 'button':
+                return (<>
+                        <div
+                            className='w-10 h-10 flex items-center justify-center rounded-lg bg-default-100 hover:bg-default-200'
+                            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                            role='button'>
+                            {!isSelected ? <SunIcon /> : <MoonIcon />}
+                        </div>
+                    </>
+                );
+            case 'toggle':
+                return (
+                    <Switch
+                        isSelected={!isSelected}
+                        onValueChange={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                        color='warning'
+                        endContent={<MoonIcon />}
+                        size='lg'
+                        startContent={<SunIcon />} />
+                );
+            default:
+                return null;
+        }
+    })({type});
 }
 
 export default ThemeSwitch;

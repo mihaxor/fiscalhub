@@ -175,7 +175,7 @@ const FiscalPanel = () => {
                 </Dropdown>
             </div>
             <StarBorder as='div'>
-                <Button className='w-full' variant='solid' color='primary' size='lg'
+                <Button className='w-full' variant='solid' color='primary' size='lg' radius='md'
                         onPress={handleFiscalAction}>Calculeaza</Button>
             </StarBorder>
         </div>
