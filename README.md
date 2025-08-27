@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# <img src="./public/logo.svg" alt="FiscalHub Logo" width="45" height="45" style="display: inline-block; vertical-align: middle;"> Fiscal Hub
 
-## Getting Started
+**Fiscal Hub** este o aplicație web pentru calculele fiscale din România, construită cu Next.js, React și TypeScript. Aplicația oferă calcule precise pentru salarii, contribuții sociale, impozite, microîntreprinderi, SRL-uri, dividende și conversii valutare în timp real.
 
-First, run the development server:
+## 🚀 Live Demo
 
+The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.vercel.app/)
+
+## ✨ Funcționalități Principale
+
+### 🏢 Calculator Fiscal Complet
+- **Calcul salarial CIM (Contract Individual de Muncă)**
+  - Calcul din NET → GROSS sau GROSS → NET
+  - Contribuții sociale (CAS 25%, CASS 10%, CAM 2.25%)
+  - Impozit pe venit (IV 10%)
+  - Deduceri personale
+  - Afișare detaliată costuri angajat/angajator
+
+- **Calcul pentru SRL (Societate cu Răspundere Limitată)** (în dezvoltare)
+- **Calcul pentru MICRO 3 (Microîntreprinderi)** (în dezvoltare)
+- **Suport pentru PFA și MICRO 1** (în dezvoltare)
+
+### 💱 Convertor Valutar în Timp Real
+- **Cursuri BNR actualizate automat**
+- Suport pentru 39+ valute internaționale
+- Convertorul rapid EUR/USD/GBP → RON
+- Convertor universal între orice două valute
+- Interfață intuitivă cu schimbare rapidă a valutelor
+
+### ⚡ Caracteristici Tehnice
+- **Perioade flexibile**: oră, zi, lună, an
+- **Multi-currency**: RON, EUR, USD, GBP + 35 alte valute
+- **Responsive design** optimizat pentru mobile
+- **Animații fluide** cu Framer Motion și GSAP
+- **Tema întunecată/luminoasă** cu next-themes
+
+## 🛠️ Stack Tehnologic
+
+### Frontend
+- **Next.js** cu App Router și Turbopack
+- **React** cu hooks moderne
+- **TypeScript** pentru type safety
+- **Tailwind CSS** pentru styling
+- **HeroUI** pentru componente UI
+
+### Biblioteci & Tools
+- **Framer Motion** pentru animații
+- **GSAP** pentru animații complexe
+- **Zustand** pentru state management
+- **Lucide React** pentru iconuri
+- **xml2js** pentru parsing XML BNR
+
+### Dezvoltare
+- **ESLint** pentru linting
+- **Yarn** ca package manager
+- **Git** pentru version control
+
+## 🚀 Instalare și Utilizare
+
+### Cerințe de Sistem
+- Node.js 18+ 
+- Yarn 1.22+
+
+### Instalare
 ```bash
-npm run dev
-# or
+# Clonează repository-ul
+git clone https://github.com/username/fiscalhub.git
+
+# Navighează în director
+cd fiscalhub
+
+# Instalează dependențele
+yarn install
+
+# Pornește serverul de dezvoltare
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Scripturi Disponibile
+```bash
+yarn dev          # Dezvoltare cu Turbopack
+yarn build        # Build pentru producție
+yarn start        # Pornește aplicația built
+yarn lint         # Rulează ESLint
+yarn local        # Deschide browser + dev server
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Variabile de Mediu
+```env
+NEXT_APP_BNR_RATES_API_URL=your_BNR_API_here
+NEXT_PUBLIC_APP_THEME=system
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Cum să Folosești
 
-## Learn More
+### Calculator Fiscal
+1. **Introduce valoarea** (salariu net sau brut)
+2. **Selectează perioada** (oră/zi/lună/an)
+3. **Alege tipul de calcul** (CIM, SRL, MICRO3, etc.)
+4. **Specifică calculul** (din NET sau din GROSS)
+5. **Apasă "Calculează"** pentru rezultate detaliate
 
-To learn more about Next.js, take a look at the following resources:
+### Convertor Valutar
+1. **Introduce suma** în câmpurile EUR/USD/GBP
+2. **Vezi automat** echivalentul în LEI
+3. **Folosește convertorul universal** pentru alte valute
+4. **Schimbă rapid** valutele cu butonul de swap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 Calcule Fiscale Suportate
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Contribuții și Impozite
+- **CAS (Pensii)**: 25%
+- **CASS (Sănătate)**: 10% 
+- **IV (Impozit Venit)**: 10%
+- **CAM (Șomaj)**: 2.25%
+- **Deducere Personală**: Configurabilă
 
-## Deploy on Vercel
+### Tipuri de Contracte
+- ✅ **CIM** - Contract Individual de Muncă
+- ✅ **SRL** - Societate cu Răspundere Limitată  
+- ✅ **MICRO 3** - Microîntreprindere (3% impozit)
+- 🚧 **MICRO 1** - Microîntreprindere (1% impozit)
+- 🚧 **PFA** - Persoană Fizică Autorizată
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔄 API și Integrări
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### BNR Exchange Rates API
+- **Endpoint**: `/api/rates`
+- **Sursă**: Banca Națională a României
+- **Actualizare**: Automată, zilnic
+- **Format**: JSON cu toate cursurile valutare
+
+## 🚀 Deployment - Vercel
+
+### Build Manual
+```bash
+yarn build
+yarn start
+```

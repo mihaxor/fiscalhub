@@ -79,7 +79,8 @@ const FiscalEmployment: React.FC<{
         <Card radius='md' classNames={{
             base: 'bg-[unset] shadow-none'
         }}>
-            <CardBody className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-4 lg:gap-20'>
+            <CardBody
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-4 lg:gap-20'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes, isMobile).map((table, index) => (
                         <Table key={index} layout='auto' isCompact={false}
@@ -111,22 +112,23 @@ const FiscalEmployment: React.FC<{
                                 aria-label='Circle Taxes Percentage'
                                 classNames={{
                                     svg: 'w-40 h-40 drop-shadow-lg',
-                                    indicator: 'stroke-warning',
-                                    track: 'stroke-primary/90',
+                                    indicator: 'stroke-primary/90',
+                                    track: 'stroke-warning',
                                     value: 'text-2xl font-semibold text-white',
                                 }}
                                 showValueLabel={true}
                                 strokeWidth={2.5}
-                                value={100 - (payroll.shares.state * 100)}
+                                value={payroll.shares.state * 100}
                             />
                         </div>
                         <div className='flex justify-center gap-3'>
                             <Chip
+                                className='bg-fiscal-warning text-black'>Venit {toPercentage(payroll.shares.employee)}</Chip>
+                            <Chip
                                 className='bg-fiscal-primary/90'>Taxe {toPercentage(payroll.shares.state)}</Chip>
-                            <Chip className='bg-fiscal-warning text-black'>Venit {toPercentage(payroll.shares.employee)}</Chip>
                         </div>
                     </div>
-                    <PayRateOverview/>
+                    <PayRateOverview />
                 </div>
             </CardBody>
         </Card>

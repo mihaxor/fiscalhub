@@ -46,7 +46,7 @@ const CurrencyPanel = ({}) => {
             cb(e.target.value);
         }
 
-    const handleSwitchCurrency = () => {
+    const handleSwapCurrency = () => {
         setLastEditedSide(prev => prev === 'left' ? 'right' : 'left');
         setCurrency(prev => ({
             left: {...prev.right},
@@ -197,7 +197,7 @@ const CurrencyPanel = ({}) => {
                         </div>
                     }
                 />
-                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat' onPress={handleSwitchCurrency}>
+                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat' onPress={handleSwapCurrency}>
                     {lastEditedSide === 'left' ? <ArrowLeftRight /> : <ArrowRightLeft />}
                 </Button>
                 <Input
