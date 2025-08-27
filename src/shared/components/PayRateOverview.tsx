@@ -14,7 +14,7 @@ const PayRateOverview = () => {
     const {convertTo} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
 
-    const [selectedCurrencyKeys, setSelectedCurrencyKeys] = useState<Set<RateType>>(new Set([fiscalInputs.currency]));
+    const [selectedCurrencyKeys, setSelectedCurrencyKeys] = useState<Set<RateType>>(new Set(['EUR']));
     const selectedCurrencyValue = useMemo(() => Array.from(selectedCurrencyKeys)[0], [selectedCurrencyKeys]);
 
     const convertToRon = (value: number, fromCurrency: RateType) => {
