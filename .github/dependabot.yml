@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+      time: "07:00"
+      timezone: "Europe/Bucharest"
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    allow:
+      - dependency-type: direct
+    ignore:
+      - dependency-name: "*"
+        update-types: [ "version-update:semver-major" ]
+    versioning-strategy: increase
+    open-pull-requests-limit: 10
