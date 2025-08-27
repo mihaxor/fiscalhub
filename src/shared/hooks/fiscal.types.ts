@@ -1,5 +1,5 @@
 type FiscalType = 'net' | 'gross';
-type FiscalPeriodType = 'hour' | 'daily' | 'monthly' | 'yearly';
+type FiscalPeriodType = 'hour' | 'day' | 'month' | 'year';
 
 export const FiscalCalculationType = {
     CIM: 'CIM',
@@ -41,6 +41,7 @@ interface FiscalPayrollResult {
     taxesEmployer: { lei: number; currency: number; };
     taxesState: { lei: number; currency: number; };
     shares: { employee: number; state: number; };
+    symbol?: CurrencySymbol
 }
 
 type RateType = 'RON'

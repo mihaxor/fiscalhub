@@ -1,8 +1,8 @@
 'use client';
 
 import {useCallback, useMemo, useState} from 'react';
-import {isEmpty} from '@heroui/shared-utils';
 import {RateType} from '@/shared/hooks/fiscal.types';
+import _ from 'lodash';
 
 const DEFAULT_EUR_VALUE = 1;
 const DEFAULT_USD_VALUE = 1;
@@ -39,7 +39,7 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
     const [lastEditedSide, setLastEditedSide] = useState<'left' | 'right'>('left');
 
     const calculateCurrency = useMemo(() => {
-        if (!rates || isEmpty(rates)) return;
+        if (!rates || _.isEmpty(rates)) return;
 
         const eurValue = (parseFloat(eur) * rates.EUR).toFixed(4);
         const usdValue = (parseFloat(usd) * rates.USD).toFixed(4);
@@ -53,7 +53,7 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
     }, [eur, usd, gbp, rates]);
 
     const calculateSwitchedCurrency = useMemo(() => {
-        if (!rates || isEmpty(rates))
+        if (!rates || _.isEmpty(rates))
             return {
                 leftValue: currency.left.value,
                 rightValue: currency.right.value
@@ -127,6 +127,18 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
         return {type: currency, rate: rates[currency]};
     }, []);
 
+    const convertTo = useCallback((value: number, fromCurrency: RateType, toCurrency: RateType): number => {
+        if (rates) {
+            if (fromCurrency === 'RON') {
+                return value / rates[toCurrency];
+            } else if (toCurrency === 'RON') {
+                return value * rates[fromCurrency];
+            } else if (fromCurrency !== toCurrency) {
+                return value * rates[fromCurrency] / rates[toCurrency];
+            } else return value;
+        } else return value;
+    }, []);
+
     return {
         eur,
         setEur,
@@ -140,7 +152,8 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
         calculateSwitchedCurrency,
         lastEditedSide,
         setLastEditedSide,
-        verifyCurrency
+        verifyCurrency,
+        convertTo
     }
 }
 

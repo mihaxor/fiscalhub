@@ -12,11 +12,11 @@ const DEFAULT_DP = 0;       // Deducere personala (lei)
 const useFiscalPayroll = () => {
 
     /**
-     * Payroll calculator (RO) – unificat: din NET sau din BRUT
+     * Payroll calculator (RO) – unificat: din NET sau din GROSS
      *
      * @param {Object} opts
      * @param {'net'|'gross'} opts.fromType                         - baza de calcul (implicit: 'net')
-     * @param {number} opts.value                                   - valoarea (net sau brut, după `fromType`)
+     * @param {number} opts.value                                   - valoarea (net sau gross, după `fromType`)
      * @param {number} [opts.dp=0]                                  - deducere personala (lei)
      * @param {Object} [opts.taxes]                                 - procente (implicite: CAS 25%, CASS 10%, IV 10%, CAM 2.25%)
      * @param {number} [opts.taxes.cas=0.25]                        - CAS (contributii asigurari sociale - pensie)

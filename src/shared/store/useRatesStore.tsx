@@ -20,8 +20,6 @@ const useRatesStore = () => {
             })
             .finally(() => setLoading(false));
 
-        console.log('Fetched rates:', data);
-
         setData(data)
     }
 
