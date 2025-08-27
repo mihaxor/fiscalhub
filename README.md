@@ -1,138 +1,138 @@
 # <img src="./public/logo.svg" alt="FiscalHub Logo" width="45" height="45" style="display: inline-block; vertical-align: middle;"> Fiscal Hub
 
-**Fiscal Hub** este o aplicație web pentru calculele fiscale din România, construită cu Next.js, React și TypeScript. Aplicația oferă calcule precise pentru salarii, contribuții sociale, impozite, microîntreprinderi, SRL-uri, dividende și conversii valutare în timp real.
+**Fiscal Hub** is a web application for fiscal calculations in Romania, built with Next.js, React, and TypeScript. The application provides precise calculations for salaries, social contributions, taxes, micro-enterprises, LLCs, dividends, and real-time currency conversions.
 
 ## 🚀 Live Demo
 
 The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.vercel.app/)
 
-## ✨ Funcționalități Principale
+## ✨ Main Features
 
-### 🏢 Calculator Fiscal Complet
-- **Calcul salarial CIM (Contract Individual de Muncă)**
-  - Calcul din NET → GROSS sau GROSS → NET
-  - Contribuții sociale (CAS 25%, CASS 10%, CAM 2.25%)
-  - Impozit pe venit (IV 10%)
-  - Deduceri personale
-  - Afișare detaliată costuri angajat/angajator
+### 🏢 Complete Fiscal Calculator
+- **Salary calculation CIM (Individual Employment Contract)**
+    - Calculation from NET → GROSS or GROSS → NET
+    - Social contributions (CAS 25%, CASS 10%, CAM 2.25%)
+    - Income tax (IV 10%)
+    - Personal deductions
+    - Detailed display of employee/employer costs
 
-- **Calcul pentru SRL (Societate cu Răspundere Limitată)** (în dezvoltare)
-- **Calcul pentru MICRO 3 (Microîntreprinderi)** (în dezvoltare)
-- **Suport pentru PFA și MICRO 1** (în dezvoltare)
+- **Calculation for SRL (Limited Liability Company)** (in development)
+- **Calculation for MICRO 3 (Micro-enterprises)** (in development)
+- **Support for PFA and MICRO 1** (in development)
 
-### 💱 Convertor Valutar în Timp Real
-- **Cursuri BNR actualizate automat**
-- Suport pentru 39+ valute internaționale
-- Convertorul rapid EUR/USD/GBP → RON
-- Convertor universal între orice două valute
-- Interfață intuitivă cu schimbare rapidă a valutelor
+### 💱 Real-Time Currency Converter
+- **Automatically updated BNR exchange rates**
+- Support for 39+ international currencies
+- Quick converter EUR/USD/GBP → RON
+- Universal converter between any two currencies
+- Intuitive interface with quick currency switching
 
-### ⚡ Caracteristici Tehnice
-- **Perioade flexibile**: oră, zi, lună, an
-- **Multi-currency**: RON, EUR, USD, GBP + 35 alte valute
-- **Responsive design** optimizat pentru mobile
-- **Animații fluide** cu Framer Motion și GSAP
-- **Tema întunecată/luminoasă** cu next-themes
+### ⚡ Technical Features
+- **Flexible periods**: hour, day, month, year
+- **Multi-currency**: RON, EUR, USD, GBP + 35 other currencies
+- **Responsive design** optimized for mobile
+- **Smooth animations** with Framer Motion and GSAP
+- **Dark/light theme** with next-themes
 
-## 🛠️ Stack Tehnologic
+## 🛠️ Technology Stack
 
 ### Frontend
-- **Next.js** cu App Router și Turbopack
-- **React** cu hooks moderne
-- **TypeScript** pentru type safety
-- **Tailwind CSS** pentru styling
-- **HeroUI** pentru componente UI
+- **Next.js** with App Router and Turbopack
+- **React** with modern hooks
+- **TypeScript** for type safety
+- **Tailwind CSS** for styling
+- **HeroUI** for UI components
 
-### Biblioteci & Tools
-- **Framer Motion** pentru animații
-- **GSAP** pentru animații complexe
-- **Zustand** pentru state management
-- **Lucide React** pentru iconuri
-- **xml2js** pentru parsing XML BNR
+### Libraries & Tools
+- **Framer Motion** for animations
+- **GSAP** for complex animations
+- **Zustand** for state management
+- **Lucide React** for icons
+- **xml2js** for BNR XML parsing
 
-### Dezvoltare
-- **ESLint** pentru linting
-- **Yarn** ca package manager
-- **Git** pentru version control
+### Development
+- **ESLint** for linting
+- **Yarn** as package manager
+- **Git** for version control
 
-## 🚀 Instalare și Utilizare
+## 🚀 Installation and Usage
 
-### Cerințe de Sistem
-- Node.js 18+ 
+### System Requirements
+- Node.js 18+
 - Yarn 1.22+
 
-### Instalare
+### Installation
 ```bash
-# Clonează repository-ul
+# Clone the repository
 git clone https://github.com/username/fiscalhub.git
 
-# Navighează în director
+# Navigate to directory
 cd fiscalhub
 
-# Instalează dependențele
+# Install dependencies
 yarn install
 
-# Pornește serverul de dezvoltare
+# Start development server
 yarn dev
 ```
 
-### Scripturi Disponibile
+### Available Scripts
 ```bash
-yarn dev          # Dezvoltare cu Turbopack
-yarn build        # Build pentru producție
-yarn start        # Pornește aplicația built
-yarn lint         # Rulează ESLint
-yarn local        # Deschide browser + dev server
+yarn dev          # Development with Turbopack
+yarn build        # Build for production
+yarn start        # Start built application
+yarn lint         # Run ESLint
+yarn local        # Open browser + dev server
 ```
 
-### Variabile de Mediu
+### Environment Variables
 ```env
 NEXT_APP_BNR_RATES_API_URL=your_BNR_API_here
 NEXT_PUBLIC_APP_THEME=system
 ```
 
-## 💡 Cum să Folosești
+## 💡 How to Use
 
-### Calculator Fiscal
-1. **Introduce valoarea** (salariu net sau brut)
-2. **Selectează perioada** (oră/zi/lună/an)
-3. **Alege tipul de calcul** (CIM, SRL, MICRO3, etc.)
-4. **Specifică calculul** (din NET sau din GROSS)
-5. **Apasă "Calculează"** pentru rezultate detaliate
+### Fiscal Calculator
+1. **Enter the value** (net or gross salary)
+2. **Select the period** (hour/day/month/year)
+3. **Choose calculation type** (CIM, SRL, MICRO3, etc.)
+4. **Specify calculation** (from NET or from GROSS)
+5. **Press "Calculate"** for detailed results
 
-### Convertor Valutar
-1. **Introduce suma** în câmpurile EUR/USD/GBP
-2. **Vezi automat** echivalentul în LEI
-3. **Folosește convertorul universal** pentru alte valute
-4. **Schimbă rapid** valutele cu butonul de swap
+### Currency Converter
+1. **Enter amount** in EUR/USD/GBP fields
+2. **See automatically** the equivalent in LEI
+3. **Use universal converter** for other currencies
+4. **Quickly switch** currencies with swap button
 
-## 📊 Calcule Fiscale Suportate
+## 📊 Supported Fiscal Calculations
 
-### Contribuții și Impozite
-- **CAS (Pensii)**: 25%
-- **CASS (Sănătate)**: 10% 
-- **IV (Impozit Venit)**: 10%
-- **CAM (Șomaj)**: 2.25%
-- **Deducere Personală**: Configurabilă
+### Contributions and Taxes
+- **CAS (Pensions)**: 25%
+- **CASS (Health)**: 10%
+- **IV (Income Tax)**: 10%
+- **CAM (Unemployment)**: 2.25%
+- **Personal Deduction**: Configurable
 
-### Tipuri de Contracte
-- ✅ **CIM** - Contract Individual de Muncă
-- ✅ **SRL** - Societate cu Răspundere Limitată  
-- ✅ **MICRO 3** - Microîntreprindere (3% impozit)
-- 🚧 **MICRO 1** - Microîntreprindere (1% impozit)
-- 🚧 **PFA** - Persoană Fizică Autorizată
+### Contract Types
+- ✅ **CIM** - Individual Employment Contract
+- ✅ **SRL** - Limited Liability Company
+- ✅ **MICRO 3** - Micro-enterprise (3% tax)
+- 🚧 **MICRO 1** - Micro-enterprise (1% tax)
+- 🚧 **PFA** - Authorized Natural Person
 
-## 🔄 API și Integrări
+## 🔄 API and Integrations
 
 ### BNR Exchange Rates API
 - **Endpoint**: `/api/rates`
-- **Sursă**: Banca Națională a României
-- **Actualizare**: Automată, zilnic
-- **Format**: JSON cu toate cursurile valutare
+- **Source**: National Bank of Romania
+- **Update**: Automatic, daily
+- **Format**: JSON with all exchange rates
 
 ## 🚀 Deployment - Vercel
 
-### Build Manual
+### Manual Build
 ```bash
 yarn build
 yarn start
