@@ -53,15 +53,13 @@ const PayRateOverview = () => {
                 </TableColumn>
             </TableHeader>
             <TableBody>
-                {
-                    Object.keys(fiscalInputs.periods).map((key) => (
-                        <TableRow key={key}>
-                            <TableCell>{key.toUpperCase()}</TableCell>
-                            <TableCell>{transformToRo(convertToRon(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency), key === 'hour' ? 2 : 0)}</TableCell>
-                            <TableCell>{transformToRo(convertTo(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency, selectedCurrencyValue), key === 'hour' ? 2 : 0)}</TableCell>
-                        </TableRow>
-                    ))
-                }
+                {Object.keys(fiscalInputs.periods).map((key) => (
+                    <TableRow key={key}>
+                        <TableCell>{key.toUpperCase()}</TableCell>
+                        <TableCell>{transformToRo(convertToRon(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency), key === 'hour' ? 2 : 0)}</TableCell>
+                        <TableCell>{transformToRo(convertTo(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency, selectedCurrencyValue), key === 'hour' ? 2 : 0)}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
     )

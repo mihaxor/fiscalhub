@@ -46,6 +46,14 @@ const CurrencyPanel = ({}) => {
             cb(e.target.value);
         }
 
+    const handleSwapCurrency = () => {
+        setLastEditedSide(prev => prev === 'left' ? 'right' : 'left');
+        setCurrency(prev => ({
+            left: {...prev.right},
+            right: {...prev.left}
+        }))
+    }
+
     if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
 
     return (
@@ -169,7 +177,7 @@ const CurrencyPanel = ({}) => {
                             <select
                                 aria-label='Select currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
-                                defaultValue={currency.left.currency}
+                                value={currency.left.currency}
                                 id='currency'
                                 name='currency'
                                 onChange={(e) => {
@@ -189,7 +197,7 @@ const CurrencyPanel = ({}) => {
                         </div>
                     }
                 />
-                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat'>
+                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat' onPress={handleSwapCurrency}>
                     {lastEditedSide === 'left' ? <ArrowLeftRight /> : <ArrowRightLeft />}
                 </Button>
                 <Input
@@ -218,7 +226,7 @@ const CurrencyPanel = ({}) => {
                             <select
                                 aria-label='Select currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
-                                defaultValue={currency.right.currency}
+                                value={currency.right.currency}
                                 id='currency'
                                 name='currency'
                                 onChange={(e) => {

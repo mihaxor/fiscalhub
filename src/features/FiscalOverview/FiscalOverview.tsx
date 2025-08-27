@@ -10,7 +10,7 @@ import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
-import FiscalCompanyMicro3 from '@/shared/components/FiscalOverview/FiscalCompantMicro3';
+import FiscalCompanyMicro3 from '@/features/FiscalOverview/FiscalCompantMicro3';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
