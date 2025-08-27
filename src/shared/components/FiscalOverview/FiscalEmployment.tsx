@@ -99,10 +99,10 @@ const FiscalEmployment: React.FC<{
                             </TableBody>
                         </Table>
                     ))}
-                    <div className='text-xs sm:text-small text-center'>Pentru a plati un salariu net de <span
-                        className='text-fiscal-primary'>{payroll.net.lei} lei</span>,
+                    <div className='text-xs sm:text-small text-center'>Pentru plata unui salariu net de <span
+                        className='text-fiscal-warning'>{payroll.net.lei} lei</span>,
                         angajatorul cheltuie <span
-                            className='text-fiscal-warning'>{payroll.totalEmployerCost.lei} lei</span></div>
+                            className='text-fiscal-primary'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
                 <div className='xl:w-xs flex flex-col justify-evenly'>
                     <div className='m-2 xl:m-20 flex flex-row xl:flex-col items-center gap-4'>
@@ -117,13 +117,13 @@ const FiscalEmployment: React.FC<{
                                 }}
                                 showValueLabel={true}
                                 strokeWidth={2.5}
-                                value={payroll.shares.state * 100}
+                                value={100 - (payroll.shares.state * 100)}
                             />
                         </div>
                         <div className='flex justify-center gap-3'>
-                            <Chip className='bg-fiscal-primary/90'>Venit {toPercentage(payroll.shares.employee)}</Chip>
                             <Chip
-                                className='bg-fiscal-warning text-black'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                                className='bg-fiscal-primary/90'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                            <Chip className='bg-fiscal-warning text-black'>Venit {toPercentage(payroll.shares.employee)}</Chip>
                         </div>
                     </div>
                     <PayRateOverview/>
