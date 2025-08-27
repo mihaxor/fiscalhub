@@ -1,4 +1,4 @@
-import Logo from '../../../public/logo.svg';
+import Logo from '../../../public/logo.png';
 import ThemeSwitch from '@/shared/components/ThemeSwitch';
 import BlurText from '@/shared/components/BlurText';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ const Header = () =>
     <header className='flex flex-col w-full gap-4'>
         <div className='flex gap-4 justify-between items-center'>
             <Link href='/'>
-                <Image priority src={Logo} alt={'logo'} width={52} height={52} />
+                <Image priority src={Logo} alt={'logo'} width={50} height={50} />
             </Link>
             <ThemeSwitch type='button' />
         </div>
