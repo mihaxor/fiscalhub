@@ -7,7 +7,7 @@ import {Chip} from '@heroui/chip';
 import {toPercentage, transformToRo} from '@/shared/libs/transform';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import InfoTooltip from '@/shared/components/InfoTooltip';
-import PayRateOverview from '@/shared/components/PayRateOverview';
+import PayRateOverview from '@/features/PayRateOverview';
 
 type TableOrganizer = {
     header: (React.ReactElement | string | null)[];

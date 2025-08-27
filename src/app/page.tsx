@@ -1,8 +1,8 @@
 import Header from '@/shared/components/Header';
-import FiscalPanel from '@/shared/components/FiscalPanel';
-import CurrencyPanel from '@/shared/components/CurrencyPanel';
+import FiscalPanel from '@/features/FiscalPanel';
+import CurrencyPanel from '@/features/CurrencyPanel';
 import Footer from '@/shared/components/Footer';
-import {FiscalOverview} from '@/shared/components/FiscalOverview';
+import {FiscalOverview} from '@/features/FiscalOverview';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 
 const Home = () => (
