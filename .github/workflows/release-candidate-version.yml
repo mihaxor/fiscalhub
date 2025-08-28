@@ -8,6 +8,7 @@ on:
     branches:
       - master
     paths-ignore:
+      - .github/workflows/dependabot-auto.yml
       - .github/workflows/release-candidate-version.yml
       - .github/workflows/deploy-vercel-pp.yml
       - .github/workflows/deploy-vercel-prod.yml
