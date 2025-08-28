@@ -82,12 +82,12 @@ const FiscalEmployment: React.FC<{
             base: 'bg-[unset] shadow-none'
         }}>
             <CardBody
-                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-4 lg:gap-20'>
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-3 lg:gap-10'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes, isMobile).map((table, index) => (
                         <Table key={index} layout='auto' isCompact={false}
                                aria-label={`Table for ${table.header[0]}`}
-                               className='mb-3'>
+                               className='mb-3 lg:w-150 xl:w-3xl'>
                             <TableHeader>
                                 {table.header.map((column, index) => (
                                     <TableColumn key={index}
@@ -107,8 +107,8 @@ const FiscalEmployment: React.FC<{
                         angajatorul cheltuie <span
                             className='text-fiscal-primary'>{payroll.totalEmployerCost.lei} lei</span></div>
                 </div>
-                <div className='xl:w-xs flex flex-col justify-evenly'>
-                    <div className='m-2 xl:m-20 flex flex-row xl:flex-col items-center gap-4'>
+                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-evenly gap-3'>
+                    <div className='m-2 lg:m-20 flex flex-row lg:flex-col items-center justify-center gap-4'>
                         <div>
                             <CircularProgress
                                 aria-label='Circle Taxes Percentage'

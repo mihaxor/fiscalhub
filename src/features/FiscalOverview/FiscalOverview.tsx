@@ -10,13 +10,14 @@ import {RatesContext} from '@/shared/store/useRatesStore';
 import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
-import FiscalCompanyMicro3 from '@/features/FiscalOverview/FiscalCompantMicro3';
+import useMediaQuery from '@/shared/hooks/useMediaQuery';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
     const {verifyCurrency} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
+    const isMobile = useMediaQuery('(max-width: 639px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
@@ -35,7 +36,7 @@ const FiscalOverview = () => {
 
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode => {
         return types.map((type) =>
-            <Tab key={type} title={type.toUpperCase()}>
+            <Tab key={type} title={type.toUpperCase()} className='p-0 sm:px-7.25 lg:px-10'>
                 {(() => {
                     switch (type) {
                         case FiscalCalculationType.CIM:
@@ -43,11 +44,11 @@ const FiscalOverview = () => {
                         case FiscalCalculationType.SRL:
                             return <FiscalCompanySRL />;
                         case FiscalCalculationType.MICRO1:
-                            return null;
+                            return <FiscalCompanySRL />;
                         case FiscalCalculationType.MICRO3:
-                            return <FiscalCompanyMicro3 />;
+                            return <FiscalCompanySRL />;
                         case FiscalCalculationType.PFA:
-                            return null;
+                            return <FiscalCompanySRL />;
                         default:
                             return null;
                     }
@@ -56,17 +57,14 @@ const FiscalOverview = () => {
         )
     }
 
-    console.log('Fiscal Inputs:', fiscalInputs);
-    console.log('Payroll Result:', payrollResult);
-
     if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;
 
     return (
         <div id='result'>
             <AnimatedContent>
-                <div className='flex flex-col justify-center items-center w-full'>
+                <div className='flex flex-col justify-center items-center gap-8'>
                     <Tabs aria-label='Options' selectedKey={selected} color='primary' variant='bordered' radius='md'
-                          onSelectionChange={setSelected}>
+                          onSelectionChange={setSelected} fullWidth={isMobile}>
                         {calculationType(fiscalInputs.calculationType)}
                     </Tabs>
                 </div>
