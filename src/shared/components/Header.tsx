@@ -8,7 +8,7 @@ const Header = () =>
     <header className='flex flex-col w-full gap-4'>
         <div className='flex gap-4 justify-between items-center'>
             <Link href='/'>
-                <Image priority src={Logo} alt={'logo'} width={50} height={50} />
+                <Image priority src={Logo} alt={'logo'} width={49} height={49} />
             </Link>
             <ThemeSwitch type='button' />
         </div>

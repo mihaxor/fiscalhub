@@ -116,9 +116,10 @@ const FiscalPanel = () => {
                     // }}
                 />
                 <div className='self-start flex items-center gap-4'>/
-                    <Dropdown backdrop='blur'>
-                        <DropdownTrigger
-                        >
+                    <Dropdown
+                        backdrop='blur'
+                        classNames={{content: 'min-w-max'}}>
+                        <DropdownTrigger>
                             <Button className='w-[140px] sm:w-[180px] h-14' variant='faded' radius='md'>
                                 {selectedPeriodValue}
                             </Button>
@@ -128,8 +129,7 @@ const FiscalPanel = () => {
                             aria-label='Single selection example'
                             selectionMode='single'
                             variant='flat'
-                            onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}
-                        >
+                            onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}>
                             <DropdownItem key='hour'>hour</DropdownItem>
                             <DropdownItem key='day'>day</DropdownItem>
                             <DropdownItem key='month'>month</DropdownItem>
@@ -153,10 +153,10 @@ const FiscalPanel = () => {
                 </div>
             </CheckboxGroup>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
-                <Chip variant='flat' radius='md' size='lg' className='text-default-500 h-12'>
+                <Chip variant='flat' radius='md' size='lg' className='text-default-500 text-[15px] h-12'>
                     Se calculeaza din:
                 </Chip>
-                <Dropdown backdrop='blur' isDisabled={false}>
+                <Dropdown backdrop='blur' classNames={{content: 'min-w-max'}}>
                     <DropdownTrigger>
                         <Button className='w-full text-default-500' variant='faded' size='lg' radius='md'>
                             {selectedModeValue.toUpperCase()}
@@ -167,8 +167,7 @@ const FiscalPanel = () => {
                         aria-label='Single selection example'
                         selectionMode='single'
                         variant='flat'
-                        onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}
-                    >
+                        onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}>
                         <DropdownItem key='net' textValue='NET'>NET &nbsp;{'->'}&nbsp; GROSS</DropdownItem>
                         <DropdownItem key='gross' textValue='GROSS'>GROSS &nbsp;{'->'}&nbsp; NET</DropdownItem>
                     </DropdownMenu>

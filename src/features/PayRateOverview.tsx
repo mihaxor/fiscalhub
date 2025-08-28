@@ -34,7 +34,7 @@ const PayRateOverview = () => {
                 <TableColumn>RON</TableColumn>
                 <TableColumn align='center' className='p-0' width={1}>
                     VALUTA
-                    <Dropdown>
+                    <Dropdown classNames={{content: 'min-w-max'}}>
                         <DropdownTrigger>
                             <Button className='text-fiscal-warning text-small min-w-0 p-4 ml-2'
                                     variant='ghost'>{getSymbol(selectedCurrencyValue)}</Button>
