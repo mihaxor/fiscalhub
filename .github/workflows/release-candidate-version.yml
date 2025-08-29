@@ -2,10 +2,6 @@ name: Release Version Workflow
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  NEXT_PUBLIC_APP_TAX_CAS: ${{ vars.NEXT_PUBLIC_APP_TAX_CAS }}
-  NEXT_PUBLIC_APP_TAX_CASS: ${{ vars.NEXT_PUBLIC_APP_TAX_CASS }}
-  NEXT_PUBLIC_APP_TAX_IV: ${{ vars.NEXT_PUBLIC_APP_TAX_IV }}
-  NEXT_PUBLIC_APP_TAX_CAM: ${{ vars.NEXT_PUBLIC_APP_TAX_CAM }}
 
 on:
   push:
