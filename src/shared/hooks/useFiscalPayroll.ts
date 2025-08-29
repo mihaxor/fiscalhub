@@ -1,9 +1,8 @@
 import {useCallback} from 'react';
-import {FiscalPayroll, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
+import {FiscalPayroll, FiscalPayrollResult} from '@/shared/hooks/fiscal.types';
+import {FiscalConfig} from '@/config/fiscal';
 
-const DEFAULT_DP = 0;       // Deducere personala (lei)
-
-const useFiscalPayroll = (taxes: Taxes) => {
+const useFiscalPayroll = () => {
 
     /**
      * Payroll calculator (RO) – unificat: din NET sau din GROSS
@@ -40,7 +39,8 @@ const useFiscalPayroll = (taxes: Taxes) => {
         const {
             fromType,
             value,
-            dp = DEFAULT_DP,
+            dp = FiscalConfig.DEFAULT_DP,
+            taxes = FiscalConfig.DEFAULT_TAXES,
             rate,
             roundMode = 'round',
         } = opts;
@@ -101,7 +101,10 @@ const useFiscalPayroll = (taxes: Taxes) => {
             }
         };
     }, []);
-    return {calcPayroll};
+    return {
+        calcPayroll,
+        taxes: FiscalConfig.DEFAULT_TAXES
+    };
 }
 
 export default useFiscalPayroll;
