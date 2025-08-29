@@ -6,7 +6,7 @@ import {CircularProgress} from '@heroui/progress';
 import {Chip} from '@heroui/chip';
 import {toPercentage, transformToRo} from '@/shared/libs/transform';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
-import InfoTooltip from '@/shared/components/InfoTooltip';
+import PopoverInfo from '@/shared/components/PopoverInfo';
 import PayRateOverview from '@/features/PayRateOverview';
 import {useTheme} from 'next-themes';
 
@@ -27,7 +27,7 @@ const TABLE_ORGANIZER = (payroll: FiscalPayrollResult, taxes: Taxes, isMobile: b
         value === 'gross' ? 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md' : 'text-fiscal-primary [&>td]:font-bold';
 
     const transformToMobile = (popoverText: string, text: string) =>
-        !isMobile ? `${popoverText} (${text})` : <InfoTooltip popoverText={popoverText} text={text} />
+        !isMobile ? `${popoverText} (${text})` : <PopoverInfo popoverText={popoverText} text={text} />
 
     return [
         {
