@@ -11,12 +11,14 @@ import FiscalEmployment from './FiscalEmployment';
 import FiscalCompanySRL from './FiscalCompanySRL';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
+import useTaxes from '@/shared/store/useTaxes';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
-    const {verifyCurrency} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
-    const {calcPayroll, taxes} = useFiscalPayroll();
+    const {taxes} = useTaxes();
+    const {verifyCurrency} = useCurrency(rates);
+    const {calcPayroll} = useFiscalPayroll(taxes);
     const isMobile = useMediaQuery('(max-width: 639px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
