@@ -28,7 +28,7 @@ const PayRateOverview = () => {
     if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
 
     return (
-        <Table layout='auto' isCompact={false} aria-label={`Table for pay rates overview`}>
+        <Table layout='auto' isCompact={false} aria-label='Table for pay rates overview'>
             <TableHeader>
                 <TableColumn>RATA</TableColumn>
                 <TableColumn>RON</TableColumn>

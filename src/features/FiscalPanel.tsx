@@ -43,7 +43,17 @@ const FiscalPanel = () => {
 
     const [isValid, setIsValid] = useState<boolean>(true);
 
-    const checkValidity = (value: number) => !!value && value > 0
+    const checkValidity = (value: number) => !!value && value > 0;
+
+    const orderCalcTypes = (types: FiscalCalculationType[]) => {
+        const order = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
+
+        return types.sort((a, b) => {
+            const indexA = order.indexOf(a);
+            const indexB = order.indexOf(b);
+            return indexA - indexB;
+        });
+    }
 
     const handleValueChange = (value: number) => {
         setIsValid(checkValidity(value));
@@ -58,7 +68,7 @@ const FiscalPanel = () => {
                 period: selectedPeriodValue[0],
                 periods: toAllPeriods(value, selectedPeriodValue[0]),
                 fromType: selectedModeValue.toLowerCase() as FiscalType,
-                calculationType: setSelectedCalcTypes.length ? selectedCalcTypes : []
+                calculationType: selectedCalcTypes.length ? orderCalcTypes(selectedCalcTypes) : [],
             });
 
             router.push('#result');

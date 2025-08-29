@@ -82,7 +82,7 @@ const FiscalEmployment: React.FC<{
             base: 'bg-[unset] shadow-none'
         }}>
             <CardBody
-                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-3 lg:gap-10'>
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-10'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes, isMobile).map((table, index) => (
                         <Table key={index} layout='auto' isCompact={false}
