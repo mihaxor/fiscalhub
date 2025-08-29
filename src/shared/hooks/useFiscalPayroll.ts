@@ -1,15 +1,9 @@
 import {useCallback} from 'react';
 import {FiscalPayroll, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 
-const DEFAULT_TAXES = {
-    cas: parseFloat(process.env.NEXT_PUBLIC_APP_TAX_CAS || '0.25'),   // 25% CAS (contributii asigurari sociale - pensie)
-    cass: parseFloat(process.env.NEXT_PUBLIC_APP_TAX_CASS || '0.10'), // 10% CASS (contributii asigurari sociale - sanatate)
-    iv: parseFloat(process.env.NEXT_PUBLIC_APP_TAX_IV || '0.10'),     // 10% IV (Impozit venit)
-    cam: parseFloat(process.env.NEXT_PUBLIC_APP_TAX_CAM || '0.0225')  // 2.25% CAM (contributii asigurari munca)
-} as Taxes;
 const DEFAULT_DP = 0;       // Deducere personala (lei)
 
-const useFiscalPayroll = () => {
+const useFiscalPayroll = (taxes: Taxes) => {
 
     /**
      * Payroll calculator (RO) – unificat: din NET sau din GROSS
@@ -47,7 +41,6 @@ const useFiscalPayroll = () => {
             fromType,
             value,
             dp = DEFAULT_DP,
-            taxes = DEFAULT_TAXES,
             rate,
             roundMode = 'round',
         } = opts;
@@ -108,10 +101,7 @@ const useFiscalPayroll = () => {
             }
         };
     }, []);
-    return {
-        calcPayroll,
-        taxes: DEFAULT_TAXES
-    };
+    return {calcPayroll};
 }
 
 export default useFiscalPayroll;

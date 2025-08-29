@@ -22,7 +22,6 @@ interface FiscalPayroll {
     fromType: FiscalType;
     value: number;
     dp?: number;
-    taxes?: Taxes;
     rate: number;
     roundMode?: 'round' | 'floor' | 'ceil';
 }
