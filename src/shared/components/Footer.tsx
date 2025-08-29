@@ -24,8 +24,8 @@ const Footer = () => {
             </div>
             <div className='w-full flex flex-col justify-center'>
                 <div className='text-center text-sm'>
-                    <strong>© {currentYear} <a href='https://linkedin.com/in/catalin-glavan'>Catalin Glavan</a> |
-                        <a href='mailto:glmihaicata@gmail.com'> glmihaicata@gmail.com</a></strong> <br />
+                    <strong>© {currentYear} <a href='https://linkedin.com/in/catalin-glavan' className='hover:text-fiscal-primary'>Catalin Glavan</a> |
+                        <a href='mailto:glmihaicata@gmail.com' className='hover:text-fiscal-primary'> glmihaicata@gmail.com</a></strong> <br />
                     All rights reserved.
                 </div>
             </div>

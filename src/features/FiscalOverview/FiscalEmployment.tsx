@@ -82,7 +82,7 @@ const FiscalEmployment: React.FC<{
             base: 'bg-[unset] shadow-none'
         }}>
             <CardBody
-                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0 gap-3 lg:gap-10'>
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-10'>
                 <div>
                     {TABLE_ORGANIZER(payroll, taxes, isMobile).map((table, index) => (
                         <Table key={index} layout='auto' isCompact={false}
@@ -102,7 +102,7 @@ const FiscalEmployment: React.FC<{
                             </TableBody>
                         </Table>
                     ))}
-                    <div className='text-xs sm:text-small text-center'>Pentru plata unui salariu net de <span
+                    <div className='px-6 text-small text-center'>Pentru plata unui salariu net de <span
                         className='text-fiscal-warning'>{payroll.net.lei} lei</span>,
                         angajatorul cheltuie <span
                             className='text-fiscal-primary'>{payroll.totalEmployerCost.lei} lei</span></div>
@@ -124,10 +124,10 @@ const FiscalEmployment: React.FC<{
                             />
                         </div>
                         <div className='flex justify-center gap-3'>
-                            <Chip
-                                className='bg-fiscal-warning text-black'>Venit {toPercentage(payroll.shares.employee)}</Chip>
-                            <Chip
-                                className='bg-fiscal-primary/90'>Taxe {toPercentage(payroll.shares.state)}</Chip>
+                            <Chip classNames={{content: 'font-semibold'}}
+                                  className='bg-fiscal-warning text-black'>Venit {toPercentage(payroll.shares.employee)}</Chip>
+                            <Chip classNames={{content: 'font-semibold'}}
+                                  className='bg-fiscal-primary/90'>Taxe {toPercentage(payroll.shares.state)}</Chip>
                         </div>
                     </div>
                     <PayRateOverview />

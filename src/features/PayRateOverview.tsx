@@ -28,13 +28,13 @@ const PayRateOverview = () => {
     if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
 
     return (
-        <Table layout='auto' isCompact={false} aria-label={`Table for pay rates overview`}>
+        <Table layout='auto' isCompact={false} aria-label='Table for pay rates overview'>
             <TableHeader>
                 <TableColumn>RATA</TableColumn>
                 <TableColumn>RON</TableColumn>
                 <TableColumn align='center' className='p-0' width={1}>
                     VALUTA
-                    <Dropdown>
+                    <Dropdown classNames={{content: 'min-w-max'}}>
                         <DropdownTrigger>
                             <Button className='text-fiscal-warning text-small min-w-0 p-4 ml-2'
                                     variant='ghost'>{getSymbol(selectedCurrencyValue)}</Button>
