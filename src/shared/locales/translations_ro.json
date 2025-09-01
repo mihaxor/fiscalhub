@@ -16,6 +16,10 @@
     },
     "inputError": "Valoarea trebuie sa fie un numar.",
     "label": "Valoare",
+    "language": {
+      "en": "Englezǎ",
+      "ro": "Românǎ"
+    },
     "languageDesc": "traducere",
     "period": {
       "day": "zi",

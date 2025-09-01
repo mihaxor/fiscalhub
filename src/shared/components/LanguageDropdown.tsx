@@ -69,7 +69,7 @@ const LanguageDropdown = () => {
                     const LangIcon = languages[lang as LanguageType].icon;
 
                     return <DropdownItem key={lang} description={t('general.languageDesc')} startContent={<div><LangIcon />
-                    </div>}>{languages[lang as LanguageType].placeholder}</DropdownItem>
+                    </div>}>{t(`general.language.${lang as LanguageType}`)}</DropdownItem>
                 })}
             </DropdownMenu>
         </Dropdown>

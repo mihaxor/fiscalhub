@@ -13,7 +13,7 @@ export const languages: Record<LanguageType, {
         icon: FlagEn
     },
     ro: {
-        placeholder: 'Română',
+        placeholder: 'Romanian',
         icon: FlagRo
     }
 }
