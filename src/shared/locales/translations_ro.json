@@ -36,7 +36,6 @@
       },
       "tables": {
         "employee": {
-          "currency": "RON",
           "foreignCurrency": "VALUTǍ",
           "rows": {
             "grossSalary": "Salariu Brut",
@@ -53,7 +52,6 @@
           "title": "ANGAJAT"
         },
         "employer": {
-          "currency": "RON",
           "foreignCurrency": "VALUTǍ",
           "rows": {
             "totalSalary": "Salariu Complet",
@@ -63,7 +61,6 @@
           "title": "ANGAJATOR"
         },
         "totalTaxes": {
-          "currency": "RON",
           "foreignCurrency": "VALUTǍ",
           "rows": {
             "employeePaysState": "Angajatul platește statului",

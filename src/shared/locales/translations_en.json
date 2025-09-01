@@ -36,24 +36,22 @@
       },
       "tables": {
         "employee": {
-          "currency": "RON",
           "foreignCurrency": "CURRENCY",
           "rows": {
             "grossSalary": "Gross Salary",
             "healthInsurance": "Health Insurance",
-            "healthInsuranceShort": "CASS",
+            "healthInsuranceShort": "HI",
             "incomeTax": "Income Tax",
             "incomeTaxShort": "IT",
             "netSalary": "Net Salary",
             "personalDeduction": "Personal Deduction",
             "personalDeductionShort": "PD",
             "socialInsurance": "Social Insurance",
-            "socialInsuranceShort": "CAS"
+            "socialInsuranceShort": "SI"
           },
           "title": "EMPLOYEE"
         },
         "employer": {
-          "currency": "RON",
           "foreignCurrency": "CURRENCY",
           "rows": {
             "totalSalary": "Total Salary",
@@ -63,12 +61,11 @@
           "title": "EMPLOYER"
         },
         "totalTaxes": {
-          "currency": "RON",
           "foreignCurrency": "CURRENCY",
           "rows": {
             "employeePaysState": "Employee pays to state",
             "employerPaysState": "Employer pays to state",
-            "totalStateRevenue": "Total taxes collected by state"
+            "totalStateRevenue": "Total state revenue (taxes)"
           },
           "title": "TOTAL TAXES"
         }

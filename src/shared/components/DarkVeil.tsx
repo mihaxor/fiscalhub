@@ -182,7 +182,7 @@ const DarkVeil: React.FC<Props> = (props) => {
     }, []);
 
     if (!mounted) return null;
-    if (theme === 'light') return null;
+    if (theme === 'light' || process.env.NODE_ENV === 'development') return null;
 
     return (
         <div className='fixed inset-0 -z-10'>
