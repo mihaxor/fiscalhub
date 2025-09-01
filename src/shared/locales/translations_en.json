@@ -1,5 +1,87 @@
 {
-  "header": {
-    "subTitle": "Complete fiscal calculator: salaries, micro-enterprises, LLCs, dividends, and social contributions."
+  "general": {
+    "calculationBtn": "Calculate",
+    "calculationType": {
+      "grossToNet": "GROSS - to - NET",
+      "label": "Calculate from:",
+      "netToGross": "NET - to - GROSS"
+    },
+    "currency": "Currency",
+    "currencyDesc": "automatically updated exchange rate, source ",
+    "footer": {
+      "disclaimer": "All rights reserved."
+    },
+    "header": {
+      "subTitle": "Complete fiscal calculator: salaries, micro-enterprises, LLCs, dividends, and social contributions."
+    },
+    "inputError": "The value must be a number.",
+    "label": "Value",
+    "languageDesc": "translation",
+    "period": {
+      "day": "day",
+      "hour": "hour",
+      "month": "month",
+      "year": "year"
+    }
+  },
+  "overview": {
+    "circularProgress": {
+      "income": "Income",
+      "taxes": "Taxes"
+    },
+    "employment": {
+      "summary": {
+        "employerSpendsText": "the employer spends",
+        "netPaymentText": "To pay a net salary of"
+      },
+      "tables": {
+        "employee": {
+          "foreignCurrency": "CURRENCY",
+          "rows": {
+            "grossSalary": "Gross Salary",
+            "healthInsurance": "Health Insurance",
+            "healthInsuranceShort": "HI",
+            "incomeTax": "Income Tax",
+            "incomeTaxShort": "IT",
+            "netSalary": "Net Salary",
+            "personalDeduction": "Personal Deduction",
+            "personalDeductionShort": "PD",
+            "socialInsurance": "Social Insurance",
+            "socialInsuranceShort": "SI"
+          },
+          "title": "EMPLOYEE"
+        },
+        "employer": {
+          "foreignCurrency": "CURRENCY",
+          "rows": {
+            "totalSalary": "Total Salary",
+            "workInsurance": "Work Insurance Contribution",
+            "workInsuranceShort": "WIC"
+          },
+          "title": "EMPLOYER"
+        },
+        "totalTaxes": {
+          "foreignCurrency": "CURRENCY",
+          "rows": {
+            "employeePaysState": "Employee pays to state",
+            "employerPaysState": "Employer pays to state",
+            "totalStateRevenue": "Total state revenue (taxes)"
+          },
+          "title": "TOTAL TAXES"
+        }
+      }
+    },
+    "payRateOverview": {
+      "periods": {
+        "day": "DAY",
+        "hour": "HOUR",
+        "month": "MONTH",
+        "year": "YEAR"
+      },
+      "tableHeaders": {
+        "currency": "CURRENCY",
+        "rate": "RATE"
+      }
+    }
   }
 }

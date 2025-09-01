@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
-@plugin '../../../hero.ts';
-@source '../../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@plugin '../../hero.ts';
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -13,4 +13,8 @@
     --color-fiscal-success: #17c964;
     --color-fiscal-warning: #f5a524;
     --color-fiscal-danger: #f31260;
+}
+
+html {
+    scroll-behavior: smooth;
 }

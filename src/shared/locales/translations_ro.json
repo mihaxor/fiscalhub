@@ -1,5 +1,87 @@
 {
-  "header": {
-    "subTitle": "Calculator fiscal complet: salarii, microîntreprinderi, SRL-uri, dividende și contribuții sociale."
+  "general": {
+    "calculationBtn": "Calculeazǎ",
+    "calculationType": {
+      "grossToNet": "GROSS - în - NET",
+      "label": "Se calculeazǎ din:",
+      "netToGross": "NET - în - GROSS"
+    },
+    "currency": "Valutǎ",
+    "currencyDesc": "curs actualizat automat, sursa ",
+    "footer": {
+      "disclaimer": "Toate drepturile rezervate."
+    },
+    "header": {
+      "subTitle": "Calculator fiscal complet: salarii, microîntreprinderi, SRL-uri, dividende și contribuții sociale."
+    },
+    "inputError": "Valoarea trebuie sa fie un numar.",
+    "label": "Valoare",
+    "languageDesc": "traducere",
+    "period": {
+      "day": "zi",
+      "hour": "orǎ",
+      "month": "lunǎ",
+      "year": "an"
+    }
+  },
+  "overview": {
+    "circularProgress": {
+      "income": "Venit",
+      "taxes": "Taxe"
+    },
+    "employment": {
+      "summary": {
+        "employerSpendsText": "angajatorul cheltuie",
+        "netPaymentText": "Pentru plata unui salariu net de"
+      },
+      "tables": {
+        "employee": {
+          "foreignCurrency": "VALUTǍ",
+          "rows": {
+            "grossSalary": "Salariu Brut",
+            "healthInsurance": "Asigurari Sociale de Sanatate",
+            "healthInsuranceShort": "CASS",
+            "incomeTax": "Impozit pe venit",
+            "incomeTaxShort": "IV",
+            "netSalary": "Salariu Net",
+            "personalDeduction": "Deducere personala",
+            "personalDeductionShort": "DP",
+            "socialInsurance": "Asigurari Sociale",
+            "socialInsuranceShort": "CAS"
+          },
+          "title": "ANGAJAT"
+        },
+        "employer": {
+          "foreignCurrency": "VALUTǍ",
+          "rows": {
+            "totalSalary": "Salariu Complet",
+            "workInsurance": "Contribuție Asiguratorie pentru Muncǎ",
+            "workInsuranceShort": "CAM"
+          },
+          "title": "ANGAJATOR"
+        },
+        "totalTaxes": {
+          "foreignCurrency": "VALUTǍ",
+          "rows": {
+            "employeePaysState": "Angajatul platește statului",
+            "employerPaysState": "Angajatorul platește statului",
+            "totalStateRevenue": "Total taxe încasate de stat"
+          },
+          "title": "TOTAL TAXE"
+        }
+      }
+    },
+    "payRateOverview": {
+      "periods": {
+        "day": "ZI",
+        "hour": "ORǍ",
+        "month": "LUNǍ",
+        "year": "AN"
+      },
+      "tableHeaders": {
+        "currency": "VALUTǍ",
+        "rate": "RATǍ"
+      }
+    }
   }
 }

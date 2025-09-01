@@ -2,12 +2,12 @@ import React from 'react';
 import type {Metadata, Viewport} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import DarkVeil from '@/shared/components/DarkVeil';
+import {TranslationsProvider} from '@/shared/providers/TranslationsProvider';
 import {Providers} from '@/app/[locale]/provider';
 import i18nConfig, {LanguageType} from '@/config/i18n';
 import {dir} from 'i18next';
-import './globals.css';
-import {TranslationsProvider} from '@/shared/components/TranslationsProvider';
 import initTranslations from '@/app/i18n';
+import '@/app/globals.css';
 
 const geistSans = Geist({
     variable: '--font-geist-sans',

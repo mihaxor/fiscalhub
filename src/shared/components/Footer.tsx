@@ -1,11 +1,10 @@
-'use client';
-
 import {Divider} from '@heroui/divider';
 import Image from 'next/image';
 import Logo from '../../../public/logo.png';
 import ThemeSwitch from '@/shared/components/ThemeSwitch';
+import {TFunction} from 'i18next';
 
-const Footer = () => {
+const Footer = ({t}: { t: TFunction }) => {
     const currentYear = new Date().getFullYear();
     const appVersion = process.env.NEXT_PUBLIC_APP_VERSION;
 
@@ -24,9 +23,11 @@ const Footer = () => {
             </div>
             <div className='w-full flex flex-col justify-center'>
                 <div className='text-center text-sm'>
-                    <strong>© {currentYear} <a href='https://linkedin.com/in/catalin-glavan' className='hover:text-fiscal-primary'>Catalin Glavan</a> |
-                        <a href='mailto:glmihaicata@gmail.com' className='hover:text-fiscal-primary'> glmihaicata@gmail.com</a></strong> <br />
-                    All rights reserved.
+                    <strong>© {currentYear} <a href='https://linkedin.com/in/catalin-glavan'
+                                               className='hover:text-fiscal-primary'>Catalin Glavan</a> |
+                        <a href='mailto:glmihaicata@gmail.com'
+                           className='hover:text-fiscal-primary'> glmihaicata@gmail.com</a></strong> <br />
+                    {t('general.footer.disclaimer')}
                 </div>
             </div>
         </footer>
