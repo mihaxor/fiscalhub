@@ -1,8 +1,9 @@
 'use client';
 
 import {Switch} from '@heroui/switch';
-import {JSX, SVGProps, useEffect, useState} from 'react';
+import React, {JSX, SVGProps, useEffect, useState} from 'react';
 import {useTheme} from 'next-themes'
+import {Spinner} from '@heroui/spinner';
 
 type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 type ThemeSwitchType = {
@@ -51,7 +52,7 @@ const ThemeSwitch = ({type}: ThemeSwitchType) => {
         setMounted(true);
     }, []);
 
-    if (!mounted) return null;
+    if (!mounted) return <div className='w-10 h-10'></div>;
 
     return (({type}: ThemeSwitchType) => {
         switch (type) {
