@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@heroui/react": "^2.8.2",
+    "@heroui/react": "^2.8.3",
     "framer-motion": "^12.23.12",
     "gsap": "^3.13.0",
     "lodash": "^4.17.21",
