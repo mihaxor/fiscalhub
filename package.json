@@ -1,7 +1,7 @@
 {
   "name": "fiscalhub",
   "type": "module",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "private": true,
   "scripts": {
     "local": "open http://localhost:3000 && yarn dev",
