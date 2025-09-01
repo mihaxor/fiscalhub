@@ -8,9 +8,9 @@ import React from 'react';
 import initTranslations from '@/app/i18n';
 import {LanguageType} from '@/config/i18n';
 
-const Home = async ({params}: { params: Promise<Record<string, LanguageType>> }) => {
+const Home = async ({params}: { params: Promise<{ locale: string }> }) => {
     const {locale} = await params;
-    const {t} = await initTranslations(locale);
+    const {t} = await initTranslations(locale as LanguageType);
 
     return (
         <div className='max-w-[1920px] w-full flex flex-col gap-10 sm:gap-20 mt-5 md:mx-10'>

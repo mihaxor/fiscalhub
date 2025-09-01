@@ -36,12 +36,12 @@ export function generateStaticParams() {
 
 type RootLayoutProps = Readonly<{
     children: React.ReactNode;
-    params: Promise<Record<string, LanguageType>>
+    params: Promise<{ locale: string }>
 }>
 
 const RootLayout = async ({children, params}: RootLayoutProps) => {
     const {locale} = await params;
-    const {resources} = await initTranslations(locale);
+    const {resources} = await initTranslations(locale as LanguageType);
 
     return (
         <html lang={locale} dir={dir(locale)} data-scroll-behavior='smooth' suppressHydrationWarning>
@@ -49,7 +49,7 @@ const RootLayout = async ({children, params}: RootLayoutProps) => {
 
         <Providers>
             <TranslationsProvider
-                locale={locale}
+                locale={locale as LanguageType}
                 resources={resources}>
                 <DarkVeil />
                 {children}
