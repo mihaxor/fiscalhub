@@ -47,11 +47,15 @@ const LanguageDropdown = () => {
         }
     };
 
+    const SelectedIcon = languages[selectedValue as LanguageType].icon;
+
     return (
-        <Dropdown>
+        <Dropdown
+            showArrow
+            classNames={{content: 'min-w-[160px]'}}>
             <DropdownTrigger>
-                <Button className='capitalize' variant='bordered' radius='sm'>
-                    {languages[selectedValue as LanguageType].placeholder}
+                <Button variant='bordered' radius='sm' isIconOnly size='md'>
+                    <SelectedIcon />
                 </Button>
             </DropdownTrigger>
             <DropdownMenu
@@ -61,8 +65,12 @@ const LanguageDropdown = () => {
                 selectionMode='single'
                 variant='flat'
                 onSelectionChange={(keys) => setSelectedKeys((new Set(Array.from(keys as Set<LanguageType>))))}>
-                {Object.keys(languages).map((lang) =>
-                    <DropdownItem key={lang}>{languages[lang as LanguageType].placeholder}</DropdownItem>)}
+                {Object.keys(languages).map((lang) => {
+                    const LangIcon = languages[lang as LanguageType].icon;
+
+                    return <DropdownItem key={lang} description={'translation'} startContent={<div><LangIcon />
+                    </div>}>{languages[lang as LanguageType].placeholder}</DropdownItem>
+                })}
             </DropdownMenu>
         </Dropdown>
     )

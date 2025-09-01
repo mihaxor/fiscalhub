@@ -12,7 +12,7 @@ const Header = ({t}: { t: TFunction }) =>
             <Link href='/'>
                 <Image priority src={Logo} alt={'logo'} width={49} height={49} />
             </Link>
-            <div className='inline-flex gap-2'>
+            <div className='inline-flex items-center gap-2'>
                 <LanguageDropdown />
                 <ThemeSwitch type='button' />
             </div>
