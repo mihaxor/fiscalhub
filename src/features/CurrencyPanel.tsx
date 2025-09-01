@@ -9,6 +9,7 @@ import {Button} from '@heroui/button';
 import {ArrowLeftRight, ArrowRightLeft} from 'lucide-react';
 import {CurrencySymbol, RateType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
+import {useTranslation} from 'react-i18next';
 
 const DEFAULT_CURRENCY_OPTIONS = [
     'RON', 'AED', 'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK',
@@ -17,7 +18,7 @@ const DEFAULT_CURRENCY_OPTIONS = [
     'SGD', 'THB', 'TRY', 'UAH', 'USD', 'XAU', 'XDR', 'ZAR', 'EGP'
 ].sort((a, b) => a.localeCompare(b));
 
-const CurrencyPanel = ({}) => {
+const CurrencyPanel = () => {
     const {data: rates, isLoading} = useContext(RatesContext);
     const {
         eur,
@@ -33,6 +34,7 @@ const CurrencyPanel = ({}) => {
         calculateCurrency,
         calculateSwitchedCurrency
     } = useCurrency(rates);
+    const {t} = useTranslation();
 
     const handleValueChange =
         (e: React.ChangeEvent<HTMLInputElement>, cb: (
@@ -63,7 +65,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valoare'
+                    label={t('general.currency')}
                     value={eur}
                     variant='bordered'
                     onChange={(e) => handleValueChange(e, setEur)}
@@ -78,7 +80,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valuta'
+                    label={t('general.label')}
                     value={calculateCurrency?.EUR.toString()}
                     variant='faded'
                     isReadOnly={true}
@@ -94,7 +96,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valoare'
+                    label={t('general.currency')}
                     value={usd}
                     variant='bordered'
                     onChange={(e) => handleValueChange(e, setUsd)}
@@ -109,7 +111,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valuta'
+                    label={t('general.label')}
                     value={calculateCurrency?.USD.toString()}
                     variant='faded'
                     isReadOnly={true}
@@ -125,7 +127,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valoare'
+                    label={t('general.currency')}
                     value={gbp}
                     variant='bordered'
                     onChange={(e) => handleValueChange(e, setGbp)}
@@ -140,7 +142,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valuta'
+                    label={t('general.label')}
                     value={calculateCurrency?.GBP.toString()}
                     variant='faded'
                     isReadOnly={true}
@@ -156,7 +158,7 @@ const CurrencyPanel = ({}) => {
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valoare'
+                    label={t(`general.${currency.left.currency !== 'RON' ? 'currency' : 'label'}`)}
                     variant='bordered'
                     value={calculateSwitchedCurrency?.leftValue?.toString()}
                     onChange={(e) => {
@@ -197,14 +199,15 @@ const CurrencyPanel = ({}) => {
                         </div>
                     }
                 />
-                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat' onPress={handleSwapCurrency}>
+                <Button size='lg' radius='sm' isIconOnly aria-label='Switcw-currency' color='default' variant='flat'
+                        onPress={handleSwapCurrency}>
                     {lastEditedSide === 'left' ? <ArrowLeftRight /> : <ArrowRightLeft />}
                 </Button>
                 <Input
                     color='primary'
                     size='sm'
                     type='number'
-                    label='Valoare'
+                    label={t(`general.${currency.right.currency !== 'RON' ? 'currency' : 'label'}`)}
                     variant='bordered'
                     value={calculateSwitchedCurrency?.rightValue?.toString()}
                     onChange={(e) => {
@@ -248,7 +251,7 @@ const CurrencyPanel = ({}) => {
                 />
             </div>
             <div className='flex flex-row justify-end gap-4 w-full'>
-                <p className='text-xs text-default-400'>curs actualizat automat, sursa <strong>BNR</strong>.</p>
+                <p className='text-xs text-default-400'>{t('general.currencyDesc')} <strong>BNR</strong>.</p>
             </div>
         </div>
     )

@@ -18,6 +18,7 @@ import {
 import {StarBorder} from '@/shared/components/StarBorder';
 import {useRouter} from 'next/navigation';
 import {toAllPeriods} from '@/shared/libs/transform';
+import {useTranslation} from 'react-i18next';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
@@ -42,6 +43,8 @@ const FiscalPanel = () => {
     const [value, setValue] = useState<number>(fiscalInputs.value);
 
     const [isValid, setIsValid] = useState<boolean>(true);
+
+    const {t} = useTranslation();
 
     const checkValidity = (value: number) => !!value && value > 0;
 
@@ -85,7 +88,7 @@ const FiscalPanel = () => {
                     size='md'
                     maxLength={7}
                     step={1}
-                    errorMessage='Valoarea trebuie sa fie un numar.'
+                    errorMessage={t('general.inputError')}
                     isInvalid={!isValid}
                     startContent={
                         <div className='pointer-events-none flex items-center'>
@@ -114,7 +117,7 @@ const FiscalPanel = () => {
                             </select>
                         </div>
                     }
-                    label='Valoare'
+                    label={t('general.label')}
                     placeholder={value.toString()}
                     onValueChange={(value) => handleValueChange(value)}
                     // onChange={(e) => setValue(Number((e as ChangeEvent<HTMLInputElement>).target?.value))}
@@ -164,7 +167,7 @@ const FiscalPanel = () => {
             </CheckboxGroup>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
                 <Chip variant='flat' radius='md' size='lg' className='text-default-500 text-[15px] h-12'>
-                    Se calculeaza din:
+                    {t('general.calculationType.label')}
                 </Chip>
                 <Dropdown backdrop='blur' classNames={{content: 'min-w-max'}}>
                     <DropdownTrigger>
@@ -178,14 +181,14 @@ const FiscalPanel = () => {
                         selectionMode='single'
                         variant='flat'
                         onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}>
-                        <DropdownItem key='net' textValue='NET'>NET &nbsp;{'->'}&nbsp; GROSS</DropdownItem>
-                        <DropdownItem key='gross' textValue='GROSS'>GROSS &nbsp;{'->'}&nbsp; NET</DropdownItem>
+                        <DropdownItem key='net' textValue='NET'>{t('general.calculationType.netToGross')}</DropdownItem>
+                        <DropdownItem key='gross' textValue='GROSS'>{t('general.calculationType.grossToNet')}</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
             <StarBorder as='div'>
                 <Button className='w-full' variant='solid' color='primary' size='lg' radius='md'
-                        onPress={handleFiscalAction}>Calculeaza</Button>
+                        onPress={handleFiscalAction}>{t('general.calculationBtn')}</Button>
             </StarBorder>
         </div>
     )

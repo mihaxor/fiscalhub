@@ -28,7 +28,7 @@ const Header = ({t}: { t: TFunction }) =>
         </div>
         <div className='flex justify-center'>
             <BlurText
-                text={t('header.subTitle')}
+                text={t('general.header.subTitle')}
                 delay={100}
                 animateBy='words'
                 direction='top'

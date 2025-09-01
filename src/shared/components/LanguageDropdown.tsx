@@ -8,7 +8,7 @@ import i18nConfig, {languages, LanguageType} from '@/config/i18n';
 import {usePathname, useRouter} from 'next/navigation';
 
 const LanguageDropdown = () => {
-    const {i18n} = useTranslation();
+    const {t, i18n} = useTranslation();
     const currentLocale = i18n.language as LanguageType;
     const router = useRouter();
     const currentPathname = usePathname();
@@ -52,7 +52,7 @@ const LanguageDropdown = () => {
     return (
         <Dropdown
             showArrow
-            classNames={{content: 'min-w-[160px]'}}>
+            classNames={{content: 'min-w-[180px]'}}>
             <DropdownTrigger>
                 <Button variant='bordered' radius='sm' isIconOnly size='md'>
                     <SelectedIcon />
@@ -68,7 +68,7 @@ const LanguageDropdown = () => {
                 {Object.keys(languages).map((lang) => {
                     const LangIcon = languages[lang as LanguageType].icon;
 
-                    return <DropdownItem key={lang} description={'translation'} startContent={<div><LangIcon />
+                    return <DropdownItem key={lang} description={t('general.languageDesc')} startContent={<div><LangIcon />
                     </div>}>{languages[lang as LanguageType].placeholder}</DropdownItem>
                 })}
             </DropdownMenu>

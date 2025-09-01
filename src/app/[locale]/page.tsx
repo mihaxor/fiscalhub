@@ -24,7 +24,7 @@ const Home = async ({params}: { params: Promise<{ locale: string }> }) => {
                     <FiscalOverview />
                 </main>
             </AnimatedContent>
-            <Footer />
+            <Footer t={t} />
         </div>
     );
 }

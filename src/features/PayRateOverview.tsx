@@ -8,11 +8,13 @@ import {transformToRo} from '@/shared/libs/transform';
 import {Spinner} from '@heroui/spinner';
 import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dropdown';
 import {Button} from '@heroui/button';
+import {useTranslation} from 'react-i18next';
 
 const PayRateOverview = () => {
     const {data: rates, isLoading} = useContext(RatesContext);
     const {convertTo} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
+    const {t} = useTranslation();
 
     const [selectedCurrencyKeys, setSelectedCurrencyKeys] = useState<Set<RateType>>(new Set(['EUR']));
     const selectedCurrencyValue = useMemo(() => Array.from(selectedCurrencyKeys)[0], [selectedCurrencyKeys]);
@@ -30,10 +32,10 @@ const PayRateOverview = () => {
     return (
         <Table layout='auto' isCompact={false} aria-label='Table for pay rates overview'>
             <TableHeader>
-                <TableColumn>RATA</TableColumn>
+                <TableColumn>{t('overview.payRateOverview.tableHeaders.rate')}</TableColumn>
                 <TableColumn>RON</TableColumn>
                 <TableColumn align='center' className='p-0' width={1}>
-                    VALUTA
+                    {t('overview.payRateOverview.tableHeaders.currency')}
                     <Dropdown classNames={{content: 'min-w-max'}}>
                         <DropdownTrigger>
                             <Button className='text-fiscal-warning text-small min-w-0 p-4 ml-2'
@@ -55,7 +57,7 @@ const PayRateOverview = () => {
             <TableBody>
                 {Object.keys(fiscalInputs.periods).map((key) => (
                     <TableRow key={key}>
-                        <TableCell>{key.toUpperCase()}</TableCell>
+                        <TableCell>{t(`overview.payRateOverview.periods.${key.toLowerCase()}`)}</TableCell>
                         <TableCell>{transformToRo(convertToRon(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency), key === 'hour' ? 2 : 0)}</TableCell>
                         <TableCell>{transformToRo(convertTo(fiscalInputs.periods[key as keyof typeof fiscalInputs.periods], fiscalInputs.currency, selectedCurrencyValue), key === 'hour' ? 2 : 0)}</TableCell>
                     </TableRow>
