@@ -36,7 +36,7 @@ export function generateStaticParams() {
 
 type RootLayoutProps = Readonly<{
     children: React.ReactNode;
-    params: Record<'locale', LanguageType>
+    params: Promise<Record<string, LanguageType>>
 }>
 
 const RootLayout = async ({children, params}: RootLayoutProps) => {

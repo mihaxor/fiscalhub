@@ -8,7 +8,7 @@ import React from 'react';
 import initTranslations from '@/app/i18n';
 import {LanguageType} from '@/config/i18n';
 
-const Home = async ({params}: { params: Record<string, LanguageType> }) => {
+const Home = async ({params}: { params: Promise<Record<string, LanguageType>> }) => {
     const {locale} = await params;
     const {t} = await initTranslations(locale);
 
