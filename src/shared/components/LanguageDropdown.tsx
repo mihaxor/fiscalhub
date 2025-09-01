@@ -5,12 +5,11 @@ import {Button} from '@heroui/button';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import i18nConfig, {languages, LanguageType} from '@/config/i18n';
-import {usePathname, useRouter} from 'next/navigation';
+import {usePathname} from 'next/navigation';
 
 const LanguageDropdown = () => {
     const {t, i18n} = useTranslation();
     const currentLocale = i18n.language as LanguageType;
-    const router = useRouter();
     const currentPathname = usePathname();
     const isInitialMount = useRef(true);
 
@@ -33,18 +32,18 @@ const LanguageDropdown = () => {
         const expires = date.toUTCString();
         document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
 
-        console.log('Cookie set');
+        let newUrl: string;
 
         if (
             currentLocale === i18nConfig.defaultLocale &&
             !i18nConfig.prefixDefault
         ) {
-            router.replace('/' + newLocale + currentPathname);
+            newUrl = '/' + newLocale + currentPathname;
         } else {
-            router.replace(
-                currentPathname.replace(`/${currentLocale}`, `/${newLocale}`)
-            );
+            newUrl = currentPathname.replace(`/${currentLocale}`, `/${newLocale}`);
         }
+
+        window.location.href = newUrl;
     };
 
     const SelectedIcon = languages[selectedValue as LanguageType].icon;
