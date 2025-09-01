@@ -16,6 +16,10 @@
     },
     "inputError": "The value must be a number.",
     "label": "Value",
+    "language": {
+      "en": "English",
+      "ro": "Romanian"
+    },
     "languageDesc": "translation",
     "period": {
       "day": "day",
