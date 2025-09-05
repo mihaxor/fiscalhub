@@ -6,6 +6,8 @@
 
 The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.vercel.app/)
 
+<img src="assets/overview.png" alt="Overview"/>
+
 ## ✨ Main Features
 
 ### 🏢 Complete Fiscal Calculator
@@ -112,12 +114,11 @@ NEXT_APP_BNR_RATES_API_URL=your_BNR_API_here
 - **CASS (Health)**: 10%
 - **IV (Income Tax)**: 10%
 - **CAM (Unemployment)**: 2.25%
-- **Personal Deduction**: Configurable
 
 ### Contract Types
 - ✅ **CIM** - Individual Employment Contract
-- ✅ **SRL** - Limited Liability Company
-- ✅ **MICRO 3** - Micro-enterprise (3% tax)
+- 🚧 **SRL** - Limited Liability Company
+- 🚧 **MICRO 3** - Micro-enterprise (3% tax)
 - 🚧 **MICRO 1** - Micro-enterprise (1% tax)
 - 🚧 **PFA** - Authorized Natural Person
 
