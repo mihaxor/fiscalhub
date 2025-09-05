@@ -2,9 +2,9 @@
   "general": {
     "calculationBtn": "Calculate",
     "calculationType": {
-      "grossToNet": "GROSS - to - NET",
       "label": "Calculate from:",
-      "netToGross": "NET - to - GROSS"
+      "gross": "GROSS - to - NET",
+      "net": "NET - to - GROSS"
     },
     "currency": "Currency",
     "currencyDesc": "automatically updated exchange rate, source ",

@@ -5,7 +5,7 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from '@heroui/dro
 import {Button} from '@heroui/button';
 import {Checkbox, CheckboxGroup} from '@heroui/checkbox';
 import {Chip} from '@heroui/chip';
-import {useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import {
@@ -63,20 +63,38 @@ const FiscalPanel = () => {
         setValue(Number(value));
     }
 
-    const handleFiscalAction = () => {
-        if (checkValidity(value)) {
+    const handleFiscalAction = (e?: React.KeyboardEvent<HTMLInputElement>) => {
+        const directValue = e && !Number.isNaN((e.target as HTMLInputElement).value) ?
+            Number((e.target as HTMLInputElement).value.replace(/,/g, '')) : value;
+        const validity = checkValidity(directValue);
+
+        if (validity) {
             setFiscalInputs({
-                value,
+                value: directValue,
                 currency: selectedCurrency,
                 period: selectedPeriodValue[0],
-                periods: toAllPeriods(value, selectedPeriodValue[0]),
+                periods: toAllPeriods(directValue, selectedPeriodValue[0]),
                 fromType: selectedModeValue.toLowerCase() as FiscalType,
                 calculationType: selectedCalcTypes.length ? orderCalcTypes(selectedCalcTypes) : [],
             });
+            setIsValid(validity);
 
             router.push('#result');
         } else setIsValid(false);
     }
+
+    const handleCheckboxKeyDown = (e: React.KeyboardEvent, checkboxValue: FiscalCalculationType) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            const isCurrentlySelected = selectedCalcTypes.includes(checkboxValue);
+            let newSelectedTypes: FiscalCalculationType[];
+
+            if (isCurrentlySelected)
+                newSelectedTypes = selectedCalcTypes.filter(type => type !== checkboxValue);
+            else newSelectedTypes = [...selectedCalcTypes, checkboxValue];
+
+            setSelectedCalcTypes(newSelectedTypes);
+        }
+    };
 
     return (
         <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
@@ -87,7 +105,6 @@ const FiscalPanel = () => {
                     variant='flat'
                     size='md'
                     maxLength={7}
-                    step={1}
                     errorMessage={t('general.inputError')}
                     isInvalid={!isValid}
                     startContent={
@@ -120,13 +137,7 @@ const FiscalPanel = () => {
                     label={t('general.label')}
                     placeholder={value.toString()}
                     onValueChange={(value) => handleValueChange(value)}
-                    // onChange={(e) => setValue(Number((e as ChangeEvent<HTMLInputElement>).target?.value))}
-                    // onKeyDown={(e) => {
-                    //     if (e.key === 'Enter') {
-                    //         e.preventDefault();
-                    //         setValue(Number((e.target as HTMLInputElement)?.value));
-                    //     }
-                    // }}
+                    onKeyDown={(e) => e.key === 'Enter' && handleFiscalAction(e)}
                 />
                 <div className='self-start flex items-center gap-4'>/
                     <Dropdown
@@ -134,7 +145,7 @@ const FiscalPanel = () => {
                         classNames={{content: 'min-w-max'}}>
                         <DropdownTrigger>
                             <Button className='w-[140px] sm:w-[180px] h-14' variant='faded' radius='md'>
-                                {selectedPeriodValue}
+                                {t(`general.period.${selectedPeriodValue}`)}
                             </Button>
                         </DropdownTrigger>
                         <DropdownMenu
@@ -143,26 +154,27 @@ const FiscalPanel = () => {
                             selectionMode='single'
                             variant='flat'
                             onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}>
-                            <DropdownItem key='hour'>hour</DropdownItem>
-                            <DropdownItem key='day'>day</DropdownItem>
-                            <DropdownItem key='month'>month</DropdownItem>
-                            <DropdownItem key='year'>year</DropdownItem>
+                            <DropdownItem key='hour'>{t('general.period.hour')}</DropdownItem>
+                            <DropdownItem key='day'>{t('general.period.day')}</DropdownItem>
+                            <DropdownItem key='month'>{t('general.period.month')}</DropdownItem>
+                            <DropdownItem key='year'>{t('general.period.year')}</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </div>
             </div>
             <CheckboxGroup
                 color='primary'
-                defaultValue={selectedCalcTypes}
+                value={selectedCalcTypes}
                 orientation='horizontal'
-                onValueChange={e => setSelectedCalcTypes(e as FiscalCalculationType[])}
-            >
+                onValueChange={e => setSelectedCalcTypes(e as FiscalCalculationType[])}>
                 <div className='flex flex-row items-center justify-between w-full'>
-                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.CIM}>CIM</Checkbox>
-                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.SRL}>SRL</Checkbox>
-                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.MICRO1}>MICRO 1</Checkbox>
-                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.MICRO3}>MICRO 3</Checkbox>
-                    <Checkbox size={isMobile ? 'sm' : 'md'} value={FiscalCalculationType.PFA}>PFA</Checkbox>
+                    {Object.values(FiscalCalculationType).map((type: FiscalCalculationType, index) =>
+                        <Checkbox key={index}
+                                  size={isMobile ? 'sm' : 'md'}
+                                  value={type}
+                                  onKeyDown={(e) => handleCheckboxKeyDown(e, type)}>
+                            {type}
+                        </Checkbox>)}
                 </div>
             </CheckboxGroup>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
@@ -172,7 +184,7 @@ const FiscalPanel = () => {
                 <Dropdown backdrop='blur' classNames={{content: 'min-w-max'}}>
                     <DropdownTrigger>
                         <Button className='w-full text-default-500' variant='faded' size='lg' radius='md'>
-                            {selectedModeValue.toUpperCase()}
+                            {t(`general.calculationType.${selectedModeValue.toLowerCase()}`)}
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu
@@ -181,14 +193,14 @@ const FiscalPanel = () => {
                         selectionMode='single'
                         variant='flat'
                         onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}>
-                        <DropdownItem key='net' textValue='NET'>{t('general.calculationType.netToGross')}</DropdownItem>
-                        <DropdownItem key='gross' textValue='GROSS'>{t('general.calculationType.grossToNet')}</DropdownItem>
+                        <DropdownItem key='net' textValue='NET'>{t('general.calculationType.net')}</DropdownItem>
+                        <DropdownItem key='gross' textValue='GROSS'>{t('general.calculationType.gross')}</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
             <StarBorder as='div'>
                 <Button className='w-full' variant='solid' color='primary' size='lg' radius='md'
-                        onPress={handleFiscalAction}>{t('general.calculationBtn')}</Button>
+                        onPress={() => handleFiscalAction()}>{t('general.calculationBtn')}</Button>
             </StarBorder>
         </div>
     )

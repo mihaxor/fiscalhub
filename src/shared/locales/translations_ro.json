@@ -2,9 +2,9 @@
   "general": {
     "calculationBtn": "Calculeazǎ",
     "calculationType": {
-      "grossToNet": "GROSS - în - NET",
       "label": "Se calculeazǎ din:",
-      "netToGross": "NET - în - GROSS"
+      "gross": "BRUT - în - NET",
+      "net": "NET - în - BRUT"
     },
     "currency": "Valutǎ",
     "currencyDesc": "curs actualizat automat, sursa ",
