@@ -3,7 +3,6 @@
 import {Switch} from '@heroui/switch';
 import React, {JSX, SVGProps, useEffect, useState} from 'react';
 import {useTheme} from 'next-themes'
-import {Spinner} from '@heroui/spinner';
 
 type IconType = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 type ThemeSwitchType = {
