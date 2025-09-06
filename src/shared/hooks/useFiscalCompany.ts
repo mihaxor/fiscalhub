@@ -1,5 +1,10 @@
 import {useCallback} from 'react';
-import {FiscalCalculationType, FiscalCompany, FiscalCompanyResult} from '@/shared/hooks/fiscal.types';
+import {
+    FiscalCalculationType,
+    FiscalCompany,
+    FiscalCompanyEntityResult,
+    FiscalCompanyResult
+} from '@/shared/hooks/fiscal.types';
 
 const useFiscalCompany = () => {
     /**
@@ -15,7 +20,7 @@ const useFiscalCompany = () => {
      *
      * @returns {FiscalCompanyResult}
      */
-    const calcCompanyTaxes = useCallback((opts: FiscalCompany): FiscalCompanyResult => {
+    const calcCompany = useCallback((opts: FiscalCompany): FiscalCompanyResult => {
         const {
             grossAmount,
             calculationType,
@@ -39,107 +44,115 @@ const useFiscalCompany = () => {
         const DIVIDEND_TAX = 0.10;
         const PERSONAL_DEDUCTION = 2057.5;
 
-        let result: Partial<FiscalCompanyResult> = {
+        const result = calculationType
+            .reduce<Partial<Record<FiscalCalculationType, FiscalCompanyEntityResult>>>
+            ((acc, type) => {
+                switch (type) {
+                    case FiscalCalculationType.SRL:
+                    case FiscalCalculationType.PFA:
+                    case FiscalCalculationType.MICRO1:
+                    case FiscalCalculationType.MICRO3: {
+                        const monthlyRevenue = grossAmount;
+                        const annualRevenue = monthlyRevenue * 12;
+
+                        // Salariul minim obligatoriu
+                        const minSalaryMonthly = SALARIUL_MINIM_OBLIGATORIU;
+                        const minMandatorySalaryAnnual = minSalaryMonthly * 12;
+
+                        // Profit brut și impozit micro
+                        const grossProfit = annualRevenue - minMandatorySalaryAnnual;
+                        const incomeTax = annualRevenue * MICRO_TAX_3;
+
+                        // Profit net și dividende
+                        const netProfit = grossProfit - incomeTax;
+                        const dividendTax = netProfit * DIVIDEND_TAX;
+                        const totalCollectedProfit = netProfit - dividendTax;
+
+                        // CASS pe dividende
+                        const cassDividends = minSalaryMonthly * 24 * CASS_RATE;
+
+                        // Venit net din dividende
+                        const netDividendIncome = totalCollectedProfit - cassDividends;
+
+                        // Net salarial pentru salariul minim (cu DP fixă folosită în simulare)
+                        const monthlyCas = minSalaryMonthly * CAS_RATE;
+                        const monthlyCass = minSalaryMonthly * CASS_RATE;
+                        const taxBase = Math.max(
+                            0,
+                            minSalaryMonthly - monthlyCas - monthlyCass - PERSONAL_DEDUCTION
+                        );
+                        const monthlyIv = taxBase * IV_RATE;
+                        const monthlyNetSalary = minSalaryMonthly - monthlyCas - monthlyCass - monthlyIv;
+                        const plusMonthlyEarnedWages = monthlyNetSalary * 12;
+
+                        // Taxe din salariu (pentru donut)
+                        const salaryTaxesAnnual = (monthlyCas + monthlyCass + monthlyIv) * 12;
+
+                        // Total taxe (pentru donut) = impozit micro + impozit dividende + CASS dividende + taxe salariu
+                        const totalTaxes = incomeTax + dividendTax + cassDividends + salaryTaxesAnnual;
+
+                        // Total rămas pe an = dividende nete + salarii nete
+                        const totalRemainingPerYear = netDividendIncome + plusMonthlyEarnedWages;
+
+                        acc[type as FiscalCalculationType] = {
+                            grossIncome: {lei: roundValue(monthlyRevenue), currency: exchange(monthlyRevenue)},
+                            netIncome: {lei: roundValue(monthlyRevenue), currency: exchange(monthlyRevenue)},
+
+                            grossProfit: {lei: roundValue(grossProfit), currency: exchange(grossProfit)},
+                            incomeTax: {lei: roundValue(incomeTax), currency: exchange(incomeTax)},
+                            netProfit: {lei: roundValue(netProfit), currency: exchange(netProfit)},
+
+                            dividendTax: {lei: roundValue(dividendTax), currency: exchange(dividendTax)},
+                            totalCollectedProfit: {
+                                lei: roundValue(totalCollectedProfit),
+                                currency: exchange(totalCollectedProfit)
+                            },
+                            minMandatoryWage: {
+                                lei: roundValue(minMandatorySalaryAnnual),
+                                currency: exchange(minMandatorySalaryAnnual)
+                            },
+                            cass: {lei: roundValue(cassDividends), currency: exchange(cassDividends)},
+                            netDividendIncome: {
+                                lei: roundValue(netDividendIncome),
+                                currency: exchange(netDividendIncome)
+                            },
+                            plusMonthlyEarnedWages: {
+                                lei: roundValue(plusMonthlyEarnedWages),
+                                currency: exchange(plusMonthlyEarnedWages)
+                            },
+                            totalTaxes: {lei: roundValue(totalTaxes), currency: exchange(totalTaxes)},
+
+                            shares: {
+                                income: totalRemainingPerYear / annualRevenue,
+                                taxes: totalTaxes / annualRevenue,
+                            },
+                            totalRemainingPerYear,
+                            totalRemainingPerMonth: {
+                                lei: roundValue(totalRemainingPerYear / 12),
+                                currency: exchange(totalRemainingPerYear / 12)
+                            }
+                        } as FiscalCompanyEntityResult;
+                        break;
+                    }
+
+                    default:
+                        throw new Error(`The calculation type "${calculationType}" is not recognised.`);
+                }
+                return acc;
+            }, {});
+
+        return {
+            result,
             inputs: {
                 grossAmount,
                 calculationType,
                 deductibleExpenses,
-                incomeNorm: incomeNorm,
-            },
-        };
-
-        switch (calculationType) {
-
-            case FiscalCalculationType.MICRO3: {
-                const monthlyRevenue = grossAmount;
-                const annualRevenue = monthlyRevenue * 12;
-
-                // Salariul minim obligatoriu
-                const minSalaryMonthly = SALARIUL_MINIM_OBLIGATORIU;
-                const minMandatorySalaryAnnual = minSalaryMonthly * 12;
-
-                // Profit brut și impozit micro
-                const grossProfit = annualRevenue - minMandatorySalaryAnnual;
-                const incomeTax = annualRevenue * MICRO_TAX_3;
-
-                // Profit net și dividende
-                const netProfit = grossProfit - incomeTax;
-                const dividendTax = netProfit * DIVIDEND_TAX;
-                const totalCollectedProfit = netProfit - dividendTax;
-
-                // CASS pe dividende
-                const cassDividends = minSalaryMonthly * 24 * CASS_RATE;
-
-                // Venit net din dividende
-                const netDividendIncome = totalCollectedProfit - cassDividends;
-
-                // Net salarial pentru salariul minim (cu DP fixă folosită în simulare)
-                const monthlyCas = minSalaryMonthly * CAS_RATE;
-                const monthlyCass = minSalaryMonthly * CASS_RATE;
-                const taxBase = Math.max(
-                    0,
-                    minSalaryMonthly - monthlyCas - monthlyCass - PERSONAL_DEDUCTION
-                );
-                const monthlyIv = taxBase * IV_RATE;
-                const monthlyNetSalary = minSalaryMonthly - monthlyCas - monthlyCass - monthlyIv;
-                const plusMonthlyEarnedWages = monthlyNetSalary * 12;
-
-                // Taxe din salariu (pentru donut)
-                const salaryTaxesAnnual = (monthlyCas + monthlyCass + monthlyIv) * 12;
-
-                // Total taxe (pentru donut) = impozit micro + impozit dividende + CASS dividende + taxe salariu
-                const totalTaxes = incomeTax + dividendTax + cassDividends + salaryTaxesAnnual;
-
-                // Total rămas pe an = dividende nete + salarii nete
-                const totalRemainingPerYear = netDividendIncome + plusMonthlyEarnedWages;
-
-                result = {
-                    ...result,
-                    grossIncome: {lei: roundValue(monthlyRevenue), currency: exchange(monthlyRevenue)},
-                    netIncome: {lei: roundValue(monthlyRevenue), currency: exchange(monthlyRevenue)},
-
-                    grossProfit: {lei: roundValue(grossProfit), currency: exchange(grossProfit)},
-                    incomeTax: {lei: roundValue(incomeTax), currency: exchange(incomeTax)},
-                    netProfit: {lei: roundValue(netProfit), currency: exchange(netProfit)},
-
-                    dividendTax: {lei: roundValue(dividendTax), currency: exchange(dividendTax)},
-                    totalCollectedProfit: {
-                        lei: roundValue(totalCollectedProfit),
-                        currency: exchange(totalCollectedProfit)
-                    },
-                    minMandatoryWage: {
-                        lei: roundValue(minMandatorySalaryAnnual),
-                        currency: exchange(minMandatorySalaryAnnual)
-                    },
-                    cass: {lei: roundValue(cassDividends), currency: exchange(cassDividends)},
-                    netDividendIncome: {lei: roundValue(netDividendIncome), currency: exchange(netDividendIncome)},
-                    plusMonthlyEarnedWages: {
-                        lei: roundValue(plusMonthlyEarnedWages),
-                        currency: exchange(plusMonthlyEarnedWages)
-                    },
-                    totalTaxes: {lei: roundValue(totalTaxes), currency: exchange(totalTaxes)},
-
-                    shares: {
-                        income: totalRemainingPerYear / annualRevenue,
-                        taxes: totalTaxes / annualRevenue,
-                    },
-                    totalRemainingPerYear,
-                    totalRemainingPerMonth: {
-                        lei: roundValue(totalRemainingPerYear / 12),
-                        currency: exchange(totalRemainingPerYear / 12)
-                    }
-                };
-                break;
+                incomeNorm
             }
-
-            default:
-                throw new Error(`The calculation type "${calculationType}" is not recognised.`);
-        }
-
-        return result as FiscalCompanyResult;
+        };
     }, []);
 
-    return {calcCompanyTaxes};
+    return {calcCompany};
 };
 
 export default useFiscalCompany;

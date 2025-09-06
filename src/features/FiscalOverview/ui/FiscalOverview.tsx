@@ -17,19 +17,13 @@ const FiscalOverview = () => {
     const {verifyCurrency} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
-    const {calcCompanyTaxes} = useFiscalCompany();
+    const {calcCompany} = useFiscalCompany();
     const isMobile = useMediaQuery('(max-width: 639px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
-
-        console.log('company calc', calcCompanyTaxes({
-            grossAmount: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
-            calculationType: FiscalCalculationType.MICRO3,
-            rate: currencyVerified.rate
-        }))
 
         return ({
             ...calcPayroll({
@@ -41,22 +35,27 @@ const FiscalOverview = () => {
         });
     }, [fiscalInputs]);
 
+    const companyResult = useMemo(() => {
+        const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
+
+        return ({
+            ...calcCompany({
+                grossAmount: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
+                calculationType: fiscalInputs.calculationType.filter(type => type !== FiscalCalculationType.CIM),
+                rate: currencyVerified.rate
+            }),
+            symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
+        });
+    }, [fiscalInputs]);
+
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode => {
         return types.map((type) =>
             <Tab key={type} title={type.toUpperCase()} className='p-0 sm:px-7.25 lg:px-10'>
-                {(() => {
-                    switch (type) {
-                        case FiscalCalculationType.CIM:
-                            return <FiscalCard calcType={type} handler={payrollResult} taxes={taxes} />;
-                        case FiscalCalculationType.SRL:
-                        case FiscalCalculationType.MICRO1:
-                        case FiscalCalculationType.MICRO3:
-                        case FiscalCalculationType.PFA:
-                            return <FiscalCard calcType={type} handler={payrollResult} taxes={taxes} />;
-                        default:
-                            return null;
-                    }
-                })()}
+                <FiscalCard
+                    calcType={type}
+                    taxes={taxes}
+                    handler={type === FiscalCalculationType.CIM ? payrollResult : companyResult}
+                />
             </Tab>
         )
     }

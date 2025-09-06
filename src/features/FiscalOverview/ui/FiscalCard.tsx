@@ -9,17 +9,22 @@ import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import PayRateOverview from '@/features/PayRateOverview';
 import {useTheme} from 'next-themes';
 import {useTranslation} from 'react-i18next';
-import {useTableOrganizer} from '@/shared/hooks/useTableOrganizer';
+import {useTableOrganizer} from '@/features/FiscalOverview/hooks/useTableOrganizer';
 
 const FiscalCard: React.FC<{
     calcType: FiscalCalculationType,
-    handler: FiscalPayrollResult | FiscalCompanyResult,
     taxes: Taxes
-}> = ({calcType, handler, taxes}) => {
+    handler: FiscalPayrollResult | FiscalCompanyResult,
+}> = ({calcType, taxes, handler}) => {
     const isMobile = useMediaQuery('(max-width: 480px)');
     const {theme} = useTheme();
     const {t} = useTranslation();
     const {getTableStyle} = useTableOrganizer(taxes, t);
+
+    const getShares = (type: FiscalCalculationType) => {
+        return type === FiscalCalculationType.CIM ? (handler as FiscalPayrollResult).shares :
+            (handler as FiscalCompanyResult).result[type]?.shares;
+    }
 
     return (
         <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
@@ -66,14 +71,14 @@ const FiscalCard: React.FC<{
                                 }}
                                 showValueLabel={true}
                                 strokeWidth={2.5}
-                                value={handler.shares.taxes * 100}
+                                value={getShares(calcType)!.taxes * 100}
                             />
                         </div>
                         <div className='flex justify-center gap-3'>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-warning text-black'>{t('overview.circularProgress.income')} {toPercentage(handler.shares.income)}</Chip>
+                                  className='bg-fiscal-warning text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(handler.shares.taxes)}</Chip>
+                                  className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(getShares(calcType)!.taxes)}</Chip>
                         </div>
                     </div>
                     <PayRateOverview />

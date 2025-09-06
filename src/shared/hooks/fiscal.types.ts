@@ -46,7 +46,7 @@ interface FiscalPayrollResult {
 
 interface FiscalCompany {
     grossAmount: number;
-    calculationType: FiscalCalculationType
+    calculationType: FiscalCalculationType[]
     deductibleExpenses?: number;
     incomeNorm?: number;
     rate: number;
@@ -56,10 +56,15 @@ interface FiscalCompany {
 interface FiscalCompanyResult {
     inputs: {
         grossAmount: number;
-        calculationType: string;
-        deductibleExpenses: number;
-        incomeNorm: number;
+        calculationType: FiscalCalculationType[];
+        deductibleExpenses?: number;
+        incomeNorm?: number;
     };
+    result: Partial<Record<FiscalCalculationType, FiscalCompanyEntityResult>>;
+    symbol?: CurrencySymbol
+}
+
+interface FiscalCompanyEntityResult {
     grossIncome: { lei: number; currency: number; };
     grossProfit?: { lei: number; currency: number; };
     netIncome: { lei: number; currency: number; };
@@ -82,8 +87,6 @@ interface FiscalCompanyResult {
     };
 }
 
-export type {FiscalCompany, FiscalCompanyResult};
-
 type RateType = 'RON'
     | 'AED' | 'AUD' | 'BGN' | 'BRL' | 'CAD' | 'CHF' | 'CNY' | 'CZK' | 'DKK' | 'EGP'
     | 'EUR' | 'GBP' | 'HKD' | 'HUF' | 'IDR' | 'ILS' | 'INR' | 'ISK' | 'JPY' | 'KRW'
@@ -97,4 +100,14 @@ export enum CurrencySymbol {
     USD = '$'
 }
 
-export type {FiscalType, FiscalPeriodType, FiscalPayroll, FiscalPayrollResult, RateType, Taxes};
+export type {
+    FiscalType,
+    FiscalPeriodType,
+    FiscalPayroll,
+    FiscalPayrollResult,
+    FiscalCompany,
+    FiscalCompanyResult,
+    FiscalCompanyEntityResult,
+    RateType,
+    Taxes
+};
