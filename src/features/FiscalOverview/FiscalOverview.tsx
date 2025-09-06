@@ -7,22 +7,29 @@ import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
 import {CurrencySymbol, FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
 import {RatesContext} from '@/shared/store/useRatesStore';
-import FiscalEmployment from './FiscalEmployment';
-import FiscalCompanySRL from './FiscalCompanySRL';
+import FiscalCard from './FiscalCard';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
+import useFiscalCompany from '@/shared/hooks/useFiscalCompany';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
     const {verifyCurrency} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
+    const {calcCompanyTaxes} = useFiscalCompany();
     const isMobile = useMediaQuery('(max-width: 639px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
+
+        console.log('company calc', calcCompanyTaxes({
+            grossAmount: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
+            calculationType: FiscalCalculationType.MICRO3,
+            rate: currencyVerified.rate
+        }))
 
         return ({
             ...calcPayroll({
@@ -40,15 +47,12 @@ const FiscalOverview = () => {
                 {(() => {
                     switch (type) {
                         case FiscalCalculationType.CIM:
-                            return <FiscalEmployment payroll={payrollResult} taxes={taxes} />;
+                            return <FiscalCard calcType={type} handler={payrollResult} taxes={taxes} />;
                         case FiscalCalculationType.SRL:
-                            return <FiscalCompanySRL />;
                         case FiscalCalculationType.MICRO1:
-                            return <FiscalCompanySRL />;
                         case FiscalCalculationType.MICRO3:
-                            return <FiscalCompanySRL />;
                         case FiscalCalculationType.PFA:
-                            return <FiscalCompanySRL />;
+                            return <FiscalCard calcType={type} handler={payrollResult} taxes={taxes} />;
                         default:
                             return null;
                     }

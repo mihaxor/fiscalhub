@@ -1,0 +1,86 @@
+import React from 'react';
+import {Card, CardBody} from '@heroui/card';
+import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
+import {FiscalCalculationType, FiscalCompanyResult, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
+import {CircularProgress} from '@heroui/progress';
+import {Chip} from '@heroui/chip';
+import {toPercentage} from '@/shared/libs/transform';
+import useMediaQuery from '@/shared/hooks/useMediaQuery';
+import PayRateOverview from '@/features/PayRateOverview';
+import {useTheme} from 'next-themes';
+import {useTranslation} from 'react-i18next';
+import {useTableOrganizer} from '@/shared/hooks/useTableOrganizer';
+
+const FiscalCard: React.FC<{
+    calcType: FiscalCalculationType,
+    handler: FiscalPayrollResult | FiscalCompanyResult,
+    taxes: Taxes
+}> = ({calcType, handler, taxes}) => {
+    const isMobile = useMediaQuery('(max-width: 480px)');
+    const {theme} = useTheme();
+    const {t} = useTranslation();
+    const {getTableStyle} = useTableOrganizer(taxes, t);
+
+    return (
+        <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
+            <CardBody
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-10'>
+                <div>
+                    {getTableStyle(calcType, handler, isMobile)
+                        .map((table, index) =>
+                            <Table key={index} layout='auto'
+                                   isCompact={false}
+                                   aria-label={`Table for ${table.header[0]}`}
+                                   className='mb-3 lg:w-150 xl:w-3xl'>
+                                <TableHeader>
+                                    {table.header.map((column, index) => (
+                                        <TableColumn key={index}
+                                                     width={index === 0 ? 340 : 100}>{column} </TableColumn>))}
+                                </TableHeader>
+                                <TableBody>
+                                    {table.rows.map((row, index) => (
+                                        <TableRow key={index} className={row.className}>
+                                            {row.cells.map((cell, cellIndex) => (
+                                                <TableCell key={cellIndex}>{cell}</TableCell>))}
+                                        </TableRow>))}
+                                </TableBody>
+                            </Table>)}
+                    {calcType === FiscalCalculationType.CIM &&
+                        <div className='px-6 text-small text-center'>{t('overview.employment.summary.netPaymentText')}
+                            <span
+                                className='text-fiscal-warning'> {(handler as FiscalPayrollResult).net.lei} lei</span>, {t('overview.employment.summary.employerSpendsText')}
+                            <span
+                                className='text-fiscal-primary'> {(handler as FiscalPayrollResult).totalEmployerCost.lei} lei</span>
+                        </div>}
+                </div>
+                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-evenly gap-3'>
+                    <div className='m-2 lg:m-20 flex flex-row lg:flex-col items-center justify-center gap-4'>
+                        <div>
+                            <CircularProgress
+                                aria-label='Circle Taxes Percentage'
+                                classNames={{
+                                    svg: 'w-40 h-40 drop-shadow-lg',
+                                    indicator: 'stroke-primary/90',
+                                    track: 'stroke-warning',
+                                    value: `text-2xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`,
+                                }}
+                                showValueLabel={true}
+                                strokeWidth={2.5}
+                                value={handler.shares.taxes * 100}
+                            />
+                        </div>
+                        <div className='flex justify-center gap-3'>
+                            <Chip classNames={{content: 'font-semibold'}}
+                                  className='bg-fiscal-warning text-black'>{t('overview.circularProgress.income')} {toPercentage(handler.shares.income)}</Chip>
+                            <Chip classNames={{content: 'font-semibold'}}
+                                  className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(handler.shares.taxes)}</Chip>
+                        </div>
+                    </div>
+                    <PayRateOverview />
+                </div>
+            </CardBody>
+        </Card>
+    );
+}
+
+export default FiscalCard;

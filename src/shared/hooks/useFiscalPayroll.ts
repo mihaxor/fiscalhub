@@ -96,8 +96,8 @@ const useFiscalPayroll = () => {
             taxesEmployer: {lei: roundValue(taxesEmployer), currency: exchange(taxesEmployer)},
             taxesState: {lei: roundValue(taxesState), currency: exchange(taxesState)},
             shares: {
-                employee: netLei / totalCost,
-                state: taxesState / totalCost
+                income: netLei / totalCost,
+                taxes: taxesState / totalCost
             }
         };
     }, []);

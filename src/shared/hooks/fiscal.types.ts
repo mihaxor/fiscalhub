@@ -40,9 +40,49 @@ interface FiscalPayrollResult {
     taxesEmployee: { lei: number; currency: number; };
     taxesEmployer: { lei: number; currency: number; };
     taxesState: { lei: number; currency: number; };
-    shares: { employee: number; state: number; };
+    shares: { income: number; taxes: number; };
     symbol?: CurrencySymbol
 }
+
+interface FiscalCompany {
+    grossAmount: number;
+    calculationType: FiscalCalculationType
+    deductibleExpenses?: number;
+    incomeNorm?: number;
+    rate: number;
+    roundMode?: 'round' | 'floor' | 'ceil';
+}
+
+interface FiscalCompanyResult {
+    inputs: {
+        grossAmount: number;
+        calculationType: string;
+        deductibleExpenses: number;
+        incomeNorm: number;
+    };
+    grossIncome: { lei: number; currency: number; };
+    grossProfit?: { lei: number; currency: number; };
+    netIncome: { lei: number; currency: number; };
+    netProfit?: { lei: number; currency: number; };
+    taxableIncome?: { lei: number; currency: number; };
+    incomeTax: { lei: number; currency: number; };
+    dividendTax?: { lei: number; currency: number; };
+    totalCollectedProfit?: { lei: number; currency: number; };
+    cas?: { lei: number; currency: number; };
+    cass: { lei: number; currency: number; };
+    minMandatoryWage?: { lei: number; currency: number; };
+    netDividendIncome?: { lei: number; currency: number; };
+    plusMonthlyEarnedWages?: { lei: number; currency: number; };
+    totalTaxes: { lei: number; currency: number; };
+    totalRemainingPerYear: number,
+    totalRemainingPerMonth: { lei: number; currency: number; };
+    shares: {
+        income: number;
+        taxes: number;
+    };
+}
+
+export type {FiscalCompany, FiscalCompanyResult};
 
 type RateType = 'RON'
     | 'AED' | 'AUD' | 'BGN' | 'BRL' | 'CAD' | 'CHF' | 'CNY' | 'CZK' | 'DKK' | 'EGP'
