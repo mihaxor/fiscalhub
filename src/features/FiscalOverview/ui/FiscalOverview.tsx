@@ -19,6 +19,7 @@ const FiscalOverview = () => {
     const {calcPayroll, taxes} = useFiscalPayroll();
     const {calcCompany} = useFiscalCompany();
     const isMobile = useMediaQuery('(max-width: 639px)');
+    const isMobileCard = useMediaQuery('(max-width: 480px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
 
@@ -55,6 +56,7 @@ const FiscalOverview = () => {
                     calcType={type}
                     taxes={taxes}
                     handler={type === FiscalCalculationType.CIM ? payrollResult : companyResult}
+                    isMobile={isMobileCard}
                 />
             </Tab>
         )
