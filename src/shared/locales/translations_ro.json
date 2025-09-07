@@ -2,8 +2,8 @@
   "general": {
     "calculationBtn": "Calculeazǎ",
     "calculationType": {
-      "label": "Se calculeazǎ din:",
       "gross": "BRUT - în - NET",
+      "label": "Se calculeazǎ din:",
       "net": "NET - în - BRUT"
     },
     "currency": "Valutǎ",
@@ -32,6 +32,52 @@
     "circularProgress": {
       "income": "Venit",
       "taxes": "Taxe"
+    },
+    "company": {
+      "micro3": {
+        "tables": {
+          "obligations": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "minMandatoryWage": "Salariul minim brut pentru un angajat, necesar pentru a te încadra ca microîntreprindere.",
+              "minMandatoryWageShort": "Salariul minim angajat"
+            },
+            "title": "OBLIGAȚII LEGALE FIXE"
+          },
+          "ownerProfit": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "perMonth": "Total pe lunǎ",
+              "perQuarter": "Total pe trimestru",
+              "perYear": "Total pe an"
+            },
+            "title": "PROFIT CA ADMINISTRATOR"
+          },
+          "revenue": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "grossProfit": "Profit brut",
+              "netDividendIncome": "Venit net din dividende",
+              "netProfit": "Profit net",
+              "plusMonthlyEarnedWages": "Plus salariile încasate lunar",
+              "totalCollectedProfit": "Total profit încasat"
+            },
+            "title": "VENITURI SI PROFITURI"
+          },
+          "taxes": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "dividendTax": "10% din profitul distribuit asociaților",
+              "dividendTaxShort": "Impozit dividende",
+              "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
+              "healthInsuranceShort": "CASS",
+              "incomeTax": "3% din venitul brut",
+              "incomeTaxShort": "Impozit venit"
+            },
+            "title": "IMPOZITE ȘI CONTRIBUȚII"
+          }
+        }
+      }
     },
     "employment": {
       "summary": {

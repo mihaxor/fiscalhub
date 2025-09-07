@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Card, CardBody} from '@heroui/card';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
 import {FiscalCalculationType, FiscalCompanyResult, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
 import {CircularProgress} from '@heroui/progress';
 import {Chip} from '@heroui/chip';
 import {toPercentage} from '@/shared/libs/transform';
-import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import PayRateOverview from '@/features/PayRateOverview';
 import {useTheme} from 'next-themes';
 import {useTranslation} from 'react-i18next';
@@ -15,8 +14,8 @@ const FiscalCard: React.FC<{
     calcType: FiscalCalculationType,
     taxes: Taxes
     handler: FiscalPayrollResult | FiscalCompanyResult,
-}> = ({calcType, taxes, handler}) => {
-    const isMobile = useMediaQuery('(max-width: 480px)');
+    isMobile: boolean
+}> = ({calcType, taxes, handler, isMobile}) => {
     const {theme} = useTheme();
     const {t} = useTranslation();
     const {getTableStyle} = useTableOrganizer(taxes, t);
@@ -52,7 +51,7 @@ const FiscalCard: React.FC<{
                                 </TableBody>
                             </Table>)}
                     {calcType === FiscalCalculationType.CIM &&
-                        <div className='px-6 text-small text-center'>{t('overview.employment.summary.netPaymentText')}
+                        <div className='px-10 text-small text-center'>{t('overview.employment.summary.netPaymentText')}
                             <span
                                 className='text-fiscal-warning'> {(handler as FiscalPayrollResult).net.lei} lei</span>, {t('overview.employment.summary.employerSpendsText')}
                             <span
@@ -88,4 +87,4 @@ const FiscalCard: React.FC<{
     );
 }
 
-export default FiscalCard;
+export default memo(FiscalCard);

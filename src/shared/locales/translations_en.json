@@ -2,8 +2,8 @@
   "general": {
     "calculationBtn": "Calculate",
     "calculationType": {
-      "label": "Calculate from:",
       "gross": "GROSS - to - NET",
+      "label": "Calculate from:",
       "net": "NET - to - GROSS"
     },
     "currency": "Currency",
@@ -32,6 +32,52 @@
     "circularProgress": {
       "income": "Income",
       "taxes": "Taxes"
+    },
+    "company": {
+      "micro3": {
+        "tables": {
+          "obligations": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "minMandatoryWage": "Gross minimum wage for one employee, required to qualify as a microenterprise.",
+              "minMandatoryWageShort": "Minimum wage"
+            },
+            "title": "FIXED LEGAL OBLIGATIONS"
+          },
+          "ownerProfit": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "perMonth": "Total per month",
+              "perQuarter": "Total per quarter",
+              "perYear": "Total per year"
+            },
+            "title": "PROFIT AS ADMINISTRATOR"
+          },
+          "revenue": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "grossProfit": "Gross profit",
+              "netDividendIncome": "Net income from dividends",
+              "netProfit": "Net profit",
+              "plusMonthlyEarnedWages": "Plus monthly earned wages",
+              "totalCollectedProfit": "Total collected profit"
+            },
+            "title": "REVENUES AND PROFITS"
+          },
+          "taxes": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "dividendTax": "10% of profit distributed to shareholders",
+              "dividendTaxShort": "Dividend tax",
+              "healthInsurance": "Health Insurance Contributions",
+              "healthInsuranceShort": "CASS",
+              "incomeTax": "3% of gross revenue",
+              "incomeTaxShort": "Income tax"
+            },
+            "title": "TAXES AND CONTRIBUTIONS"
+          }
+        }
+      }
     },
     "employment": {
       "summary": {
