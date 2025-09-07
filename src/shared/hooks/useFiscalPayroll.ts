@@ -10,12 +10,12 @@ const useFiscalPayroll = () => {
      * @param {Object} opts
      * @param {'net'|'gross'} opts.fromType                         - baza de calcul (implicit: 'net')
      * @param {number} opts.value                                   - valoarea (net sau gross, după `fromType`)
-     * @param {number} [opts.dp=0]                                  - deducere personala (lei)
-     * @param {Object} [opts.taxes]                                 - procente (implicite: CAS 25%, CASS 10%, IV 10%, CAM 2.25%)
-     * @param {number} [opts.taxes.cas=0.25]                        - CAS (contributii asigurari sociale - pensie)
-     * @param {number} [opts.taxes.cass=0.10]                       - CASS (contributii asigurari sociale - sanatate)
-     * @param {number} [opts.taxes.iv=0.10]                         - IV (Impozit venit)
-     * @param {number} [opts.taxes.cam=0.0225]                      - CAM (contributii asigurari munca)
+     * @param {number} [opts.dp]                                    - deducere personala (lei)
+     * @param {Object} [opts.taxes]                                 - procente (implicite: CAS, CASS, IV, CAM)
+     * @param {number} [opts.taxes.cas]                             - CAS (contributii asigurari sociale - pensie)
+     * @param {number} [opts.taxes.cass]                            - CASS (contributii asigurari sociale - sanatate)
+     * @param {number} [opts.taxes.iv]                              - IV (Impozit venit)
+     * @param {number} [opts.taxes.cam]                             - CAM (contributii asigurari munca)
      * @param {number} [opts.rate]                                  - cursul valutar
      * @param {'round'|'floor'|'ceil'} [opts.roundMode="round"]     - rotunjire pentru afisarea in lei
      *
@@ -39,8 +39,8 @@ const useFiscalPayroll = () => {
         const {
             fromType,
             value,
-            dp = FiscalConfig.DEFAULT_DP,
             taxes = FiscalConfig.DEFAULT_TAXES,
+            dp = FiscalConfig.DEFAULT_DP_PAYROLL,
             rate,
             roundMode = 'round',
         } = opts;
@@ -96,8 +96,8 @@ const useFiscalPayroll = () => {
             taxesEmployer: {lei: roundValue(taxesEmployer), currency: exchange(taxesEmployer)},
             taxesState: {lei: roundValue(taxesState), currency: exchange(taxesState)},
             shares: {
-                employee: netLei / totalCost,
-                state: taxesState / totalCost
+                income: netLei / totalCost,
+                taxes: taxesState / totalCost
             }
         };
     }, []);

@@ -1,10 +1,10 @@
+import React from 'react';
 import Header from '@/shared/components/Header';
 import FiscalPanel from '@/features/FiscalPanel';
 import CurrencyPanel from '@/features/CurrencyPanel';
 import Footer from '@/shared/components/Footer';
 import {FiscalOverview} from '@/features/FiscalOverview';
 import AnimatedContent from '@/shared/components/AnimatedContent';
-import React from 'react';
 import initTranslations from '@/app/i18n';
 import {LanguageType} from '@/config/i18n';
 
