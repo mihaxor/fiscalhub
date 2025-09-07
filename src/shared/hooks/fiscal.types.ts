@@ -16,13 +16,17 @@ type Taxes = {
     cass: number;
     iv: number;
     cam: number;
+    micro1: number,
+    micro3: number,
+    srlProfit: number,
+    dividend: number
 }
 
 interface FiscalPayroll {
     fromType: FiscalType;
     value: number;
-    dp?: number;
     taxes?: Taxes;
+    dp?: number;
     rate: number;
     roundMode?: 'round' | 'floor' | 'ceil';
 }
@@ -46,7 +50,10 @@ interface FiscalPayrollResult {
 
 interface FiscalCompany {
     grossAmount: number;
-    calculationType: FiscalCalculationType[]
+    calculationType: FiscalCalculationType[];
+    taxes?: Taxes;
+    dp?: number;
+    minWageMandatory?: number,
     deductibleExpenses?: number;
     incomeNorm?: number;
     rate: number;

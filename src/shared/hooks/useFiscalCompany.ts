@@ -5,18 +5,31 @@ import {
     FiscalCompanyEntityResult,
     FiscalCompanyResult
 } from '@/shared/hooks/fiscal.types';
+import {FiscalConfig} from '@/config/fiscal';
 
 const useFiscalCompany = () => {
+
     /**
      * Calculator fiscal pentru companii (RO) - SRL, MICRO, PFA
      *
      * @param {Object} opts
-     * @param {number} opts.grossAmount                                 - suma brută (lei)
-     * @param {'SRL_PROFIT_16'|'MICRO_1'|'MICRO_3'|'PFA'} opts.calculationType - tipul de taxare
-     * @param {number} [opts.cheltuieliDeductibile=0]                   - cheltuieli deductibile (lei)
-     * @param {number} [opts.normaDeVenit=0]                            - norma de venit pentru PFA (lei)
-     * @param {number} opts.rate                                        - cursul valutar
-     * @param {'round'|'floor'|'ceil'} [opts.roundMode="round"]         - rotunjire pentru afișarea în lei
+     * @param {number} opts.grossAmount                                             - suma brută (lei)
+     * @param {'SRL'|'MICRO1'|'MICRO3'|'PFA'} opts.calculationType                  - tipul de taxare
+     * @param {Object} [opts.taxes]                                                 - procente (implicite: CAS, CASS, IV, CAM, micro, srlProfit, dividend)
+     * @param {number} [opts.taxes.cas]                                             - CAS (contributii asigurari sociale - pensie)
+     * @param {number} [opts.taxes.cass]                                            - CASS (contributii asigurari sociale - sanatate)
+     * @param {number} [opts.taxes.iv]                                              - IV (Impozit venit)
+     * @param {number} [opts.taxes.cam]                                             - CAM (contributii asigurari munca)
+     * @param {number} [opts.taxes.micro1]                                          - Impozit micro 1%
+     * @param {number} [opts.taxes.micro3]                                          - Impozit micro 3%
+     * @param {number} [opts.taxes.srlProfit]                                       - Impozit SRL pe profit 16%
+     * @param {number} [opts.taxes.dividend]                                        - Impozit dividende
+     * @param {number} [opts.dp]                                                    - deducere personala (lei)
+     * @param {number} [opts.minWageMandatory]                                      - salariul minim obligatoriu (lei)
+     * @param {number} [opts.deductibleExpenses]                                    - cheltuieli deductibile (pentru SRL)
+     * @param {number} [opts.incomeNorm]                                            - norma de venit (pentru PFA)
+     * @param {number} opts.rate                                                    - cursul valutar
+     * @param {'round'|'floor'|'ceil'} [opts.roundMode="round"]                     - rotunjire pentru afișarea în lei
      *
      * @returns {FiscalCompanyResult}
      */
@@ -24,8 +37,11 @@ const useFiscalCompany = () => {
         const {
             grossAmount,
             calculationType,
-            deductibleExpenses = 0,
-            incomeNorm = 0,
+            taxes = FiscalConfig.DEFAULT_TAXES,
+            dp = FiscalConfig.DEFAULT_DP_COMPANY,
+            minWageMandatory = FiscalConfig.MANDATORY_MIN_WAGE,
+            deductibleExpenses = FiscalConfig.DEDUCTIBLE_EXPENSES,
+            incomeNorm = FiscalConfig.INCOME_NORM,
             rate,
             roundMode = 'round',
         } = opts;
@@ -33,16 +49,6 @@ const useFiscalCompany = () => {
         const rounders = {round: Math.round, floor: Math.floor, ceil: Math.ceil};
         const roundValue = rounders[roundMode] || Math.round;
         const exchange = (v: number) => v / rate;
-
-        const SALARIUL_MINIM_OBLIGATORIU = 4050;
-        const CAS_RATE = 0.25;
-        const CASS_RATE = 0.10;
-        const IV_RATE = 0.10;
-        const PROFIT_TAX_16 = 0.16;
-        const MICRO_TAX_1 = 0.01;
-        const MICRO_TAX_3 = 0.03;
-        const DIVIDEND_TAX = 0.10;
-        const PERSONAL_DEDUCTION = 2057.5;
 
         const result = calculationType
             .reduce<Partial<Record<FiscalCalculationType, FiscalCompanyEntityResult>>>
@@ -56,32 +62,32 @@ const useFiscalCompany = () => {
                         const annualRevenue = monthlyRevenue * 12;
 
                         // Salariul minim obligatoriu
-                        const minSalaryMonthly = SALARIUL_MINIM_OBLIGATORIU;
+                        const minSalaryMonthly = minWageMandatory;
                         const minMandatorySalaryAnnual = minSalaryMonthly * 12;
 
                         // Profit brut și impozit micro
                         const grossProfit = annualRevenue - minMandatorySalaryAnnual;
-                        const incomeTax = annualRevenue * MICRO_TAX_3;
+                        const incomeTax = annualRevenue * taxes.micro3;
 
                         // Profit net și dividende
                         const netProfit = grossProfit - incomeTax;
-                        const dividendTax = netProfit * DIVIDEND_TAX;
+                        const dividendTax = netProfit * taxes.dividend;
                         const totalCollectedProfit = netProfit - dividendTax;
 
                         // CASS pe dividende
-                        const cassDividends = minSalaryMonthly * 24 * CASS_RATE;
+                        const cassDividends = minSalaryMonthly * 24 * taxes.cass;
 
                         // Venit net din dividende
                         const netDividendIncome = totalCollectedProfit - cassDividends;
 
                         // Net salarial pentru salariul minim (cu DP fixă folosită în simulare)
-                        const monthlyCas = minSalaryMonthly * CAS_RATE;
-                        const monthlyCass = minSalaryMonthly * CASS_RATE;
+                        const monthlyCas = minSalaryMonthly * taxes.cas;
+                        const monthlyCass = minSalaryMonthly * taxes.cass;
                         const taxBase = Math.max(
                             0,
-                            minSalaryMonthly - monthlyCas - monthlyCass - PERSONAL_DEDUCTION
+                            minSalaryMonthly - monthlyCas - monthlyCass - dp
                         );
-                        const monthlyIv = taxBase * IV_RATE;
+                        const monthlyIv = taxBase * taxes.iv;
                         const monthlyNetSalary = minSalaryMonthly - monthlyCas - monthlyCass - monthlyIv;
                         const plusMonthlyEarnedWages = monthlyNetSalary * 12;
 
@@ -151,8 +157,10 @@ const useFiscalCompany = () => {
             }
         };
     }, []);
-
-    return {calcCompany};
+    return {
+        calcCompany,
+        taxes: FiscalConfig.DEFAULT_TAXES
+    };
 };
 
 export default useFiscalCompany;
