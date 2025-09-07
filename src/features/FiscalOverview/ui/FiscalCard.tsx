@@ -35,11 +35,12 @@ const FiscalCard: React.FC<{
                         .map((table, index) =>
                             <Table key={index} layout='auto'
                                    isCompact={false}
-                                   aria-label={`Table for ${table.header[0]}`}
+                                   aria-label={`Table for ${table.header.columns[0]}`}
                                    className='mb-3 lg:w-150 xl:w-3xl'>
                                 <TableHeader>
-                                    {table.header.map((column, index) => (
+                                    {table.header.columns.map((column, index) => (
                                         <TableColumn key={index}
+                                                     className={table.header.className}
                                                      width={index === 0 ? 340 : 100}>{column} </TableColumn>))}
                                 </TableHeader>
                                 <TableBody>
@@ -66,7 +67,7 @@ const FiscalCard: React.FC<{
                                 classNames={{
                                     svg: 'w-40 h-40 drop-shadow-lg',
                                     indicator: 'stroke-primary stroke-[2.9] transition-all',
-                                    track: 'stroke-warning/90 stroke-[1.5]',
+                                    track: 'stroke-warning/95 stroke-[1.5]',
                                     value: `text-2xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`,
                                 }}
                                 showValueLabel={true}
@@ -75,7 +76,7 @@ const FiscalCard: React.FC<{
                         </div>
                         <div className='flex justify-center gap-3'>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-warning/90 text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
+                                  className='bg-fiscal-warning/95 text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
                             <Chip classNames={{content: 'font-semibold'}}
                                   className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(getShares(calcType)!.taxes)}</Chip>
                         </div>

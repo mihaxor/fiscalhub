@@ -5,7 +5,10 @@ import React from 'react';
 import {toPercentage, transformToRo} from '@/shared/libs/transform';
 
 type TableOrganizer = {
-    header: (React.ReactElement | string | null)[];
+    header: {
+        columns: (React.ReactElement | string | null)[];
+        className?: string
+    };
     rows: {
         cells: (React.ReactElement | string | number | null)[];
         className?: string;
@@ -34,10 +37,12 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
 
                 return [
                     {
-                        header: [t('overview.employment.tables.employee.title'), null, 'RON', (
-                            <>{t('overview.employment.tables.employee.foreignCurrency')} <span
-                                className='text-fiscal-warning text-small'>{payroll.symbol}</span></>
-                        )],
+                        header: {
+                            columns: [t('overview.employment.tables.employee.title'), null, 'RON', (
+                                <>{t('overview.employment.tables.employee.foreignCurrency')} <span
+                                    className='text-fiscal-warning text-small'>{payroll.symbol}</span></>
+                            )]
+                        },
                         rows: [
                             {
                                 cells: [t('overview.employment.tables.employee.rows.grossSalary'), null, transformToRo(payroll.gross.lei), transformToRo(payroll.gross.currency, 2)],
@@ -54,14 +59,18 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                         ]
                     },
                     {
-                        header: [t('overview.employment.tables.employer.title'), null, 'RON', t('overview.employment.tables.employer.foreignCurrency')],
+                        header: {
+                            columns: [t('overview.employment.tables.employer.title'), null, 'RON', t('overview.employment.tables.employer.foreignCurrency')]
+                        },
                         rows: [
                             {cells: [transformToMobile(t('overview.employment.tables.employer.rows.workInsurance'), t('overview.employment.tables.employer.rows.workInsuranceShort'), isMobile), toPercentage(taxes.cam, 2), transformToRo(payroll.cam.lei), transformToRo(payroll.cam.currency, 2)]},
                             {cells: [t('overview.employment.tables.employer.rows.totalSalary'), null, transformToRo(payroll.totalEmployerCost.lei), transformToRo(payroll.totalEmployerCost.currency, 2)]}
                         ]
                     },
                     {
-                        header: [t('overview.employment.tables.totalTaxes.title'), null, 'RON', t('overview.employment.tables.totalTaxes.foreignCurrency')],
+                        header: {
+                            columns: [t('overview.employment.tables.totalTaxes.title'), null, 'RON', t('overview.employment.tables.totalTaxes.foreignCurrency')]
+                        },
                         rows: [
                             {cells: [t('overview.employment.tables.totalTaxes.rows.employeePaysState'), null, transformToRo(payroll.taxesEmployee.lei), transformToRo(payroll.taxesEmployee.currency, 2)]},
                             {cells: [t('overview.employment.tables.totalTaxes.rows.employerPaysState'), null, transformToRo(payroll.taxesEmployer.lei), transformToRo(payroll.taxesEmployer.currency, 2)]},
@@ -78,36 +87,65 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
 
                 return [
                     {
-                        header: ['Profit ca administrator(i)', null, 'RON', `Valuta ${company.symbol}`],
+                        header: {
+                            columns: ['PROFIT CA ADMINISTRATOR(I)', null, 'RON', (<>{'VALUTA'} <span
+                                className='text-fiscal-warning text-small'>{company.symbol}</span></>)]
+                        },
                         rows: [
-                            {cells: ['Total pe an', null, transformToRo(company.result[type]!.totalRemaining.year.lei), transformToRo(company.result[type]!.totalRemaining.year.currency)]},
+                            {
+                                cells: ['Total pe an', null, transformToRo(company.result[type]!.totalRemaining.year.lei), transformToRo(company.result[type]!.totalRemaining.year.currency)],
+                                className: 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md'
+                            },
                             {cells: ['Total pe quarter', null, transformToRo(company.result[type]!.totalRemaining.quarter.lei), transformToRo(company.result[type]!.totalRemaining.quarter.currency)]},
                             {cells: ['Total pe luna', null, transformToRo(company.result[type]!.totalRemaining.month.lei), transformToRo(company.result[type]!.totalRemaining.month.currency)]},
-
                         ]
                     },
                     {
-                        header: ['Venituri și profituri', null, 'RON', `Valuta ${company.symbol}`],
+                        header: {
+                            columns: ['VENITURI SI PROFITURI', null, 'RON', (<>{'VALUTA'} <span
+                                className='text-fiscal-warning text-small'>{company.symbol}</span></>)]
+                        },
                         rows: [
                             {cells: ['Profit brut', null, transformToRo(company.result[type]!.grossProfit.lei), transformToRo(company.result[type]!.grossProfit.currency)]},
                             {cells: ['Profit net', null, transformToRo(company.result[type]!.netProfit.lei), transformToRo(company.result[type]!.netProfit.currency)]},
-                            {cells: ['Total profit incasat', null, transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency)]},
+                            {
+                                cells: ['Total profit incasat', null, transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency)],
+                                className: 'text-fiscal-primary [&>td]:font-bold'
+                            },
                             {cells: ['Venit net din dividende', null, transformToRo(company.result[type]!.netDividendIncome.lei), transformToRo(company.result[type]!.netDividendIncome.currency)]},
                             {cells: ['Plus salariile încasate lunar', null, transformToRo(company.result[type]!.plusMonthlyEarnedWages.lei), transformToRo(company.result[type]!.plusMonthlyEarnedWages.currency)]},
                         ]
                     },
                     {
-                        header: ['Impozite și contribuții', null, 'RON', `Valuta ${company.symbol}`],
+                        header: {
+                            columns: ['IMPOZITE SI CONTRIBUTII', null, 'RON', (<>{'VALUTA'} <span
+                                className='text-small'>{company.symbol}</span></>)],
+                            className: 'text-fiscal-primary [&>th]:font-bold'
+                        },
                         rows: [
-                            {cells: ['Impozit venit', null, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]},
-                            {cells: ['Impozit dividende', null, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency)]},
-                            {cells: ['Contribuții CASS', null, transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency)]}
+                            {
+                                cells: [<PopoverInfo key='incomeTax' popoverText='3% din venitul brut'
+                                                     text='Impozit venit' />, null, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]
+                            },
+                            {
+                                cells: [<PopoverInfo key='dividendTax'
+                                                     popoverText='10% din profitul distribuit asociaților'
+                                                     text='Impozit dividende' />, null, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency)]
+                            },
+                            {cells: [transformToMobile('Asigurǎri Sociale de Sǎnǎtate', 'CASS', isMobile), null, transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency)]}
                         ]
                     },
                     {
-                        header: ['Obligații legale fixe', null, 'RON', `Valuta ${company.symbol}`],
+                        header: {
+                            columns: ['OBLIGATII LEGATE FIXE', null, 'RON', (<>{'VALUTA'} <span
+                                className='text-fiscal-warning text-small'>{company.symbol}</span></>)]
+                        },
                         rows: [
-                            {cells: ['Salariul minim obligatoriu', null, transformToRo(company.result[type]!.minMandatoryWage.lei), transformToRo(company.result[type]!.minMandatoryWage.currency)]},
+                            {
+                                cells: [<PopoverInfo key='minMandatoryWage'
+                                                     popoverText='Salariul minim brut pentru un angajat, necesar pentru a te încadra ca microîntreprindere.'
+                                                     text='Salariul minim obligatoriu' />, null, transformToRo(company.result[type]!.minMandatoryWage.lei), transformToRo(company.result[type]!.minMandatoryWage.currency)]
+                            },
                         ]
                     }
                 ];

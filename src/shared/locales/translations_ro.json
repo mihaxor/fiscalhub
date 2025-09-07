@@ -14,7 +14,7 @@
     "header": {
       "subTitle": "Calculator fiscal complet: salarii, microîntreprinderi, SRL-uri, dividende și contribuții sociale."
     },
-    "inputError": "Valoarea trebuie sa fie un numar.",
+    "inputError": "Valoarea trebuie sa fie un numǎr.",
     "label": "Valoare",
     "language": {
       "en": "Englezǎ",
@@ -43,14 +43,14 @@
           "foreignCurrency": "VALUTǍ",
           "rows": {
             "grossSalary": "Salariu Brut",
-            "healthInsurance": "Asigurari Sociale de Sanatate",
+            "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
             "healthInsuranceShort": "CASS",
             "incomeTax": "Impozit pe venit",
             "incomeTaxShort": "IV",
             "netSalary": "Salariu Net",
-            "personalDeduction": "Deducere personala",
+            "personalDeduction": "Deducere personalǎ",
             "personalDeductionShort": "DP",
-            "socialInsurance": "Asigurari Sociale",
+            "socialInsurance": "Asigurǎri Sociale",
             "socialInsuranceShort": "CAS"
           },
           "title": "ANGAJAT"
