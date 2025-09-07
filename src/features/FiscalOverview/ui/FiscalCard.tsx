@@ -65,18 +65,17 @@ const FiscalCard: React.FC<{
                                 aria-label='Circle Taxes Percentage'
                                 classNames={{
                                     svg: 'w-40 h-40 drop-shadow-lg',
-                                    indicator: 'stroke-primary/90',
-                                    track: 'stroke-warning',
+                                    indicator: 'stroke-primary stroke-[2.9] transition-all',
+                                    track: 'stroke-warning/90 stroke-[1.5]',
                                     value: `text-2xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`,
                                 }}
                                 showValueLabel={true}
-                                strokeWidth={2.5}
                                 value={getShares(calcType)!.taxes * 100}
                             />
                         </div>
                         <div className='flex justify-center gap-3'>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-warning text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
+                                  className='bg-fiscal-warning/90 text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
                             <Chip classNames={{content: 'font-semibold'}}
                                   className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(getShares(calcType)!.taxes)}</Chip>
                         </div>

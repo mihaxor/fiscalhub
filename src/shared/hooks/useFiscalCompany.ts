@@ -127,20 +127,27 @@ const useFiscalCompany = () => {
                                 currency: exchange(plusMonthlyEarnedWages)
                             },
                             totalTaxes: {lei: roundValue(totalTaxes), currency: exchange(totalTaxes)},
-
                             shares: {
                                 income: totalRemainingPerYear / annualRevenue,
                                 taxes: totalTaxes / annualRevenue,
                             },
-                            totalRemainingPerYear,
-                            totalRemainingPerMonth: {
-                                lei: roundValue(totalRemainingPerYear / 12),
-                                currency: exchange(totalRemainingPerYear / 12)
+                            totalRemaining: {
+                                year: {
+                                    lei: roundValue(totalRemainingPerYear),
+                                    currency: exchange(totalRemainingPerYear)
+                                },
+                                month: {
+                                    lei: roundValue(totalRemainingPerYear / 12),
+                                    currency: exchange(totalRemainingPerYear / 12)
+                                },
+                                quarter: {
+                                    lei: roundValue(totalRemainingPerYear / 4),
+                                    currency: exchange(totalRemainingPerYear / 4)
+                                }
                             }
                         } as FiscalCompanyEntityResult;
                         break;
                     }
-
                     default:
                         throw new Error(`The calculation type "${calculationType}" is not recognised.`);
                 }

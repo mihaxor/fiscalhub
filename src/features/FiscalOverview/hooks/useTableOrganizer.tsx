@@ -73,9 +73,47 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                     }
                 ]
             }
+            case FiscalCalculationType.MICRO3: {
+                const company = handler as FiscalCompanyResult;
+
+                return [
+                    {
+                        header: ['Profit ca administrator(i)', null, 'RON', `Valuta ${company.symbol}`],
+                        rows: [
+                            {cells: ['Total pe an', null, transformToRo(company.result[type]!.totalRemaining.year.lei), transformToRo(company.result[type]!.totalRemaining.year.currency)]},
+                            {cells: ['Total pe quarter', null, transformToRo(company.result[type]!.totalRemaining.quarter.lei), transformToRo(company.result[type]!.totalRemaining.quarter.currency)]},
+                            {cells: ['Total pe luna', null, transformToRo(company.result[type]!.totalRemaining.month.lei), transformToRo(company.result[type]!.totalRemaining.month.currency)]},
+
+                        ]
+                    },
+                    {
+                        header: ['Venituri și profituri', null, 'RON', `Valuta ${company.symbol}`],
+                        rows: [
+                            {cells: ['Profit brut', null, transformToRo(company.result[type]!.grossProfit.lei), transformToRo(company.result[type]!.grossProfit.currency)]},
+                            {cells: ['Profit net', null, transformToRo(company.result[type]!.netProfit.lei), transformToRo(company.result[type]!.netProfit.currency)]},
+                            {cells: ['Total profit incasat', null, transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency)]},
+                            {cells: ['Venit net din dividende', null, transformToRo(company.result[type]!.netDividendIncome.lei), transformToRo(company.result[type]!.netDividendIncome.currency)]},
+                            {cells: ['Plus salariile încasate lunar', null, transformToRo(company.result[type]!.plusMonthlyEarnedWages.lei), transformToRo(company.result[type]!.plusMonthlyEarnedWages.currency)]},
+                        ]
+                    },
+                    {
+                        header: ['Impozite și contribuții', null, 'RON', `Valuta ${company.symbol}`],
+                        rows: [
+                            {cells: ['Impozit venit', null, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]},
+                            {cells: ['Impozit dividende', null, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency)]},
+                            {cells: ['Contribuții CASS', null, transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency)]}
+                        ]
+                    },
+                    {
+                        header: ['Obligații legale fixe', null, 'RON', `Valuta ${company.symbol}`],
+                        rows: [
+                            {cells: ['Salariul minim obligatoriu', null, transformToRo(company.result[type]!.minMandatoryWage.lei), transformToRo(company.result[type]!.minMandatoryWage.currency)]},
+                        ]
+                    }
+                ];
+            }
             case FiscalCalculationType.SRL:
             case FiscalCalculationType.MICRO1:
-            case FiscalCalculationType.MICRO3:
             case FiscalCalculationType.PFA:
                 return [];
             default:

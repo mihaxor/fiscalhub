@@ -73,21 +73,22 @@ interface FiscalCompanyResult {
 
 interface FiscalCompanyEntityResult {
     grossIncome: { lei: number; currency: number; };
-    grossProfit?: { lei: number; currency: number; };
+    grossProfit: { lei: number; currency: number; };
     netIncome: { lei: number; currency: number; };
-    netProfit?: { lei: number; currency: number; };
-    taxableIncome?: { lei: number; currency: number; };
+    netProfit: { lei: number; currency: number; };
     incomeTax: { lei: number; currency: number; };
-    dividendTax?: { lei: number; currency: number; };
-    totalCollectedProfit?: { lei: number; currency: number; };
-    cas?: { lei: number; currency: number; };
+    dividendTax: { lei: number; currency: number; };
+    totalCollectedProfit: { lei: number; currency: number; };
     cass: { lei: number; currency: number; };
-    minMandatoryWage?: { lei: number; currency: number; };
-    netDividendIncome?: { lei: number; currency: number; };
-    plusMonthlyEarnedWages?: { lei: number; currency: number; };
+    minMandatoryWage: { lei: number; currency: number; };
+    netDividendIncome: { lei: number; currency: number; };
+    plusMonthlyEarnedWages: { lei: number; currency: number; };
     totalTaxes: { lei: number; currency: number; };
-    totalRemainingPerYear: number,
-    totalRemainingPerMonth: { lei: number; currency: number; };
+    totalRemaining: {
+        year: { lei: number; currency: number; };
+        quarter: { lei: number; currency: number; };
+        month: { lei: number; currency: number; };
+    }
     shares: {
         income: number;
         taxes: number;
