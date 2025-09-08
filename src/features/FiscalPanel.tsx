@@ -35,7 +35,7 @@ const FiscalPanel = () => {
     const [selectedPeriodKeys, setSelectedPeriodKeys] = useState<Set<FiscalPeriodType>>(new Set([fiscalInputs.period]));
     const selectedPeriodValue = useMemo(() => Array.from(selectedPeriodKeys), [selectedPeriodKeys]);
 
-    const [selectedMode, setSelectedMode] = useState(new Set([fiscalInputs.fromType.toUpperCase()]));
+    const [selectedMode, setSelectedMode] = useState<Set<FiscalType>>(new Set([fiscalInputs.fromType]));
     const selectedModeValue = useMemo(() => Array.from(selectedMode)[0], [selectedMode]);
 
     const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
@@ -142,7 +142,7 @@ const FiscalPanel = () => {
                 <div className='self-start flex items-center gap-4'>/
                     <Dropdown
                         backdrop='blur'
-                        classNames={{content: 'min-w-max'}}>
+                        classNames={{content: 'min-w-[115px]'}}>
                         <DropdownTrigger>
                             <Button className='w-[140px] sm:w-[180px] h-14' variant='faded' radius='md'>
                                 {t(`general.period.${selectedPeriodValue}`)}
@@ -151,6 +151,7 @@ const FiscalPanel = () => {
                         <DropdownMenu
                             disallowEmptySelection
                             aria-label='Single selection example'
+                            selectedKeys={selectedPeriodKeys}
                             selectionMode='single'
                             variant='flat'
                             onSelectionChange={(keys) => setSelectedPeriodKeys(new Set(Array.from(keys as Set<FiscalPeriodType>)))}>
@@ -170,7 +171,7 @@ const FiscalPanel = () => {
                 <div className='flex flex-row items-center justify-between w-full'>
                     {Object.values(FiscalCalculationType).map((type: FiscalCalculationType, index) =>
                         <Checkbox key={index}
-                                  isDisabled={!(type === FiscalCalculationType.MICRO3 || type === FiscalCalculationType.CIM)}
+                                  isDisabled={!(type === FiscalCalculationType.MICRO1 || type === FiscalCalculationType.MICRO3 || type === FiscalCalculationType.CIM)}
                                   size={isMobile ? 'sm' : 'md'}
                                   value={type}
                                   onKeyDown={(e) => handleCheckboxKeyDown(e, type)}>
@@ -182,7 +183,8 @@ const FiscalPanel = () => {
                 <Chip variant='flat' radius='md' size='lg' className='text-default-500 text-[15px] h-12'>
                     {t('general.calculationType.label')}
                 </Chip>
-                <Dropdown backdrop='blur' classNames={{content: 'min-w-max'}}>
+                <Dropdown backdrop='blur'
+                          classNames={{content: 'min-w-[170px]'}}>
                     <DropdownTrigger>
                         <Button className='w-full text-default-500' variant='faded' size='lg' radius='md'>
                             {t(`general.calculationType.${selectedModeValue.toLowerCase()}`)}
@@ -191,11 +193,12 @@ const FiscalPanel = () => {
                     <DropdownMenu
                         disallowEmptySelection
                         aria-label='Single selection example'
+                        selectedKeys={selectedMode}
                         selectionMode='single'
                         variant='flat'
-                        onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<string>)))}>
-                        <DropdownItem key='net' textValue='NET'>{t('general.calculationType.net')}</DropdownItem>
-                        <DropdownItem key='gross' textValue='GROSS'>{t('general.calculationType.gross')}</DropdownItem>
+                        onSelectionChange={(keys) => setSelectedMode(new Set(Array.from(keys as Set<FiscalType>)))}>
+                        <DropdownItem key='net'>{t('general.calculationType.net')}</DropdownItem>
+                        <DropdownItem key='gross'>{t('general.calculationType.gross')}</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>

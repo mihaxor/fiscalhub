@@ -54,10 +54,9 @@ const useFiscalCompany = () => {
             .reduce<Partial<Record<FiscalCalculationType, FiscalCompanyEntityResult>>>
             ((acc, type) => {
                 switch (type) {
-                    case FiscalCalculationType.SRL:
-                    case FiscalCalculationType.PFA:
                     case FiscalCalculationType.MICRO1:
                     case FiscalCalculationType.MICRO3: {
+                        const microTaxes = type === FiscalCalculationType.MICRO1 ? taxes.micro1 : taxes.micro3;
                         const monthlyRevenue = grossAmount;
                         const annualRevenue = monthlyRevenue * 12;
 
@@ -67,7 +66,7 @@ const useFiscalCompany = () => {
 
                         // Profit brut și impozit micro
                         const grossProfit = annualRevenue - minMandatorySalaryAnnual;
-                        const incomeTax = annualRevenue * taxes.micro3;
+                        const incomeTax = annualRevenue * microTaxes;
 
                         // Profit net și dividende
                         const netProfit = grossProfit - incomeTax;
@@ -148,6 +147,9 @@ const useFiscalCompany = () => {
                         } as FiscalCompanyEntityResult;
                         break;
                     }
+                    case FiscalCalculationType.SRL:
+                    case FiscalCalculationType.PFA:
+                        break;
                     default:
                         throw new Error(`The calculation type "${calculationType}" is not recognised.`);
                 }

@@ -65,7 +65,7 @@ const FiscalCard: React.FC<{
                                 aria-label='Circle Taxes Percentage'
                                 classNames={{
                                     svg: 'w-40 h-40 drop-shadow-lg',
-                                    indicator: 'stroke-primary stroke-[2.9] transition-all',
+                                    indicator: 'stroke-primary stroke-[2.9] [transition-duration:8s] [transition-timing-function:ease-out] [filter:brightness(1.1)]',
                                     track: 'stroke-warning/95 stroke-[1.5]',
                                     value: `text-2xl font-semibold ${theme === 'light' ? 'text-black' : 'text-white'}`,
                                 }}

@@ -82,6 +82,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                     }
                 ]
             }
+            case FiscalCalculationType.MICRO1:
             case FiscalCalculationType.MICRO3: {
                 const company = handler as FiscalCompanyResult;
 
@@ -154,7 +155,6 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                 ];
             }
             case FiscalCalculationType.SRL:
-            case FiscalCalculationType.MICRO1:
             case FiscalCalculationType.PFA:
                 return [];
             default:
