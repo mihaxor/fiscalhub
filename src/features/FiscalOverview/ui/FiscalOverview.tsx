@@ -1,7 +1,7 @@
 'use client';
 
 import {Tab, Tabs} from '@heroui/tabs';
-import React, {useContext, useMemo, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
 import {CurrencySymbol, FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
@@ -22,6 +22,11 @@ const FiscalOverview = () => {
     const isMobileCard = useMediaQuery('(max-width: 480px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
+
+    useEffect(() => {
+        if (!fiscalInputs.calculationType.includes(selected as FiscalCalculationType))
+            setSelected(fiscalInputs.calculationType[0]);
+    }, [fiscalInputs.calculationType]);
 
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);

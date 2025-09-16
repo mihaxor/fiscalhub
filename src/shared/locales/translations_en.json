@@ -6,6 +6,7 @@
       "label": "Calculate from:",
       "net": "NET - to - GROSS"
     },
+    "calculationTypeError": "At least one calculation type must be selected",
     "currency": "Currency",
     "currencyDesc": "automatically updated exchange rate, source ",
     "footer": {

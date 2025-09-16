@@ -6,6 +6,7 @@
       "label": "Se calculeazǎ din:",
       "net": "NET - în - BRUT"
     },
+    "calculationTypeError": "Trebuie selectat cel puțin un tip de calcul",
     "currency": "Valutǎ",
     "currencyDesc": "curs actualizat automat, sursa ",
     "footer": {
