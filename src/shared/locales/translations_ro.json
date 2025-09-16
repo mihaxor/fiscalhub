@@ -190,6 +190,8 @@
       }
     },
     "payRateOverview": {
+      "btnClose": "Închide",
+      "btnPayRate": "Afișează conversia ratei de plată",
       "periods": {
         "day": "ZI",
         "hour": "ORǍ",
@@ -199,7 +201,8 @@
       "tableHeaders": {
         "currency": "VALUTǍ",
         "rate": "RATǍ"
-      }
+      },
+      "title": "Conversia ratei de platǎ"
     }
   }
 }

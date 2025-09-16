@@ -58,7 +58,7 @@ const FiscalCard: React.FC<{
                                 className='text-fiscal-primary'> {(handler as FiscalPayrollResult).totalEmployerCost.lei} lei</span>
                         </div>}
                 </div>
-                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start'>
+                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start gap-4 lg:gap-0'>
                     <div className='m-2 lg:m-20 flex flex-row lg:flex-col items-center justify-center gap-4'>
                         <div>
                             <CircularProgress

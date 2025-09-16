@@ -190,6 +190,8 @@
       }
     },
     "payRateOverview": {
+      "btnClose": "Close",
+      "btnPayRate": "Show Pay Rate Conversion",
       "periods": {
         "day": "DAY",
         "hour": "HOUR",
@@ -199,7 +201,8 @@
       "tableHeaders": {
         "currency": "CURRENCY",
         "rate": "RATE"
-      }
+      },
+      "title": "Pay Rate Conversion"
     }
   }
 }
