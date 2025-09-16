@@ -67,11 +67,78 @@
           "taxes": {
             "foreignCurrency": "CURRENCY",
             "rows": {
-              "dividendTax": "10% of profit distributed to shareholders",
+              "dividendTax": "10% of the profit distributed to shareholders",
               "dividendTaxShort": "Dividend tax",
               "healthInsurance": "Health Insurance Contributions",
-              "healthInsuranceShort": "CASS",
-              "incomeTax": "3% of gross revenue",
+              "healthInsuranceShort": "HI",
+              "incomeTax": "{{percent}}% of gross revenue",
+              "incomeTaxShort": "Income tax"
+            },
+            "title": "TAXES AND CONTRIBUTIONS"
+          }
+        }
+      },
+      "pfa": {
+        "tables": {
+          "ownerProfit": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "perMonth": "Total per month",
+              "perQuarter": "Total per quarter",
+              "perYear": "Total per year"
+            },
+            "title": "PROFIT"
+          },
+          "revenue": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "netIncome": "Net income",
+              "taxableIncome": "Taxable income"
+            },
+            "title": "REVENUES"
+          },
+          "taxes": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "healthInsurance": "Health Insurance Contributions",
+              "healthInsuranceShort": "HI",
+              "incomeTax": "10% of gross revenue",
+              "incomeTaxShort": "Income tax",
+              "socialInsurance": "Social Insurance Contributions",
+              "socialInsuranceShort": "SI"
+            },
+            "title": "TAXES AND CONTRIBUTIONS"
+          }
+        }
+      },
+      "srl": {
+        "tables": {
+          "ownerProfit": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "perMonth": "Total per month",
+              "perQuarter": "Total per quarter",
+              "perYear": "Total per year"
+            },
+            "title": "PROFIT AS ADMINISTRATOR"
+          },
+          "revenue": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "grossProfit": "Gross profit",
+              "netProfit": "Net profit",
+              "totalCollectedProfit": "Total collected profit"
+            },
+            "title": "REVENUES AND PROFITS"
+          },
+          "taxes": {
+            "foreignCurrency": "CURRENCY",
+            "rows": {
+              "dividendTax": "10% of the profit distributed to shareholders",
+              "dividendTaxShort": "Dividend tax",
+              "healthInsurance": "Health Insurance Contributions",
+              "healthInsuranceShort": "HI",
+              "incomeTax": "16% of profit",
               "incomeTaxShort": "Income tax"
             },
             "title": "TAXES AND CONTRIBUTIONS"
@@ -81,20 +148,20 @@
     },
     "employment": {
       "summary": {
-        "employerSpendsText": "the employer spends",
-        "netPaymentText": "To pay a net salary of"
+        "employerSpendsText": "employer spends",
+        "netPaymentText": "For paying a net salary of"
       },
       "tables": {
         "employee": {
           "foreignCurrency": "CURRENCY",
           "rows": {
-            "grossSalary": "Gross Salary",
+            "grossSalary": "Gross salary",
             "healthInsurance": "Health Insurance",
             "healthInsuranceShort": "HI",
-            "incomeTax": "Income Tax",
+            "incomeTax": "Income tax",
             "incomeTaxShort": "IT",
-            "netSalary": "Net Salary",
-            "personalDeduction": "Personal Deduction",
+            "netSalary": "Net salary",
+            "personalDeduction": "Personal deduction",
             "personalDeductionShort": "PD",
             "socialInsurance": "Social Insurance",
             "socialInsuranceShort": "SI"
@@ -104,7 +171,7 @@
         "employer": {
           "foreignCurrency": "CURRENCY",
           "rows": {
-            "totalSalary": "Total Salary",
+            "totalSalary": "Total salary",
             "workInsurance": "Work Insurance Contribution",
             "workInsuranceShort": "WIC"
           },

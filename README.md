@@ -60,7 +60,7 @@ The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.verc
 ## 🚀 Installation and Usage
 
 ### System Requirements
-- Node.js 18+
+- Node.js 22+
 - Yarn 1.22+
 
 ### Installation

@@ -82,6 +82,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                     }
                 ]
             }
+            case FiscalCalculationType.MICRO1:
             case FiscalCalculationType.MICRO3: {
                 const company = handler as FiscalCompanyResult;
 
@@ -128,7 +129,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                         rows: [
                             {
                                 cells: [<PopoverInfo key='incomeTax'
-                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.incomeTax')}
+                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.incomeTax', {percent: type === FiscalCalculationType.MICRO3 ? 3 : 1})}
                                                      text={t('overview.company.micro3.tables.taxes.rows.incomeTaxShort')} />, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]
                             },
                             {
@@ -153,10 +154,112 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                     }
                 ];
             }
-            case FiscalCalculationType.SRL:
-            case FiscalCalculationType.MICRO1:
-            case FiscalCalculationType.PFA:
-                return [];
+            case FiscalCalculationType.SRL: {
+                const company = handler as FiscalCompanyResult;
+
+                return [
+                    {
+                        header: {
+                            columns: [t('overview.company.srl.tables.ownerProfit.title'), 'RON',
+                                (<>{t('overview.company.srl.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
+                        },
+                        rows: [
+                            {
+                                cells: [t('overview.company.srl.tables.ownerProfit.rows.perYear'), transformToRo(company.result[type]!.totalRemaining.year.lei), transformToRo(company.result[type]!.totalRemaining.year.currency)],
+                                className: 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md'
+                            },
+                            {cells: [t('overview.company.srl.tables.ownerProfit.rows.perQuarter'), transformToRo(company.result[type]!.totalRemaining.quarter.lei), transformToRo(company.result[type]!.totalRemaining.quarter.currency)]},
+                            {cells: [t('overview.company.srl.tables.ownerProfit.rows.perMonth'), transformToRo(company.result[type]!.totalRemaining.month.lei), transformToRo(company.result[type]!.totalRemaining.month.currency)]},
+                        ]
+                    },
+                    {
+                        header: {
+                            columns: [t('overview.company.srl.tables.revenue.title'), 'RON',
+                                (<>{t('overview.company.srl.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
+                        },
+                        rows: [
+                            {cells: [t('overview.company.srl.tables.revenue.rows.grossProfit'), transformToRo(company.result[type]!.grossProfit.lei), transformToRo(company.result[type]!.grossProfit.currency)]},
+                            {cells: [t('overview.company.srl.tables.revenue.rows.netProfit'), transformToRo(company.result[type]!.netProfit.lei), transformToRo(company.result[type]!.netProfit.currency)]},
+                            {
+                                cells: [t('overview.company.srl.tables.revenue.rows.totalCollectedProfit'), transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency)],
+                                className: 'text-fiscal-primary [&>td]:font-bold'
+                            }
+                        ]
+                    },
+                    {
+                        header: {
+                            columns: [t('overview.company.srl.tables.taxes.title'), 'RON',
+                                (<>{t('overview.company.srl.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-small'> {company.symbol}</span></>)],
+                            className: 'text-fiscal-primary [&>th]:font-bold'
+                        },
+                        rows: [
+                            {
+                                cells: [<PopoverInfo key='incomeTax'
+                                                     popoverText={t('overview.company.srl.tables.taxes.rows.incomeTax')}
+                                                     text={t('overview.company.srl.tables.taxes.rows.incomeTaxShort')} />, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]
+                            },
+                            {
+                                cells: [<PopoverInfo key='dividendTax'
+                                                     popoverText={t('overview.company.srl.tables.taxes.rows.dividendTax')}
+                                                     text={t('overview.company.srl.tables.taxes.rows.dividendTaxShort')} />, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency)]
+                            },
+                            {cells: [transformToMobile(t('overview.company.srl.tables.taxes.rows.healthInsurance'), t('overview.company.srl.tables.taxes.rows.healthInsuranceShort'), isMobile), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency)]}
+                        ]
+                    }
+                ];
+            }
+            case FiscalCalculationType.PFA: {
+                const company = handler as FiscalCompanyResult;
+
+                return [
+                    {
+                        header: {
+                            columns: [t('overview.company.pfa.tables.ownerProfit.title'), 'RON',
+                                (<>{t('overview.company.pfa.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
+                        },
+                        rows: [
+                            {
+                                cells: [t('overview.company.pfa.tables.ownerProfit.rows.perYear'), transformToRo(company.result[type]!.totalRemaining.year.lei), transformToRo(company.result[type]!.totalRemaining.year.currency)],
+                                className: 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md'
+                            },
+                            {cells: [t('overview.company.pfa.tables.ownerProfit.rows.perQuarter'), transformToRo(company.result[type]!.totalRemaining.quarter.lei), transformToRo(company.result[type]!.totalRemaining.quarter.currency)]},
+                            {cells: [t('overview.company.pfa.tables.ownerProfit.rows.perMonth'), transformToRo(company.result[type]!.totalRemaining.month.lei), transformToRo(company.result[type]!.totalRemaining.month.currency)]},
+                        ]
+                    },
+                    {
+                        header: {
+                            columns: [t('overview.company.pfa.tables.revenue.title'), 'RON',
+                                (<>{t('overview.company.pfa.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
+                        },
+                        rows: [
+                            {cells: [t('overview.company.pfa.tables.revenue.rows.netIncome'), transformToRo(company.result[type]!.netIncome.lei), transformToRo(company.result[type]!.netIncome.currency)]},
+                            {cells: [t('overview.company.pfa.tables.revenue.rows.taxableIncome'), transformToRo(company.result[type]!.taxableIncome!.lei), transformToRo(company.result[type]!.taxableIncome!.currency)]}
+                        ]
+                    },
+                    {
+                        header: {
+                            columns: [t('overview.company.pfa.tables.taxes.title'), 'RON',
+                                (<>{t('overview.company.pfa.tables.ownerProfit.foreignCurrency')}
+                                    <span className='text-small'> {company.symbol}</span></>)],
+                            className: 'text-fiscal-primary [&>th]:font-bold'
+                        },
+                        rows: [
+                            {
+                                cells: [<PopoverInfo key='incomeTax'
+                                                     popoverText={t('overview.company.pfa.tables.taxes.rows.incomeTax')}
+                                                     text={t('overview.company.pfa.tables.taxes.rows.incomeTaxShort')} />, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency)]
+                            },
+                            {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.socialInsurance'), t('overview.company.pfa.tables.taxes.rows.socialInsuranceShort'), isMobile), transformToRo(company.result[type]!.cas!.lei), transformToRo(company.result[type]!.cas!.currency)]},
+                            {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.healthInsurance'), t('overview.company.pfa.tables.taxes.rows.healthInsuranceShort'), isMobile), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency)]}
+                        ]
+                    }
+                ];
+            }
             default:
                 return [];
         }

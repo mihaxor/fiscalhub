@@ -80,6 +80,8 @@ interface FiscalCompanyEntityResult {
     dividendTax: { lei: number; currency: number; };
     totalCollectedProfit: { lei: number; currency: number; };
     cass: { lei: number; currency: number; };
+    cas?: { lei: number; currency: number; };
+    taxableIncome?: { lei: number; currency: number; };
     minMandatoryWage: { lei: number; currency: number; };
     netDividendIncome: { lei: number; currency: number; };
     plusMonthlyEarnedWages: { lei: number; currency: number; };
