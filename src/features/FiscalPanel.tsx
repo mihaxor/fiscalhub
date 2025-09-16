@@ -23,7 +23,7 @@ import {useTranslation} from 'react-i18next';
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
 
-const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'MICRO3'];
+const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
 
 const FiscalPanel = () => {
     const router = useRouter();
@@ -101,7 +101,7 @@ const FiscalPanel = () => {
             <div className='flex flex-row items-start justify-stretch gap-4'>
                 <NumberInput
                     isRequired
-                    defaultValue={0}
+                    defaultValue={value}
                     variant='flat'
                     size='md'
                     maxLength={7}
@@ -171,7 +171,6 @@ const FiscalPanel = () => {
                 <div className='flex flex-row items-center justify-between w-full'>
                     {Object.values(FiscalCalculationType).map((type: FiscalCalculationType, index) =>
                         <Checkbox key={index}
-                                  isDisabled={!(type === FiscalCalculationType.MICRO1 || type === FiscalCalculationType.MICRO3 || type === FiscalCalculationType.CIM)}
                                   size={isMobile ? 'sm' : 'md'}
                                   value={type}
                                   onKeyDown={(e) => handleCheckboxKeyDown(e, type)}>

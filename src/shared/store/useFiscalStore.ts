@@ -2,7 +2,7 @@ import {create} from 'zustand';
 import {FiscalCalculationType, FiscalPeriodType, FiscalType, RateType} from '@/shared/hooks/fiscal.types';
 
 const DEFAULT_FISCAL_INPUTS = {
-    value: 0.00,
+    value: 30000,
     currency: 'RON' as RateType,
     period: 'month' as FiscalPeriodType,
     periods: {
