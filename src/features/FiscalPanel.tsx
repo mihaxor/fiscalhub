@@ -23,7 +23,7 @@ import {useTranslation} from 'react-i18next';
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
 
-const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
+const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'SRL', 'MICRO3'];
 
 const FiscalPanel = () => {
     const router = useRouter();
@@ -101,7 +101,7 @@ const FiscalPanel = () => {
             <div className='flex flex-row items-start justify-stretch gap-4'>
                 <NumberInput
                     isRequired
-                    defaultValue={value}
+                    // defaultValue={value}
                     variant='flat'
                     size='md'
                     maxLength={7}

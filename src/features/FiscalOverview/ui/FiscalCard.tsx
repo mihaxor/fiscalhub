@@ -29,13 +29,13 @@ const FiscalCard: React.FC<{
         <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
             <CardBody
                 className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-10'>
-                <div>
+                <div className='flex flex-col justify-start gap-3'>
                     {getTableStyle(calcType, handler, isMobile)
                         .map((table, index) =>
                             <Table key={index} layout='auto'
                                    isCompact={false}
                                    aria-label={`Table for ${table.header.columns[0]}`}
-                                   className='mb-3 lg:w-150 xl:w-3xl'>
+                                   className='lg:w-150 xl:w-3xl'>
                                 <TableHeader>
                                     {table.header.columns.map((column, index) => (
                                         <TableColumn key={index}
@@ -58,7 +58,7 @@ const FiscalCard: React.FC<{
                                 className='text-fiscal-primary'> {(handler as FiscalPayrollResult).totalEmployerCost.lei} lei</span>
                         </div>}
                 </div>
-                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-evenly gap-3'>
+                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start'>
                     <div className='m-2 lg:m-20 flex flex-row lg:flex-col items-center justify-center gap-4'>
                         <div>
                             <CircularProgress

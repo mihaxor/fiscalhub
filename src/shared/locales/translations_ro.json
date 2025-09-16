@@ -71,7 +71,74 @@
               "dividendTaxShort": "Impozit dividende",
               "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
               "healthInsuranceShort": "CASS",
-              "incomeTax": "3% din venitul brut",
+              "incomeTax": "{{percent}}% din venitul brut",
+              "incomeTaxShort": "Impozit venit"
+            },
+            "title": "IMPOZITE ȘI CONTRIBUȚII"
+          }
+        }
+      },
+      "pfa": {
+        "tables": {
+          "ownerProfit": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "perMonth": "Total pe lunǎ",
+              "perQuarter": "Total pe trimestru",
+              "perYear": "Total pe an"
+            },
+            "title": "PROFIT"
+          },
+          "revenue": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "netIncome": "Venit net",
+              "taxableIncome": "Venit impozabil"
+            },
+            "title": "VENITURI"
+          },
+          "taxes": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
+              "healthInsuranceShort": "CASS",
+              "incomeTax": "10% din venitul net realizat",
+              "incomeTaxShort": "Impozit venit",
+              "socialInsurance": "Asigurǎri Sociale",
+              "socialInsuranceShort": "CAS"
+            },
+            "title": "IMPOZITE ȘI CONTRIBUȚII"
+          }
+        }
+      },
+      "srl": {
+        "tables": {
+          "ownerProfit": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "perMonth": "Total pe lunǎ",
+              "perQuarter": "Total pe trimestru",
+              "perYear": "Total pe an"
+            },
+            "title": "PROFIT CA ADMINISTRATOR"
+          },
+          "revenue": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "grossProfit": "Profit brut",
+              "netProfit": "Profit net",
+              "totalCollectedProfit": "Total profit încasat"
+            },
+            "title": "VENITURI SI PROFITURI"
+          },
+          "taxes": {
+            "foreignCurrency": "VALUTǍ",
+            "rows": {
+              "dividendTax": "10% din profitul distribuit asociaților",
+              "dividendTaxShort": "Impozit dividende",
+              "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
+              "healthInsuranceShort": "CASS",
+              "incomeTax": "16% din profit",
               "incomeTaxShort": "Impozit venit"
             },
             "title": "IMPOZITE ȘI CONTRIBUȚII"
