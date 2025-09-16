@@ -6,6 +6,7 @@
       "label": "Calculate from:",
       "net": "NET - to - GROSS"
     },
+    "calculationTypeError": "At least one calculation type must be selected",
     "currency": "Currency",
     "currencyDesc": "automatically updated exchange rate, source ",
     "footer": {
@@ -189,6 +190,8 @@
       }
     },
     "payRateOverview": {
+      "btnClose": "Close",
+      "btnPayRate": "Show Pay Rate Conversion",
       "periods": {
         "day": "DAY",
         "hour": "HOUR",
@@ -198,7 +201,8 @@
       "tableHeaders": {
         "currency": "CURRENCY",
         "rate": "RATE"
-      }
+      },
+      "title": "Pay Rate Conversion"
     }
   }
 }

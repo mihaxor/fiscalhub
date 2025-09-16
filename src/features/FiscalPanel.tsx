@@ -23,8 +23,6 @@ import {useTranslation} from 'react-i18next';
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
 
-const DEFAULT_CALC_TYPES_CHECKED: FiscalCalculationType[] = ['CIM', 'SRL', 'MICRO3'];
-
 const FiscalPanel = () => {
     const router = useRouter();
 
@@ -39,7 +37,7 @@ const FiscalPanel = () => {
     const selectedModeValue = useMemo(() => Array.from(selectedMode)[0], [selectedMode]);
 
     const [selectedCurrency, setSelectedCurrency] = useState<RateType>(fiscalInputs.currency);
-    const [selectedCalcTypes, setSelectedCalcTypes] = useState<FiscalCalculationType[]>(DEFAULT_CALC_TYPES_CHECKED);
+    const [selectedCalcTypes, setSelectedCalcTypes] = useState<FiscalCalculationType[]>(fiscalInputs.calculationType);
     const [value, setValue] = useState<number>(fiscalInputs.value);
 
     const [isValid, setIsValid] = useState<boolean>(true);
@@ -47,6 +45,7 @@ const FiscalPanel = () => {
     const {t} = useTranslation();
 
     const checkValidity = (value: number) => !!value && value > 0;
+    const isCalcTypeChecked = (type: FiscalCalculationType) => !selectedCalcTypes.includes(type);
 
     const orderCalcTypes = (types: FiscalCalculationType[]) => {
         const order = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
@@ -164,6 +163,8 @@ const FiscalPanel = () => {
                 </div>
             </div>
             <CheckboxGroup
+                isRequired={true}
+                errorMessage={t('general.calculationTypeError')}
                 color='primary'
                 value={selectedCalcTypes}
                 orientation='horizontal'
@@ -179,10 +180,12 @@ const FiscalPanel = () => {
                 </div>
             </CheckboxGroup>
             <div className='flex fles-row items-center justify-between w-full gap-4'>
-                <Chip variant='flat' radius='md' size='lg' className='text-default-500 text-[15px] h-12'>
+                <Chip isDisabled={isCalcTypeChecked(FiscalCalculationType.CIM)} variant='flat' radius='md' size='lg'
+                      className='text-default-500 text-[15px] h-12'>
                     {t('general.calculationType.label')}
                 </Chip>
                 <Dropdown backdrop='blur'
+                          isDisabled={isCalcTypeChecked(FiscalCalculationType.CIM)}
                           classNames={{content: 'min-w-[170px]'}}>
                     <DropdownTrigger>
                         <Button className='w-full text-default-500' variant='faded' size='lg' radius='md'>

@@ -6,6 +6,7 @@
       "label": "Se calculeazǎ din:",
       "net": "NET - în - BRUT"
     },
+    "calculationTypeError": "Trebuie selectat cel puțin un tip de calcul",
     "currency": "Valutǎ",
     "currencyDesc": "curs actualizat automat, sursa ",
     "footer": {
@@ -189,6 +190,8 @@
       }
     },
     "payRateOverview": {
+      "btnClose": "Închide",
+      "btnPayRate": "Afișează conversia ratei de plată",
       "periods": {
         "day": "ZI",
         "hour": "ORǍ",
@@ -198,7 +201,8 @@
       "tableHeaders": {
         "currency": "VALUTǍ",
         "rate": "RATǍ"
-      }
+      },
+      "title": "Conversia ratei de platǎ"
     }
   }
 }
