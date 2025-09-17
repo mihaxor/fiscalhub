@@ -75,9 +75,9 @@ const FiscalCard: React.FC<{
                         </div>
                         <div className='flex justify-center gap-3'>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-warning/95 text-black'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
+                                  className='bg-fiscal-warning/95 text-black min-w-6/12'>{t('overview.circularProgress.income')} {toPercentage(getShares(calcType)!.income)}</Chip>
                             <Chip classNames={{content: 'font-semibold'}}
-                                  className='bg-fiscal-primary/90'>{t('overview.circularProgress.taxes')} {toPercentage(getShares(calcType)!.taxes)}</Chip>
+                                  className='bg-fiscal-primary/90 min-w-6/13'>{t('overview.circularProgress.taxes')} {toPercentage(getShares(calcType)!.taxes)}</Chip>
                         </div>
                     </div>
                     <PayRateOverview />

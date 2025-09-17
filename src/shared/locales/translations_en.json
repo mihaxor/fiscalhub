@@ -63,7 +63,7 @@
               "plusMonthlyEarnedWages": "Plus monthly earned wages",
               "totalCollectedProfit": "Total collected profit"
             },
-            "title": "REVENUES AND PROFITS"
+            "title": "REVENUES & PROFITS"
           },
           "taxes": {
             "foreignCurrency": "CURRENCY",
@@ -75,7 +75,7 @@
               "incomeTax": "{{percent}}% of gross revenue",
               "incomeTaxShort": "Income tax"
             },
-            "title": "TAXES AND CONTRIBUTIONS"
+            "title": "TAXES & CONTRIBUTIONS"
           }
         }
       },
@@ -108,7 +108,7 @@
               "socialInsurance": "Social Insurance Contributions",
               "socialInsuranceShort": "SI"
             },
-            "title": "TAXES AND CONTRIBUTIONS"
+            "title": "TAXES & CONTRIBUTIONS"
           }
         }
       },
@@ -130,7 +130,7 @@
               "netProfit": "Net profit",
               "totalCollectedProfit": "Total collected profit"
             },
-            "title": "REVENUES AND PROFITS"
+            "title": "REVENUES & PROFITS"
           },
           "taxes": {
             "foreignCurrency": "CURRENCY",
@@ -142,7 +142,7 @@
               "incomeTax": "16% of profit",
               "incomeTaxShort": "Income tax"
             },
-            "title": "TAXES AND CONTRIBUTIONS"
+            "title": "TAXES & CONTRIBUTIONS"
           }
         }
       }
