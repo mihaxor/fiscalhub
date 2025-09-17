@@ -51,7 +51,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                             },
                             {cells: [transformToMobile(t('overview.employment.tables.employee.rows.socialInsurance'), t('overview.employment.tables.employee.rows.socialInsuranceShort'), isMobile), toPercentage(taxes.cas), transformToRo(payroll.cas.lei), transformToRo(payroll.cas.currency, 2)]},
                             {cells: [transformToMobile(t('overview.employment.tables.employee.rows.healthInsurance'), t('overview.employment.tables.employee.rows.healthInsuranceShort'), isMobile), toPercentage(taxes.cass), transformToRo(payroll.cass.lei), transformToRo(payroll.cass.currency, 2)]},
-                            {cells: [transformToMobile(t('overview.employment.tables.employee.rows.personalDeduction'), t('overview.employment.tables.employee.rows.personalDeductionShort'), isMobile), null, 0, 0]},
+                            {cells: [transformToMobile(t('overview.employment.tables.employee.rows.personalDeduction'), t('overview.employment.tables.employee.rows.personalDeductionShort'), isMobile), null, transformToRo(payroll.dp.lei), transformToRo(payroll.dp.currency, 2)]},
                             {cells: [transformToMobile(t('overview.employment.tables.employee.rows.incomeTax'), t('overview.employment.tables.employee.rows.incomeTaxShort'), isMobile), toPercentage(taxes.iv), transformToRo(payroll.iv.lei), transformToRo(payroll.iv.currency, 2)]},
                             {
                                 cells: [t('overview.employment.tables.employee.rows.netSalary'), null, transformToRo(payroll.net.lei), transformToRo(payroll.net.currency, 2)],
@@ -90,7 +90,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                 return [
                     {
                         header: {
-                            columns: [validateStrictLength(t('overview.company.micro3.tables.ownerProfit.title'), isMobile? 18: 0), 'RON',
+                            columns: [validateStrictLength(t('overview.company.micro3.tables.ownerProfit.title'), isMobile ? 18 : 0), 'RON',
                                 (<>{t('overview.company.micro3.tables.ownerProfit.foreignCurrency')}
                                     <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
                         },
@@ -161,7 +161,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                 return [
                     {
                         header: {
-                            columns: [validateStrictLength(t('overview.company.srl.tables.ownerProfit.title'), isMobile? 18: 0), 'RON',
+                            columns: [validateStrictLength(t('overview.company.srl.tables.ownerProfit.title'), isMobile ? 18 : 0), 'RON',
                                 (<>{t('overview.company.srl.tables.ownerProfit.foreignCurrency')}
                                     <span className='text-fiscal-warning text-small'> {company.symbol}</span></>)]
                         },
