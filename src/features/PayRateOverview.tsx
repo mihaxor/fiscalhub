@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import {Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader} from '@heroui/drawer';
 import {useDisclosure} from '@heroui/react';
+import {useTheme} from 'next-themes';
 
 const PayRateOverview = () => {
     const {data: rates, isLoading} = useContext(RatesContext);
@@ -20,6 +21,7 @@ const PayRateOverview = () => {
     const {t} = useTranslation();
     const isHiding = useMediaQuery('(max-width: 1024px)');
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const {theme} = useTheme();
 
     const [selectedCurrencyKeys, setSelectedCurrencyKeys] = useState<Set<RateType>>(new Set(['EUR']));
     const selectedCurrencyValue = useMemo(() => Array.from(selectedCurrencyKeys)[0], [selectedCurrencyKeys]);
@@ -72,28 +74,31 @@ const PayRateOverview = () => {
             <Button variant='flat' color='warning' radius='md' onPress={onOpen}>
                 {t('overview.payRateOverview.btnPayRate')}
             </Button>
-                <Drawer placement='bottom' isOpen={isOpen} onOpenChange={onOpenChange}
-                        backdrop='blur'
-                        classNames={{base: 'bg-[#18181b]/60'}}
-                        motionProps={{variants: {enter: {opacity: 1, y: 0}, exit: {y: 100, opacity: 0}},initial: {y: 100, opacity: 0}}}>
-                    <DrawerContent>
-                        {(onClose) => (
-                            <>
-                                <DrawerHeader className='flex flex-col gap-1'>
-                                    {t('overview.payRateOverview.title')}
-                                </DrawerHeader>
-                                <DrawerBody>
-                                    {renderPayRateTable()}
-                                </DrawerBody>
-                                <DrawerFooter>
-                                    <Button color='danger' variant='ghost' onPress={onClose}>
-                                        {t('overview.payRateOverview.btnClose')}
-                                    </Button>
-                                </DrawerFooter>
-                            </>
-                        )}
-                    </DrawerContent>
-                </Drawer>
+            <Drawer placement='bottom' isOpen={isOpen} onOpenChange={onOpenChange}
+                    backdrop='blur'
+                    classNames={{base: theme === 'dark' ? 'bg-black/40' : 'bg-white/90'}}
+                    motionProps={{
+                        variants: {enter: {opacity: 1, y: 0}, exit: {y: 100, opacity: 0}},
+                        initial: {y: 100, opacity: 0}
+                    }}>
+                <DrawerContent>
+                    {(onClose) => (
+                        <>
+                            <DrawerHeader className='flex flex-col gap-1'>
+                                {t('overview.payRateOverview.title')}
+                            </DrawerHeader>
+                            <DrawerBody>
+                                {renderPayRateTable()}
+                            </DrawerBody>
+                            <DrawerFooter>
+                                <Button color='danger' variant='ghost' onPress={onClose}>
+                                    {t('overview.payRateOverview.btnClose')}
+                                </Button>
+                            </DrawerFooter>
+                        </>
+                    )}
+                </DrawerContent>
+            </Drawer>
         </>
     );
 
