@@ -119,7 +119,7 @@ const useFiscalCompany = () => {
             grossAmount,
             calculationType,
             taxes = FiscalConfig.DEFAULT_TAXES,
-            dp = FiscalConfig.DEFAULT_DP_COMPANY,
+            dp = FiscalConfig.DP_COMPANY,
             minWageMandatory = FiscalConfig.MANDATORY_MIN_WAGE,
             deductibleExpenses = FiscalConfig.DEDUCTIBLE_EXPENSES,
             incomeNorm = FiscalConfig.INCOME_NORM,

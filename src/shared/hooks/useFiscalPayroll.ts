@@ -4,6 +4,19 @@ import {FiscalConfig} from '@/config/fiscal';
 
 const useFiscalPayroll = () => {
 
+    const calcDpPayroll = useCallback((gross: number): number => {
+        const minGross = FiscalConfig.MANDATORY_MIN_WAGE;
+        const maxGross = FiscalConfig.DP_PAYROLL_GROSS_MAX;
+        const dpMax = FiscalConfig.DP_PAYROLL_MAX;
+        const dpMin = FiscalConfig.DP_PAYROLL_MIN;
+        const ratio = (maxGross - gross) / (maxGross - minGross);
+
+        if (gross <= minGross) return dpMax;
+        if (gross > maxGross) return FiscalConfig.DP_PAYROLL;
+
+        return dpMin + (dpMax - dpMin) * ratio;
+    }, []);
+
     /**
      * Payroll calculator (RO) – unificat: din NET sau din GROSS
      *
@@ -40,7 +53,7 @@ const useFiscalPayroll = () => {
             fromType,
             value,
             taxes = FiscalConfig.DEFAULT_TAXES,
-            dp = FiscalConfig.DEFAULT_DP_PAYROLL,
+            dp = FiscalConfig.DP_PAYROLL,
             rate,
             roundMode = 'round',
         } = opts;
@@ -51,30 +64,43 @@ const useFiscalPayroll = () => {
 
         const cas = (g: number) => g * taxes.cas;
         const cass = (g: number) => g * taxes.cass;
-        const ivVal = (g: number) => {
-            const base = Math.max(0, g - cas(g) - cass(g) - dp);
+        const ivVal = (g: number, dpLocal: number) => {
+            const base = Math.max(0, g - cas(g) - cass(g) - dpLocal);
             return base * taxes.iv;
         };
-        const net = (g: number) => g - cas(g) - cass(g) - ivVal(g);
+        const net = (g: number, dpLocal: number) => g - cas(g) - cass(g) - ivVal(g, dpLocal);
         const cam = (g: number) => g * taxes.cam;
         const totalEmployer = (g: number) => g + cam(g);
 
-        let gross;
+        let gross: number;
 
         if (fromType === 'gross') {
             gross = value;
         } else if (fromType === 'net') {
-            const A = 1 - taxes.cas - taxes.cass;
-            const denom = A * (1 - taxes.iv);
-
-            if (denom <= 0) throw new Error('Rate invalid conversion.');
-            gross = (value - taxes.iv * dp) / denom;
+            if (dp > 0) {
+                const A = 1 - taxes.cas - taxes.cass;
+                const denom = A * (1 - taxes.iv);
+                if (denom <= 0) throw new Error('Rate invalid conversion.');
+                gross = (value - taxes.iv * dp) / denom;
+            } else {
+                const f = (g: number) => net(g, calcDpPayroll(g));
+                let lo = Math.max(0, value);
+                let hi = Math.max(value * 2, 20000);
+                for (let i = 0; i < 60; i++) {
+                    const mid = (lo + hi) / 2;
+                    const n = f(mid);
+                    if (n > value) hi = mid; else lo = mid;
+                }
+                gross = (lo + hi) / 2;
+            }
         } else throw new Error('The parameter "fromType" should be "net" or "gross".');
+
+        const dpUsed = (dp > 0) ? dp : calcDpPayroll(gross);
 
         const casLei = cas(gross);
         const cassLei = cass(gross);
-        const ivLei = ivVal(gross);
-        const netLei = net(gross);
+        const ivLei = ivVal(gross, dpUsed);
+        const netLei = net(gross, dpUsed);
         const camLei = cam(gross);
         const totalCost = totalEmployer(gross);
 
@@ -87,7 +113,7 @@ const useFiscalPayroll = () => {
             gross: {lei: roundValue(gross), currency: exchange(gross)},
             cas: {lei: roundValue(casLei), currency: exchange(casLei)},
             cass: {lei: roundValue(cassLei), currency: exchange(cassLei)},
-            dp: {lei: roundValue(dp), currency: exchange(dp)},
+            dp: {lei: roundValue(dpUsed), currency: exchange(dpUsed)},
             iv: {lei: roundValue(ivLei), currency: exchange(ivLei)},
             net: {lei: roundValue(netLei), currency: exchange(netLei)},
             cam: {lei: roundValue(camLei), currency: exchange(camLei)},
@@ -103,6 +129,7 @@ const useFiscalPayroll = () => {
     }, []);
     return {
         calcPayroll,
+        calcDpPayroll,
         taxes: FiscalConfig.DEFAULT_TAXES
     };
 }

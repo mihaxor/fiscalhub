@@ -9,11 +9,15 @@ export const FiscalConfig = {
         srlProfit: 0.16,                                                     // 16% (Impozit SRL pe profit)
         dividend: 0.10                                                       // 10% (Impozit dividende)
     },
-    DEFAULT_DP_PAYROLL: 0,                                                   // Deducere personala (lei) pentru calcul salariu
-    DEFAULT_DP_COMPANY: 2057.5,                                              // Deducere personala (lei) pentru calcul SRL
     DEDUCTIBLE_EXPENSES: 0,                                                  // Cheltuieli deductibile (pentru SRL)
     INCOME_NORM: 0,                                                          // Norma de venit (pentru PFA)
     MANDATORY_MIN_WAGE: 4050,                                                // Salariul minim obligatoriu (lei)
+
+    DP_COMPANY: 2057.5,                                                      // Deducere personala (lei) pentru calcul SRL
+    DP_PAYROLL: 0,                                                           // Deducere personala (lei) pentru calcul salariu
+    DP_PAYROLL_MAX: 810,                                                     // DP maximă (lei) până la salariul minim
+    DP_PAYROLL_MIN: 20,                                                      // DP minimă (lei) la salariul de 6000 lei
+    DP_PAYROLL_GROSS_MAX: 6000,                                              // Brut de la care DP devine 0 (presupus liniar până aici)
     ROUND_MODES: ['round', 'floor', 'ceil'] as const
 } as const;
 
