@@ -11,7 +11,7 @@ const DEFAULT_FISCAL_INPUTS = {
         month: 0,
         year: 0
     },
-    fromType: 'net' as FiscalType,
+    fromType: 'gross' as FiscalType,
     calculationType: ['CIM', 'SRL', 'MICRO3'] as FiscalCalculationType[]
 }
 

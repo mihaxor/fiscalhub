@@ -137,7 +137,7 @@ const useCurrency = (rates: Record<RateType, number> | undefined) => {
                 return value * rates[fromCurrency] / rates[toCurrency];
             } else return value;
         } else return value;
-    }, []);
+    }, [rates]);
 
     return {
         eur,

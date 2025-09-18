@@ -41,7 +41,7 @@ const PayRateOverview = () => {
                 <TableColumn>RON</TableColumn>
                 <TableColumn align='center' className='p-0' width={1}>
                     {t('overview.payRateOverview.tableHeaders.currency')}
-                    <Dropdown classNames={{content: 'min-w-max'}}>
+                    <Dropdown classNames={{content: 'min-w-max'}} backdrop='opaque'>
                         <DropdownTrigger>
                             <Button className='text-fiscal-warning text-small min-w-0 p-4 ml-2'
                                     variant='ghost'>{getSymbol(selectedCurrencyValue)}</Button>
@@ -50,8 +50,8 @@ const PayRateOverview = () => {
                             disallowEmptySelection
                             aria-label='Select pay rate currency'
                             selectionMode='single'
-                            onSelectionChange={(keys) => setSelectedCurrencyKeys(new Set(Array.from(keys as Set<RateType>)))}
-                        >
+                            selectedKeys={selectedCurrencyKeys}
+                            onSelectionChange={(keys) => setSelectedCurrencyKeys(new Set(Array.from(keys as Set<RateType>)))}>
                             <DropdownItem key='EUR'>EUR</DropdownItem>
                             <DropdownItem key='USD'>USD</DropdownItem>
                             <DropdownItem key='GBP'>GBP</DropdownItem>

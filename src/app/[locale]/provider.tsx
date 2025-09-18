@@ -1,6 +1,7 @@
 'use client'
 
-import {HeroUIProvider} from '@heroui/react'
+import {HeroUIProvider} from '@heroui/react';
+import {ToastProvider} from '@heroui/toast';
 import React, {useEffect} from 'react';
 import {ThemeProvider} from 'next-themes';
 import {RatesProvider} from '@/shared/store/useRatesStore';
@@ -18,6 +19,15 @@ export const Providers = ({children}: { children: React.ReactNode }) => {
     return (
         <ThemeProvider attribute='class' defaultTheme='dark'>
             <HeroUIProvider className='flex justify-center mx-5'>
+                <ToastProvider
+                    placement='top-center'
+                    toastProps={{
+                        radius: 'md',
+                        variant: 'bordered',
+                        timeout: 3500,
+                        hideIcon: false
+                    }}
+                />
                 <RatesProvider>
                     {children}
                 </RatesProvider>

@@ -12,6 +12,8 @@ export const FiscalConfig = {
     DEDUCTIBLE_EXPENSES: 0,                                                  // Cheltuieli deductibile (pentru SRL)
     INCOME_NORM: 0,                                                          // Norma de venit (pentru PFA)
     MANDATORY_MIN_WAGE: 4050,                                                // Salariul minim obligatoriu (lei)
+    COMPANY_MAX_GROSS_MICRO1: 60000,                                        // Prag maxim (lei) pentru Micro 1 (60.000 EUR)
+    COMPANY_MAX_GROSS_MICRO3: 500000,                                       // Prag maxim (lei) pentru Micro 3 (500.000 EUR)
 
     DP_COMPANY: 2057.5,                                                      // Deducere personala (lei) pentru calcul SRL
     DP_PAYROLL: 0,                                                           // Deducere personala (lei) pentru calcul salariu

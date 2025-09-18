@@ -9,6 +9,15 @@ import {FiscalConfig} from '@/config/fiscal';
 
 const useFiscalCompany = () => {
 
+    const verifyGrossInterval = (type: FiscalCalculationType, grossEur: number): boolean => {
+        const disallowedTypes: FiscalCalculationType[] = [];
+
+        if (grossEur > FiscalConfig.COMPANY_MAX_GROSS_MICRO1) disallowedTypes.push(FiscalCalculationType.MICRO1);
+        if (grossEur > FiscalConfig.COMPANY_MAX_GROSS_MICRO3) disallowedTypes.push(FiscalCalculationType.MICRO3);
+
+        return disallowedTypes.includes(type);
+    };
+
     const buildFiscalEntityResult = useCallback((
         params: {
             monthlyRevenue: number;
@@ -331,6 +340,7 @@ const useFiscalCompany = () => {
     }, []);
     return {
         calcCompany,
+        verifyGrossInterval,
         taxes: FiscalConfig.DEFAULT_TAXES
     };
 };
