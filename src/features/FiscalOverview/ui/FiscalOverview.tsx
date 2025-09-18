@@ -14,7 +14,7 @@ import useFiscalCompany from '@/shared/hooks/useFiscalCompany';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
-    const {verifyCurrency} = useCurrency(rates);
+    const {verifyCurrency, convertTo} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
     const {calcCompany} = useFiscalCompany();
@@ -22,11 +22,26 @@ const FiscalOverview = () => {
     const isMobileCard = useMediaQuery('(max-width: 480px)');
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
+    const normalisedValue = fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1);
+    const annualGrossEur = convertTo(fiscalInputs.periods.year, fiscalInputs.currency, 'EUR');
 
-    useEffect(() => {
+    // FIXME: check if calculation not available because of the interval
+    useEffect(() => { // Reset selected tab if not in available types
         if (!fiscalInputs.calculationType.includes(selected as FiscalCalculationType))
             setSelected(fiscalInputs.calculationType[0]);
     }, [fiscalInputs.calculationType]);
+
+    // useEffect(() => { // Notify user if selected calculation type is not available for the given gross
+    //     fiscalInputs.calculationType.forEach(type => {
+    //         const isAllowed = verifyGrossInterval(type, annualGrossEur);
+    //
+    //         if (isAllowed) setTimeout(() => addToast({
+    //             title: `Impozitarea la ${type} nu se aplica`,
+    //             description: `Venitul anual depaseste pragul cifrei de afaceri de ${FiscalConfig[`COMPANY_MAX_GROSS_${type}` as keyof typeof FiscalConfig]} euro`,
+    //             color: 'warning',
+    //         }), 200);
+    //     })
+    // }, [annualGrossEur, fiscalInputs.calculationType]);
 
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
@@ -34,7 +49,7 @@ const FiscalOverview = () => {
         return ({
             ...calcPayroll({
                 fromType: fiscalInputs.fromType.toLowerCase() as FiscalType,
-                value: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
+                value: normalisedValue,
                 rate: currencyVerified.rate
             }),
             symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
@@ -46,7 +61,7 @@ const FiscalOverview = () => {
 
         return ({
             ...calcCompany({
-                grossAmount: fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1),
+                grossAmount: normalisedValue,
                 calculationType: fiscalInputs.calculationType.filter(type => type !== FiscalCalculationType.CIM),
                 rate: currencyVerified.rate
             }),
@@ -54,9 +69,12 @@ const FiscalOverview = () => {
         });
     }, [fiscalInputs]);
 
-    const calculationType = (types: FiscalCalculationType[]): React.ReactNode => {
-        return types.map((type) =>
-            <Tab key={type} title={type.toUpperCase()} className='p-0 sm:px-7.25 lg:px-10'>
+    const calculationType = (types: FiscalCalculationType[]): React.ReactNode =>
+        types.map((type) =>
+            <Tab key={type}
+                 // isDisabled={verifyGrossInterval(type, annualGrossEur)}
+                 title={type.toUpperCase()}
+                 className='p-0 sm:px-7.25 lg:px-10'>
                 <FiscalCard
                     calcType={type}
                     taxes={taxes}
@@ -65,9 +83,8 @@ const FiscalOverview = () => {
                 />
             </Tab>
         )
-    }
 
-    if (fiscalInputs.value === 0 && payrollResult.gross.currency === 0) return null;
+    if (fiscalInputs.value === 0 || annualGrossEur === 0) return null;
 
     return (
         <div id='result'>

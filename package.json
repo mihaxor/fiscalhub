@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@heroui/react": "^2.8.4",
+    "@heroui/toast": "^2.0.16",
     "framer-motion": "^12.23.14",
     "gsap": "^3.13.0",
     "i18next": "^25.5.2",
