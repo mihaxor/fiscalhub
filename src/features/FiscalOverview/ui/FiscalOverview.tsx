@@ -37,8 +37,6 @@ const FiscalOverview = () => {
         const allowedTypes = fiscalInputs.calculationType
             .filter(type => !verifyGrossInterval(type, annualGrossEur));
 
-        console.log('allowedTypes', allowedTypes, fiscalInputs.calculationType);
-
         if (allowedTypes.length !== 0) {
             setSelected(allowedTypes[0]);
         } else setSelected(0);

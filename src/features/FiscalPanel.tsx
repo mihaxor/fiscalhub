@@ -22,6 +22,7 @@ import {useTranslation} from 'react-i18next';
 
 const DEFAULT_CURRENCY_OPTIONS = ['RON', 'EUR', 'USD', 'GBP']
     .sort((a, b) => a.localeCompare(b));
+const DEFAULT_ORDER_CALC_TYPES = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
 
 const FiscalPanel = () => {
     const router = useRouter();
@@ -47,15 +48,13 @@ const FiscalPanel = () => {
     const checkValidity = (value: number) => !!value && value > 0;
     const isCalcTypeChecked = (type: FiscalCalculationType) => !selectedCalcTypes.includes(type);
 
-    const orderCalcTypes = (types: FiscalCalculationType[]) => {
-        const order = ['CIM', 'SRL', 'MICRO1', 'MICRO3', 'PFA'];
+    const orderCalcTypes = (types: FiscalCalculationType[]) =>
+        types.sort((a, b) => {
+            const indexA = DEFAULT_ORDER_CALC_TYPES.indexOf(a);
+            const indexB = DEFAULT_ORDER_CALC_TYPES.indexOf(b);
 
-        return types.sort((a, b) => {
-            const indexA = order.indexOf(a);
-            const indexB = order.indexOf(b);
             return indexA - indexB;
-        });
-    }
+        })
 
     const handleValueChange = (value: number) => {
         setIsValid(checkValidity(value));
