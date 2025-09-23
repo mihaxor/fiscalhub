@@ -108,7 +108,7 @@
               "healthInsurance": "Health Insurance Contributions",
               "healthInsuranceShort": "HI",
               "incomeTax": "10% of gross revenue",
-              "incomeTaxShort": "Income tax",
+              "incomeTaxShort": "IT",
               "socialInsurance": "Social Insurance Contributions",
               "socialInsuranceShort": "SI"
             },

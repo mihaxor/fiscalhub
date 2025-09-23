@@ -250,11 +250,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                             className: 'text-fiscal-primary [&>th]:font-bold'
                         },
                         rows: [
-                            {
-                                cells: [<PopoverInfo key='incomeTax'
-                                                     popoverText={t('overview.company.pfa.tables.taxes.rows.incomeTax')}
-                                                     text={t('overview.company.pfa.tables.taxes.rows.incomeTaxShort')} />, toPercentage(taxes.iv), transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]
-                            },
+                            {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.incomeTax'), t('overview.company.pfa.tables.taxes.rows.incomeTaxShort'), isMobile), toPercentage(taxes.iv), transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]},
                             {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.socialInsurance'), t('overview.company.pfa.tables.taxes.rows.socialInsuranceShort'), isMobile), toPercentage(taxes.cas), transformToRo(company.result[type]!.cas!.lei), transformToRo(company.result[type]!.cas!.currency, 2)]},
                             {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.healthInsurance'), t('overview.company.pfa.tables.taxes.rows.healthInsuranceShort'), isMobile), toPercentage(taxes.cass), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency, 2)]}
                         ]
