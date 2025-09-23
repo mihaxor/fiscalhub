@@ -7,6 +7,10 @@
       "net": "NET - în - BRUT"
     },
     "calculationTypeError": "Trebuie selectat cel puțin un tip de calcul",
+    "calculationTypeWarning": {
+      "title": "Impozitarea la {{type}} nu se aplica",
+      "description": "Venitul anual depaseste pragul cifrei de afaceri de {{maxGross}} euro"
+    },
     "currency": "Valutǎ",
     "currencyDesc": "curs actualizat automat, sursa ",
     "footer": {

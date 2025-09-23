@@ -7,6 +7,10 @@
       "net": "NET - to - GROSS"
     },
     "calculationTypeError": "At least one calculation type must be selected",
+    "calculationTypeWarning": {
+      "title": "Taxation for {{type}} does not apply",
+      "description": "Annual income exceeds the turnover threshold of {{maxGross}} euros"
+    },
     "currency": "Currency",
     "currencyDesc": "automatically updated exchange rate, source ",
     "footer": {
