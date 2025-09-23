@@ -11,37 +11,51 @@ import FiscalCard from './FiscalCard';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import useFiscalCompany from '@/shared/hooks/useFiscalCompany';
+import {addToast} from '@heroui/toast';
+import {FiscalConfig} from '@/config/fiscal';
+import {useTranslation} from 'react-i18next';
 
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
     const {verifyCurrency, convertTo} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
-    const {calcCompany} = useFiscalCompany();
+    const {calcCompany, verifyGrossInterval} = useFiscalCompany();
     const isMobile = useMediaQuery('(max-width: 639px)');
     const isMobileCard = useMediaQuery('(max-width: 480px)');
+    const {t} = useTranslation();
 
     const [selected, setSelected] = useState<string | number>(fiscalInputs.calculationType[0] || FiscalCalculationType.CIM);
     const normalisedValue = fiscalInputs.periods.month * (rates?.[fiscalInputs.currency] ?? 1);
     const annualGrossEur = convertTo(fiscalInputs.periods.year, fiscalInputs.currency, 'EUR');
 
-    // FIXME: check if calculation not available because of the interval
-    useEffect(() => { // Reset selected tab if not in available types
-        if (!fiscalInputs.calculationType.includes(selected as FiscalCalculationType))
-            setSelected(fiscalInputs.calculationType[0]);
-    }, [fiscalInputs.calculationType]);
+    useEffect(() => {
+        checkIntervals();
+    }, [annualGrossEur, fiscalInputs.calculationType]);
 
-    // useEffect(() => { // Notify user if selected calculation type is not available for the given gross
-    //     fiscalInputs.calculationType.forEach(type => {
-    //         const isAllowed = verifyGrossInterval(type, annualGrossEur);
-    //
-    //         if (isAllowed) setTimeout(() => addToast({
-    //             title: `Impozitarea la ${type} nu se aplica`,
-    //             description: `Venitul anual depaseste pragul cifrei de afaceri de ${FiscalConfig[`COMPANY_MAX_GROSS_${type}` as keyof typeof FiscalConfig]} euro`,
-    //             color: 'warning',
-    //         }), 200);
-    //     })
-    // }, [annualGrossEur, fiscalInputs.calculationType]);
+    const checkIntervals = () => {
+        const allowedTypes = fiscalInputs.calculationType
+            .filter(type => !verifyGrossInterval(type, annualGrossEur));
+
+        console.log('allowedTypes', allowedTypes, fiscalInputs.calculationType);
+
+        if (allowedTypes.length !== 0) {
+            setSelected(allowedTypes[0]);
+        } else setSelected(0);
+
+        fiscalInputs.calculationType.forEach(type => {
+            const isAllowed = verifyGrossInterval(type, annualGrossEur);
+
+            if (isAllowed) setTimeout(() => addToast({
+                title: t('general.calculationTypeWarning.title', {type}),
+                description: t(
+                    'general.calculationTypeWarning.description',
+                    {maxGross: FiscalConfig[`COMPANY_MAX_GROSS_${type}` as keyof typeof FiscalConfig]}
+                ),
+                color: 'warning',
+            }), 200);
+        });
+    }
 
     const payrollResult = useMemo(() => {
         const currencyVerified = verifyCurrency(fiscalInputs.currency, rates);
@@ -72,7 +86,7 @@ const FiscalOverview = () => {
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode =>
         types.map((type) =>
             <Tab key={type}
-                 // isDisabled={verifyGrossInterval(type, annualGrossEur)}
+                 isDisabled={verifyGrossInterval(type, annualGrossEur)}
                  title={type.toUpperCase()}
                  className='p-0 sm:px-7.25 lg:px-10'>
                 <FiscalCard
