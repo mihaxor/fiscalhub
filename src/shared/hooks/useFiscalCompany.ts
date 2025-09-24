@@ -99,6 +99,8 @@ const useFiscalCompany = () => {
         } as FiscalCompanyEntityResult;
     }, []);
 
+    const minWageNumber = (grossAmount: number) => grossAmount >= 9000 ? grossAmount >= 14000 ? 24 : 12 : 6
+
     /**
      * Calculator fiscal pentru companii (RO) - SRL, MICRO, PFA
      *
@@ -160,7 +162,7 @@ const useFiscalCompany = () => {
                         const dividendTax = netProfit * taxes.dividend;
                         const totalCollectedProfit = netProfit - dividendTax;
 
-                        const cassDividends = minSalaryMonthly * 24 * taxes.cass;
+                        const cassDividends = minSalaryMonthly * minWageNumber(grossAmount) * taxes.cass;
 
                         const netDividendIncome = totalCollectedProfit - cassDividends;
 
@@ -218,7 +220,7 @@ const useFiscalCompany = () => {
                         const minSalaryMonthly = minWageMandatory;
                         const minMandatorySalaryAnnual = minSalaryMonthly * 12;
 
-                        const cassDividends = minSalaryMonthly * 24 * taxes.cass;
+                        const cassDividends = minSalaryMonthly * minWageNumber(grossAmount) * taxes.cass;
 
                         const netDividendIncome = totalCollectedProfit - cassDividends;
 
