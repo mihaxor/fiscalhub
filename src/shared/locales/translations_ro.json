@@ -8,8 +8,8 @@
     },
     "calculationTypeError": "Trebuie selectat cel puțin un tip de calcul",
     "calculationTypeWarning": {
-      "title": "Impozitarea la {{type}} nu se aplica",
-      "description": "Venitul anual depaseste pragul cifrei de afaceri de {{maxGross}} euro"
+      "description": "Venitul anual depaseste pragul cifrei de afaceri de {{maxGross}} euro",
+      "title": "Impozitarea la {{type}} nu se aplica"
     },
     "currency": "Valutǎ",
     "currencyDesc": "curs actualizat automat, sursa ",
@@ -72,11 +72,11 @@
           "taxes": {
             "foreignCurrency": "VALUTǍ",
             "rows": {
-              "dividendTax": "10% din profitul distribuit asociaților",
+              "dividendTax": "{{percent}} din profitul distribuit asociaților",
               "dividendTaxShort": "Impozit dividende",
               "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
               "healthInsuranceShort": "CASS",
-              "incomeTax": "{{percent}}% din venitul brut",
+              "incomeTax": "{{percent}} din venitul brut",
               "incomeTaxShort": "Impozit venit"
             },
             "title": "IMPOZITE ȘI CONTRIBUȚII"
@@ -107,7 +107,7 @@
             "rows": {
               "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
               "healthInsuranceShort": "CASS",
-              "incomeTax": "10% din venitul net realizat",
+              "incomeTax": "{{percent}} din venitul net realizat",
               "incomeTaxShort": "IV",
               "socialInsurance": "Asigurǎri Sociale",
               "socialInsuranceShort": "CAS"
@@ -139,11 +139,11 @@
           "taxes": {
             "foreignCurrency": "VALUTǍ",
             "rows": {
-              "dividendTax": "10% din profitul distribuit asociaților",
+              "dividendTax": "{{percent}} din profitul distribuit asociaților",
               "dividendTaxShort": "Impozit dividende",
               "healthInsurance": "Asigurǎri Sociale de Sǎnǎtate",
               "healthInsuranceShort": "CASS",
-              "incomeTax": "16% din profit",
+              "incomeTax": "{{percent}} din profit",
               "incomeTaxShort": "Impozit venit"
             },
             "title": "IMPOZITE ȘI CONTRIBUȚII"
@@ -192,6 +192,11 @@
           "title": "TOTAL TAXE"
         }
       }
+    },
+    "fiscalYear": {
+      "description": "Obține calculul pentru <year>{{year}}</year> cu toate taxele incluse.",
+      "title": "Activeaza ultimele taxari",
+      "warning": "(doar pentru companii)"
     },
     "payRateOverview": {
       "btnClose": "Închide",

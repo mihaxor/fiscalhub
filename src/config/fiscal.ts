@@ -7,18 +7,21 @@ export const FiscalConfig = {
         micro1: 0.01,                                                        // 1% (Impozit Micro 1)
         micro3: 0.03,                                                        // 3% (Impozit Micro 3)
         srlProfit: 0.16,                                                     // 16% (Impozit SRL pe profit)
-        dividend: 0.10                                                       // 10% (Impozit dividende)
+        dividend: {
+            2025: 0.10,                                                      // 10% (Impozit dividende)
+            2026: 0.16                                                       // 16% (Impozit dividende)
+        } as Readonly<Record<number, number>>
     },
     DEDUCTIBLE_EXPENSES: 0,                                                  // Cheltuieli deductibile (pentru SRL)
     INCOME_NORM: 0,                                                          // Norma de venit (pentru PFA)
     MANDATORY_MIN_WAGE: 4050,                                                // Salariul minim obligatoriu (lei)
-    COMPANY_MAX_GROSS_MICRO1: 60000,                                        // Prag maxim (lei) pentru Micro 1 (60.000 EUR)
-    COMPANY_MAX_GROSS_MICRO3: 500000,                                       // Prag maxim (lei) pentru Micro 3 (500.000 EUR)
+    COMPANY_MAX_GROSS_MICRO1: 60000,                                         // Prag maxim (lei) pentru Micro 1 (60.000 EUR)
+    COMPANY_MAX_GROSS_MICRO3: 250000,                                        // Prag maxim (lei) pentru Micro 3 (250.000 EUR)
 
     DP_COMPANY: 2057.5,                                                      // Deducere personala (lei) pentru calcul SRL
     DP_PAYROLL: 0,                                                           // Deducere personala (lei) pentru calcul salariu
-    DP_PAYROLL_MAX: 810,                                                     // DP maximă (lei) până la salariul minim
-    DP_PAYROLL_MIN: 20,                                                      // DP minimă (lei) la salariul de 6000 lei
+    DP_PAYROLL_MAX: 810,                                                     // Deducere personala maximă (lei) până la salariul minim
+    DP_PAYROLL_MIN: 20,                                                      // Deducere personala minimă (lei) la salariul de 6000 lei
     DP_PAYROLL_GROSS_MAX: 6000,                                              // Brut de la care DP devine 0 (presupus liniar până aici)
     ROUND_MODES: ['round', 'floor', 'ceil'] as const
 } as const;

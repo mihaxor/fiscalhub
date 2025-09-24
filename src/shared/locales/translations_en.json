@@ -8,8 +8,8 @@
     },
     "calculationTypeError": "At least one calculation type must be selected",
     "calculationTypeWarning": {
-      "title": "Taxation for {{type}} does not apply",
-      "description": "Annual income exceeds the turnover threshold of {{maxGross}} euros"
+      "description": "Annual income exceeds the turnover threshold of {{maxGross}} euros",
+      "title": "Taxation for {{type}} does not apply"
     },
     "currency": "Currency",
     "currencyDesc": "automatically updated exchange rate, source ",
@@ -72,11 +72,11 @@
           "taxes": {
             "foreignCurrency": "CURRENCY",
             "rows": {
-              "dividendTax": "10% of the profit distributed to shareholders",
+              "dividendTax": "{{percent}} of the profit distributed to shareholders",
               "dividendTaxShort": "Dividend tax",
               "healthInsurance": "Health Insurance Contributions",
               "healthInsuranceShort": "HI",
-              "incomeTax": "{{percent}}% of gross revenue",
+              "incomeTax": "{{percent}} of gross revenue",
               "incomeTaxShort": "Income tax"
             },
             "title": "TAXES & CONTRIBUTIONS"
@@ -107,7 +107,7 @@
             "rows": {
               "healthInsurance": "Health Insurance Contributions",
               "healthInsuranceShort": "HI",
-              "incomeTax": "10% of gross revenue",
+              "incomeTax": "{{percent}} of gross revenue",
               "incomeTaxShort": "IT",
               "socialInsurance": "Social Insurance Contributions",
               "socialInsuranceShort": "SI"
@@ -139,11 +139,11 @@
           "taxes": {
             "foreignCurrency": "CURRENCY",
             "rows": {
-              "dividendTax": "10% of the profit distributed to shareholders",
+              "dividendTax": "{{percent}} of the profit distributed to shareholders",
               "dividendTaxShort": "Dividend tax",
               "healthInsurance": "Health Insurance Contributions",
               "healthInsuranceShort": "HI",
-              "incomeTax": "16% of profit",
+              "incomeTax": "{{percent}} of profit",
               "incomeTaxShort": "Income tax"
             },
             "title": "TAXES & CONTRIBUTIONS"
@@ -192,6 +192,11 @@
           "title": "TOTAL TAXES"
         }
       }
+    },
+    "fiscalYear": {
+      "description": "Get the <year>{{year}}</year> calculation with all taxes included.",
+      "title": "Activate latest tax rates",
+      "warning": "(for companies only)"
     },
     "payRateOverview": {
       "btnClose": "Close",
