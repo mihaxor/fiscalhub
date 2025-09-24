@@ -195,7 +195,7 @@
     },
     "fiscalYear": {
       "description": "Obține calculul pentru <year>{{year}}</year> cu toate taxele incluse.",
-      "title": "Activeaza ultimele taxari",
+      "title": "Activeazǎ ultimele taxǎri",
       "warning": "(doar pentru companii)"
     },
     "payRateOverview": {

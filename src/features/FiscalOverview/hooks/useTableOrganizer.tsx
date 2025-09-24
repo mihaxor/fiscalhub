@@ -114,7 +114,7 @@ export const useTableOrganizer = (taxes: Taxes, fiscalYear: number = 2025, t: TF
                             {cells: [t('overview.company.micro3.tables.revenue.rows.netProfit'), transformToRo(company.result[type]!.netProfit.lei), transformToRo(company.result[type]!.netProfit.currency, 2)]},
                             {
                                 cells: [t('overview.company.micro3.tables.revenue.rows.totalCollectedProfit'), transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency, 2)],
-                                className: 'text-fiscal-primary [&>td]:font-bold'
+                                className: 'text-fiscal-primary'
                             },
                             {cells: [t('overview.company.micro3.tables.revenue.rows.netDividendIncome'), transformToRo(company.result[type]!.netDividendIncome.lei), transformToRo(company.result[type]!.netDividendIncome.currency, 2)]},
                             {cells: [t('overview.company.micro3.tables.revenue.rows.plusMonthlyEarnedWages'), transformToRo(company.result[type]!.plusMonthlyEarnedWages.lei), transformToRo(company.result[type]!.plusMonthlyEarnedWages.currency, 2)]},
@@ -185,7 +185,7 @@ export const useTableOrganizer = (taxes: Taxes, fiscalYear: number = 2025, t: TF
                             {cells: [t('overview.company.srl.tables.revenue.rows.netProfit'), transformToRo(company.result[type]!.netProfit.lei), transformToRo(company.result[type]!.netProfit.currency, 2)]},
                             {
                                 cells: [t('overview.company.srl.tables.revenue.rows.totalCollectedProfit'), transformToRo(company.result[type]!.totalCollectedProfit.lei), transformToRo(company.result[type]!.totalCollectedProfit.currency, 2)],
-                                className: 'text-fiscal-primary [&>td]:font-bold'
+                                className: 'text-fiscal-primary'
                             }
                         ]
                     },
