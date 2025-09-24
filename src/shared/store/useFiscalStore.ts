@@ -13,7 +13,8 @@ const DEFAULT_FISCAL_INPUTS = {
     },
     fromType: 'gross' as FiscalType,
     calculationType: ['CIM', 'SRL', 'MICRO3'] as FiscalCalculationType[]
-}
+};
+const DEFAULT_FISCAL_YEAR = 2025;
 
 type FiscalState = {
     fiscalInputs: {
@@ -29,10 +30,14 @@ type FiscalState = {
         fromType: FiscalType;
         calculationType: FiscalCalculationType[];
     },
+    fiscalYear: number;
     setFiscalInputs: (inputs: FiscalState['fiscalInputs']) => void;
+    setFiscalYear: (year: number) => void;
 }
 
 export const useFiscalStore = create<FiscalState>((set) => ({
     fiscalInputs: DEFAULT_FISCAL_INPUTS,
-    setFiscalInputs: (inputs: FiscalState['fiscalInputs']) => set({fiscalInputs: inputs})
+    fiscalYear: DEFAULT_FISCAL_YEAR,
+    setFiscalInputs: (inputs: FiscalState['fiscalInputs']) => set({fiscalInputs: inputs}),
+    setFiscalYear: (year: number) => set({fiscalYear: year})
 }));

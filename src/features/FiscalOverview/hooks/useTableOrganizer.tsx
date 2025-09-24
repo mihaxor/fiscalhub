@@ -16,7 +16,7 @@ type TableOrganizer = {
     }[];
 }
 
-export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
+export const useTableOrganizer = (taxes: Taxes, fiscalYear: number = 2025, t: TFunction) => {
 
     const verifyNetType = (value: string) =>
         value === 'net' ? 'bg-fiscal-warning text-black [&>td]:font-semibold [&>td:first-child]:rounded-l-md [&>td:last-child]:rounded-r-md' : 'text-fiscal-primary [&>td]:font-bold';
@@ -130,12 +130,12 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                         rows: [
                             {
                                 cells: [<PopoverInfo key='incomeTax'
-                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.incomeTax', {percent: type === FiscalCalculationType.MICRO3 ? 3 : 1})}
+                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.incomeTax', {percent: type === FiscalCalculationType.MICRO3 ? '3%' : '1%'})}
                                                      text={t('overview.company.micro3.tables.taxes.rows.incomeTaxShort')} />, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]
                             },
                             {
                                 cells: [<PopoverInfo key='dividendTax'
-                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.dividendTax')}
+                                                     popoverText={t('overview.company.micro3.tables.taxes.rows.dividendTax', {percent: toPercentage(taxes.dividend[fiscalYear])})}
                                                      text={t('overview.company.micro3.tables.taxes.rows.dividendTaxShort')} />, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency, 2)]
                             },
                             {cells: [transformToMobile(t('overview.company.micro3.tables.taxes.rows.healthInsurance'), t('overview.company.micro3.tables.taxes.rows.healthInsuranceShort'), isMobile), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency, 2)]}
@@ -199,12 +199,12 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                         rows: [
                             {
                                 cells: [<PopoverInfo key='incomeTax'
-                                                     popoverText={t('overview.company.srl.tables.taxes.rows.incomeTax')}
+                                                     popoverText={t('overview.company.srl.tables.taxes.rows.incomeTax', {percent: toPercentage(taxes.srlProfit)})}
                                                      text={t('overview.company.srl.tables.taxes.rows.incomeTaxShort')} />, transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]
                             },
                             {
                                 cells: [<PopoverInfo key='dividendTax'
-                                                     popoverText={t('overview.company.srl.tables.taxes.rows.dividendTax')}
+                                                     popoverText={t('overview.company.srl.tables.taxes.rows.dividendTax', {percent: toPercentage(taxes.dividend[fiscalYear])})}
                                                      text={t('overview.company.srl.tables.taxes.rows.dividendTaxShort')} />, transformToRo(company.result[type]!.dividendTax.lei), transformToRo(company.result[type]!.dividendTax.currency, 2)]
                             },
                             {cells: [transformToMobile(t('overview.company.srl.tables.taxes.rows.healthInsurance'), t('overview.company.srl.tables.taxes.rows.healthInsuranceShort'), isMobile), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency, 2)]}
@@ -250,7 +250,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
                             className: 'text-fiscal-primary [&>th]:font-bold'
                         },
                         rows: [
-                            {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.incomeTax'), t('overview.company.pfa.tables.taxes.rows.incomeTaxShort'), isMobile), toPercentage(taxes.iv), transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]},
+                            {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.incomeTax', {percent: toPercentage(taxes.iv)}), t('overview.company.pfa.tables.taxes.rows.incomeTaxShort'), isMobile), toPercentage(taxes.iv), transformToRo(company.result[type]!.incomeTax.lei), transformToRo(company.result[type]!.incomeTax.currency, 2)]},
                             {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.socialInsurance'), t('overview.company.pfa.tables.taxes.rows.socialInsuranceShort'), isMobile), toPercentage(taxes.cas), transformToRo(company.result[type]!.cas!.lei), transformToRo(company.result[type]!.cas!.currency, 2)]},
                             {cells: [transformToMobile(t('overview.company.pfa.tables.taxes.rows.healthInsurance'), t('overview.company.pfa.tables.taxes.rows.healthInsuranceShort'), isMobile), toPercentage(taxes.cass), transformToRo(company.result[type]!.cass.lei), transformToRo(company.result[type]!.cass.currency, 2)]}
                         ]
@@ -260,7 +260,7 @@ export const useTableOrganizer = (taxes: Taxes, t: TFunction) => {
             default:
                 return [];
         }
-    }, []);
+    }, [fiscalYear]);
 
     return {getTableStyle};
 }

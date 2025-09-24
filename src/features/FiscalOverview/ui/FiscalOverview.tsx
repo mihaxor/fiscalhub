@@ -18,9 +18,9 @@ import {useTranslation} from 'react-i18next';
 const FiscalOverview = () => {
     const {data: rates} = useContext(RatesContext);
     const {verifyCurrency, convertTo} = useCurrency(rates);
-    const {fiscalInputs} = useFiscalStore();
+    const {fiscalInputs, fiscalYear} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
-    const {calcCompany, verifyGrossInterval} = useFiscalCompany();
+    const {calcCompany, verifyGrossInterval} = useFiscalCompany(fiscalYear);
     const isMobile = useMediaQuery('(max-width: 639px)');
     const isMobileCard = useMediaQuery('(max-width: 480px)');
     const {t} = useTranslation();
@@ -79,7 +79,7 @@ const FiscalOverview = () => {
             }),
             symbol: CurrencySymbol[currencyVerified.type as keyof typeof CurrencySymbol],
         });
-    }, [fiscalInputs]);
+    }, [fiscalInputs, fiscalYear]);
 
     const calculationType = (types: FiscalCalculationType[]): React.ReactNode =>
         types.map((type) =>

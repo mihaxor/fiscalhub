@@ -7,7 +7,10 @@ export const FiscalConfig = {
         micro1: 0.01,                                                        // 1% (Impozit Micro 1)
         micro3: 0.03,                                                        // 3% (Impozit Micro 3)
         srlProfit: 0.16,                                                     // 16% (Impozit SRL pe profit)
-        dividend: 0.10                                                       // 10% (Impozit dividende)
+        dividend: {
+            2025: 0.10,                                                      // 10% (Impozit dividende)
+            2026: 0.16                                                       // 16% (Impozit dividende)
+        } as Readonly<Record<number, number>>
     },
     DEDUCTIBLE_EXPENSES: 0,                                                  // Cheltuieli deductibile (pentru SRL)
     INCOME_NORM: 0,                                                          // Norma de venit (pentru PFA)

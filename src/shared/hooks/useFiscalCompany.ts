@@ -7,7 +7,7 @@ import {
 } from '@/shared/hooks/fiscal.types';
 import {FiscalConfig} from '@/config/fiscal';
 
-const useFiscalCompany = () => {
+const useFiscalCompany = (fiscalYear: number = 2025) => {
 
     const verifyGrossInterval = (type: FiscalCalculationType, grossEur: number): boolean => {
         const disallowedTypes: FiscalCalculationType[] = [];
@@ -97,7 +97,7 @@ const useFiscalCompany = () => {
                 }
             }
         } as FiscalCompanyEntityResult;
-    }, []);
+    }, [fiscalYear]);
 
     const minWageNumber = (grossAmount: number) => grossAmount >= 9000 ? grossAmount >= 14000 ? 24 : 12 : 6
 
@@ -115,7 +115,7 @@ const useFiscalCompany = () => {
      * @param {number} [opts.taxes.micro1]                                          - Impozit micro 1%
      * @param {number} [opts.taxes.micro3]                                          - Impozit micro 3%
      * @param {number} [opts.taxes.srlProfit]                                       - Impozit SRL pe profit 16%
-     * @param {number} [opts.taxes.dividend]                                        - Impozit dividende
+     * @param {number} [opts.taxes.year.dividend]                                   - Impozit dividende
      * @param {number} [opts.dp]                                                    - deducere personala (lei)
      * @param {number} [opts.minWageMandatory]                                      - salariul minim obligatoriu (lei)
      * @param {number} [opts.deductibleExpenses]                                    - cheltuieli deductibile (pentru SRL)
@@ -159,7 +159,7 @@ const useFiscalCompany = () => {
                         const incomeTax = annualRevenue * microTaxes;
 
                         const netProfit = grossProfit - incomeTax;
-                        const dividendTax = netProfit * taxes.dividend;
+                        const dividendTax = netProfit * taxes.dividend[fiscalYear];
                         const totalCollectedProfit = netProfit - dividendTax;
 
                         const cassDividends = minSalaryMonthly * minWageNumber(grossAmount) * taxes.cass;
@@ -213,7 +213,7 @@ const useFiscalCompany = () => {
 
                         const netProfit = grossProfit - incomeTax;
 
-                        const dividendTax = netProfit * taxes.dividend;
+                        const dividendTax = netProfit * taxes.dividend[fiscalYear];
 
                         const totalCollectedProfit = netProfit - dividendTax;
 
@@ -339,7 +339,7 @@ const useFiscalCompany = () => {
                 incomeNorm
             }
         };
-    }, []);
+    }, [fiscalYear]);
     return {
         calcCompany,
         verifyGrossInterval,

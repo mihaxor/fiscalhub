@@ -19,7 +19,7 @@ type Taxes = {
     micro1: number,
     micro3: number,
     srlProfit: number,
-    dividend: number
+    dividend: Readonly<Record<number, number>>
 }
 
 interface FiscalPayroll {

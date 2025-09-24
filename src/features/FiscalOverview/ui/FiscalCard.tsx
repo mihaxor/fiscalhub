@@ -7,8 +7,12 @@ import {Chip} from '@heroui/chip';
 import {toPercentage} from '@/shared/libs/transform';
 import PayRateOverview from '@/features/PayRateOverview';
 import {useTheme} from 'next-themes';
-import {useTranslation} from 'react-i18next';
+import {Trans, useTranslation} from 'react-i18next';
 import {useTableOrganizer} from '@/features/FiscalOverview/hooks/useTableOrganizer';
+import {cn} from '@heroui/react';
+import {Switch} from '@heroui/switch';
+import useMediaQuery from '@/shared/hooks/useMediaQuery';
+import {useFiscalStore} from '@/shared/store/useFiscalStore';
 
 const FiscalCard: React.FC<{
     calcType: FiscalCalculationType,
@@ -18,12 +22,13 @@ const FiscalCard: React.FC<{
 }> = ({calcType, taxes, handler, isMobile}) => {
     const {theme} = useTheme();
     const {t} = useTranslation();
-    const {getTableStyle} = useTableOrganizer(taxes, t);
+    const {fiscalYear, setFiscalYear} = useFiscalStore();
+    const {getTableStyle} = useTableOrganizer(taxes, fiscalYear, t);
+    const isHiding = useMediaQuery('(max-width: 1024px)');
 
-    const getShares = (type: FiscalCalculationType) => {
-        return type === FiscalCalculationType.CIM ? (handler as FiscalPayrollResult).shares :
-            (handler as FiscalCompanyResult).result[type]?.shares;
-    }
+    const getShares = (type: FiscalCalculationType) =>
+        type === FiscalCalculationType.CIM ? (handler as FiscalPayrollResult).shares :
+            (handler as FiscalCompanyResult).result[type]?.shares
 
     return (
         <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
@@ -59,6 +64,39 @@ const FiscalCard: React.FC<{
                         </div>}
                 </div>
                 <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start gap-4 lg:gap-0'>
+                    <Switch
+                        isSelected={fiscalYear === 2026}
+                        isDisabled={calcType === FiscalCalculationType.CIM || calcType === FiscalCalculationType.PFA}
+                        onValueChange={(value) => setFiscalYear(value ? 2026 : 2025)}
+                        className={isHiding ? 'order-2' : ''}
+                        classNames={{
+                            base: cn(
+                                'inline-flex flex-row-reverse w-full max-w-full bg-content1 hover:bg-content2 items-center',
+                                'justify-between cursor-pointer rounded-lg gap-2 p-3 border-2 border-transparent',
+                                'data-[selected=true]:border-primary',
+                            ),
+                            wrapper: 'p-0 h-4 overflow-visible',
+                            thumb: cn(
+                                'w-6 h-6 border-2 shadow-lg',
+                                'group-data-[hover=true]:border-primary',
+                                'group-data-[selected=true]:ms-6',
+                                'group-data-[pressed=true]:w-7',
+                                'group-data-pressed:group-data-selected:ms-4',
+                            ),
+                        }}>
+                        <div className='flex flex-col'>
+                            <p className='text-medium'>{t('overview.fiscalYear.title')} <span
+                                className='text-fiscal-secondary text-[10px]'>{t('overview.fiscalYear.warning')}</span>
+                            </p>
+                            <p className='text-tiny text-default-400'>
+                                <Trans
+                                    i18nKey='overview.fiscalYear.description'
+                                    components={{year: <span className='text-fiscal-primary' />}}
+                                    values={{year: 2026}}
+                                />
+                            </p>
+                        </div>
+                    </Switch>
                     <div className='m-2 lg:m-20 flex flex-row lg:flex-col items-center justify-center gap-4'>
                         <div>
                             <CircularProgress
