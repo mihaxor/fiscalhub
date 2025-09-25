@@ -8,18 +8,18 @@ function generateNonce(): string {
 }
 
 function buildCsp(nonce: string): string {
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isProduction = process.env.NODE_ENV === 'production';
     const vercelLive = 'https://vercel.live';
 
     return [
         'default-src \'self\'',
         'base-uri \'self\'',
-        `script-src 'self' ${isDevelopment ? `'unsafe-inline'` : `'nonce-${nonce}' ${vercelLive}`}`,
+        `script-src 'self' ${isProduction ? `'unsafe-inline'` : `'nonce-${nonce}' ${vercelLive}`}`,
         'style-src \'self\' \'unsafe-inline\'',
         'img-src \'self\' data:',
         'font-src \'self\' data:',
         'connect-src \'self\'',
-        !isDevelopment && `frame-src ${vercelLive}`,
+        !isProduction && `frame-src ${vercelLive}`,
         'object-src \'none\'',
         'frame-ancestors \'none\''
     ].filter(Boolean).join('; ');
