@@ -59,7 +59,7 @@ const CurrencyPanel = () => {
     if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
 
     return (
-        <div className='flex flex-col justify-between gap-4 w-full sm:w-lg'>
+        <div className='flex flex-col justify-between gap-4 w-full sm:mx-8 lg:mx-0 lg:w-md xl:w-lg'>
             <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'

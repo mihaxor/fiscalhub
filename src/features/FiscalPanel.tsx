@@ -95,7 +95,7 @@ const FiscalPanel = () => {
     };
 
     return (
-        <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:w-lg'>
+        <div className='flex flex-col justify-center items-stretch gap-5 w-full sm:mx-8 lg:mx-0 lg:w-md xl:w-lg'>
             <div className='flex flex-row items-start justify-stretch gap-4'>
                 <NumberInput
                     isRequired

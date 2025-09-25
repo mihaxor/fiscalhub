@@ -17,7 +17,7 @@ const Home = async ({params}: { params: Promise<{ locale: string }> }) => {
             <Header t={t} />
             <AnimatedContent>
                 <main className='flex flex-col gap-8 items-center w-full min-h-screen'>
-                    <div className='flex flex-row flex-wrap gap-6 xl:gap-2 items-start justify-evenly w-full'>
+                    <div className='flex flex-row flex-wrap gap-6 items-start xl:gap-30 lg:justify-around w-full xl:w-7xl'>
                         <FiscalPanel />
                         <CurrencyPanel />
                     </div>
