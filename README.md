@@ -117,10 +117,11 @@ NEXT_APP_BNR_RATES_API_URL=your_BNR_API_here
 
 ### Contract Types
 - ✅ **CIM** - Individual Employment Contract
-- 🚧 **SRL** - Limited Liability Company
-- 🚧 **MICRO 3** - Micro-enterprise (3% tax)
-- 🚧 **MICRO 1** - Micro-enterprise (1% tax)
-- 🚧 **PFA** - Authorized Natural Person
+- ✅ **SRL** - Limited Liability Company
+- ✅ **MICRO 3** - Micro-enterprise (3% tax)
+- ✅ **MICRO 1** - Micro-enterprise (1% tax)
+- ✅ **PFA** - Authorized Natural Person
+- 🚧 **COMPARED** - Comparison overview for different contract types
 
 ## 🔄 API and Integrations
 
