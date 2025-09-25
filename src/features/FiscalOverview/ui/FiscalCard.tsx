@@ -39,8 +39,8 @@ const FiscalCard: React.FC<{
     return (
         <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
             <CardBody
-                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-10'>
-                <div className='flex flex-col justify-start gap-3'>
+                className='flex flex-row flex-wrap-reverse lg:flex-nowrap justify-center items-stretch p-0.5 gap-3 lg:gap-3 xl:gap-15'>
+                <div className='flex flex-col justify-start gap-3 w-full'>
                     {getTableStyle(calcType, handler, isMobile)
                         .map((table, index) =>
                             <Table key={index} layout='auto'
@@ -69,7 +69,7 @@ const FiscalCard: React.FC<{
                                 className='text-fiscal-primary'> {(handler as FiscalPayrollResult).totalEmployerCost.lei} lei</span>
                         </div>}
                 </div>
-                <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start gap-4 lg:gap-0'>
+                <div className='w-full flex flex-col justify-start gap-4 lg:gap-0'>
                     <Switch
                         isSelected={fiscalYear === 2026}
                         isDisabled={isNonCompanyType}
@@ -77,7 +77,7 @@ const FiscalCard: React.FC<{
                         className={isHiding ? 'order-2' : ''}
                         classNames={{
                             base: cn(
-                                'inline-flex flex-row-reverse w-full max-w-full bg-content1 hover:bg-content2 items-center',
+                                'inline-flex flex-row-reverse w-full lg:w-sm max-w-full bg-content1 hover:bg-content2 items-center',
                                 'justify-between cursor-pointer rounded-lg gap-2 p-3 border-2 border-transparent',
                                 'data-[selected=true]:border-primary',
                             ),
