@@ -3,8 +3,7 @@ import {NextRequest, NextResponse} from 'next/server';
 import i18nConfig from '@/config/i18n';
 
 function generateNonce(): string {
-    const bytes = crypto.getRandomValues(new Uint8Array(16));
-    return btoa(String.fromCharCode(...bytes));
+    return Buffer.from(crypto.randomUUID()).toString('base64');
 }
 
 function buildCsp(nonce: string): string {
@@ -13,26 +12,27 @@ function buildCsp(nonce: string): string {
 
     return [
         'default-src \'self\'',
-        'base-uri \'self\'',
-        `script-src 'self' ${isProduction ? `'nonce-${nonce}' 'unsafe-inline' ${vercelLive}` : `'unsafe-inline'`}`,
-        'style-src \'self\' \'unsafe-inline\'',
+        `script-src 'self' ${isProduction ? `'nonce-${nonce}' 'strict-dynamic'` : `'unsafe-inline'`}`,
+        `style-src 'self' ${isProduction ? `'nonce-${nonce}'` : `'unsafe-inline'`}`,
         'img-src \'self\' data:',
         'font-src \'self\' data:',
-        'connect-src \'self\'',
-        isProduction && `frame-src ${vercelLive}`,
         'object-src \'none\'',
-        'frame-ancestors \'none\''
+        'base-uri \'self\'',
+        'form-action \'self\'',
+        'connect-src \'self\'',
+        'frame-ancestors \'none\'',
+        isProduction && `frame-src ${vercelLive}`
     ].filter(Boolean).join('; ');
 }
 
 export function middleware(request: NextRequest) {
-    const response = i18nRouter(request, i18nConfig) as NextResponse;
-
     const nonce = generateNonce();
     const csp = buildCsp(nonce);
 
-    response.headers.set('Content-Security-Policy', csp);
+    const response = i18nRouter(request, i18nConfig) as NextResponse;
+
     response.headers.set('x-nonce', nonce);
+    response.headers.set('Content-Security-Policy', csp);
 
     return response;
 }
