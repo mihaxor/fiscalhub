@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Card, CardBody} from '@heroui/card';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
 import {FiscalCalculationType, FiscalCompanyResult, FiscalPayrollResult, Taxes} from '@/shared/hooks/fiscal.types';
@@ -26,9 +26,15 @@ const FiscalCard: React.FC<{
     const {getTableStyle} = useTableOrganizer(taxes, fiscalYear, t);
     const isHiding = useMediaQuery('(max-width: 1024px)');
 
+    useEffect(() => {
+        if (isNonCompanyType) setFiscalYear(2025);
+    }, [calcType]);
+
     const getShares = (type: FiscalCalculationType) =>
         type === FiscalCalculationType.CIM ? (handler as FiscalPayrollResult).shares :
             (handler as FiscalCompanyResult).result[type]?.shares
+
+    const isNonCompanyType = calcType === FiscalCalculationType.CIM || calcType === FiscalCalculationType.PFA;
 
     return (
         <Card radius='md' classNames={{base: 'bg-[unset] shadow-none'}}>
@@ -66,7 +72,7 @@ const FiscalCard: React.FC<{
                 <div className='w-full md:w-2xl lg:w-sm flex flex-col justify-start gap-4 lg:gap-0'>
                     <Switch
                         isSelected={fiscalYear === 2026}
-                        isDisabled={calcType === FiscalCalculationType.CIM || calcType === FiscalCalculationType.PFA}
+                        isDisabled={isNonCompanyType}
                         onValueChange={(value) => setFiscalYear(value ? 2026 : 2025)}
                         className={isHiding ? 'order-2' : ''}
                         classNames={{
