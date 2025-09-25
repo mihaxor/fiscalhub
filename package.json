@@ -2,7 +2,7 @@
   "name": "fiscalhub",
   "type": "module",
   "description": "FiscalHub - Fiscal Data Visualization and Analysis Application",
-  "version": "1.1.30",
+  "version": "1.1.31",
   "private": true,
   "author": "Catalin Glavan",
   "maintainers": [
