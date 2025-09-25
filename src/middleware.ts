@@ -14,7 +14,7 @@ function buildCsp(nonce: string): string {
     return [
         'default-src \'self\'',
         'base-uri \'self\'',
-        `script-src 'self' ${isProduction ? `'nonce-${nonce}'` : `'nonce-${nonce}' 'unsafe-inline' ${vercelLive}`}`,
+        `script-src 'self' ${isProduction ? `'nonce-${nonce}' 'unsafe-inline' ${vercelLive}` : `'unsafe-inline'`}`,
         'style-src \'self\' \'unsafe-inline\'',
         'img-src \'self\' data:',
         'font-src \'self\' data:',
