@@ -12,8 +12,8 @@ function buildCsp(nonce: string): string {
 
     return [
         'default-src \'self\'',
-        `script-src 'self' ${isProduction ? `'nonce-${nonce}' 'strict-dynamic'` : `'unsafe-inline'`}`,
-        `style-src 'self' ${isProduction ? `'nonce-${nonce}'` : `'unsafe-inline'`}`,
+        `script-src 'self' ${isProduction ? `'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline'` : `'unsafe-inline'`}`,
+        `style-src 'self' 'nonce-${nonce}' 'unsafe-inline'`,
         'img-src \'self\' data:',
         'font-src \'self\' data:',
         'object-src \'none\'',
