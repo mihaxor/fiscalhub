@@ -27,7 +27,23 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
     title: 'Fiscal Hub',
-    description: 'Fiscal calculator for salaries, micro-enterprises, LLCs, dividends, and social contributions.'
+    description: 'Fiscal calculator for salaries, micro-enterprises, LLCs, dividends, and social contributions.',
+    manifest: '/manifest.json',
+    icons: {
+        icon: [
+            {url: '/icons/favicon.ico'},
+            {url: '/icons/icon192.png', sizes: '192x192', type: 'image/png'},
+            {url: '/icons/icon512.png', sizes: '512x512', type: 'image/png'}
+        ],
+        apple: [
+            {url: '/icons/icon192.png', sizes: '192x192', type: 'image/png'}
+        ]
+    },
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: 'default',
+        title: 'Fiscal Hub'
+    }
 };
 
 export function generateStaticParams() {
