@@ -20,7 +20,7 @@ export const Providers = ({children}: { children: React.ReactNode }) => {
         <ThemeProvider attribute='class' defaultTheme='dark'>
             <HeroUIProvider className='flex justify-center mx-5'>
                 <ToastProvider
-                    placement='top-center'
+                    placement='top-right'
                     toastProps={{
                         radius: 'md',
                         variant: 'bordered',
