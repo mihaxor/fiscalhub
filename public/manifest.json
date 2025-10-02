@@ -3,7 +3,7 @@
   "short_name": "Fiscal Hub",
   "description": "FiscalHub - Fiscal Data Visualization and Analysis Application",
   "start_url": "/",
-  "display": "minimal-ui",
+  "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait-primary",
