@@ -50,6 +50,7 @@ const FiscalOverview = () => {
                     'general.calculationTypeWarning.description',
                     {maxGross: FiscalConfig[`COMPANY_MAX_GROSS_${type}` as keyof typeof FiscalConfig]}
                 ),
+                classNames: {base: 'mt-10'},
                 color: 'warning',
             }), 200);
         });
