@@ -1,4 +1,4 @@
-# <img src="./public/logo.svg" alt="FiscalHub Logo" width="45" height="45" style="display: inline-block; vertical-align: middle;"> Fiscal Hub
+# <img src="./public/alternative/logo.svg" alt="FiscalHub Logo" width="45" height="45" style="display: inline-block; vertical-align: middle;"> Fiscal Hub
 
 **Fiscal Hub** is a web application for fiscal calculations in Romania, built with Next.js, React, and TypeScript. The application provides precise calculations for salaries, social contributions, taxes, micro-enterprises, LLCs, dividends, and real-time currency conversions.
 
