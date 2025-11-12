@@ -28,6 +28,7 @@ The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.verc
 - Quick converter EUR/USD/GBP → RON
 - Universal converter between any two currencies
 - Intuitive interface with quick currency switching
+- Taxes updated yearly according to Romanian fiscal laws
 
 ### ⚡ Technical Features
 - **Flexible periods**: hour, day, month, year
