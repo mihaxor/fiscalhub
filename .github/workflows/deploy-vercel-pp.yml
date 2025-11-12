@@ -10,6 +10,10 @@ on:
 #    types:
 #      - completed
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
