@@ -28,6 +28,10 @@ on:
           - minor
           - major
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   Bump-Version:
     runs-on: ubuntu-latest
