@@ -2,8 +2,8 @@
 
 import {Chip} from '@heroui/chip';
 import {Input} from '@heroui/input';
-import React, {useContext} from 'react';
-import {RatesContext} from '@/shared/store/useRatesStore';
+import React from 'react';
+import {useRatesStore} from '@/shared/store/useRatesStore';
 import {Spinner} from '@heroui/spinner';
 import {Button} from '@heroui/button';
 import {ArrowLeftRight, ArrowRightLeft} from 'lucide-react';
@@ -19,7 +19,7 @@ const DEFAULT_CURRENCY_OPTIONS = [
 ].sort((a, b) => a.localeCompare(b));
 
 const CurrencyPanel = () => {
-    const {data: rates, isLoading} = useContext(RatesContext);
+    const {data: rates, isLoading} = useRatesStore();
     const {
         eur,
         setEur,

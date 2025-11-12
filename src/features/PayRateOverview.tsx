@@ -1,8 +1,8 @@
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import React, {useContext, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {CurrencySymbol, RateType} from '@/shared/hooks/fiscal.types';
-import {RatesContext} from '@/shared/store/useRatesStore';
+import {useRatesStore} from '@/shared/store/useRatesStore';
 import useCurrency from '@/shared/hooks/useCurrency';
 import {transformToRo} from '@/shared/libs/transform';
 import {Spinner} from '@heroui/spinner';
@@ -15,7 +15,7 @@ import {useDisclosure} from '@heroui/react';
 import {useTheme} from 'next-themes';
 
 const PayRateOverview = () => {
-    const {data: rates, isLoading} = useContext(RatesContext);
+    const {data: rates, isLoading} = useRatesStore();
     const {convertTo} = useCurrency(rates);
     const {fiscalInputs} = useFiscalStore();
     const {t} = useTranslation();

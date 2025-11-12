@@ -1,9 +1,20 @@
 'use client';
 
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import {RateType} from '@/shared/hooks/fiscal.types';
 
-const useRatesStore = () => {
+const RatesContext = createContext({
+    data: {} as Record<RateType, number> | undefined,
+    isLoading: true,
+    setLoading: (loading: boolean) => {
+    },
+    isError: false,
+    error: null,
+    reFetch: () => {
+    }
+});
+
+export const RatesProvider = ({children}: { children: React.ReactNode }) => {
     const [data, setData] = useState<Record<RateType, number> | undefined>(undefined);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,37 +31,26 @@ const useRatesStore = () => {
             })
             .finally(() => setLoading(false));
 
-        setData(data)
+        setData(data);
     }
 
     useEffect(() => {
         getRates();
     }, [reFetch]);
 
-    return {
-        data,
-        isLoading: loading,
-        isError: !!error,
-        error,
-        reFetch: () => setReFetch(!reFetch),
-    };
-}
-
-export const RatesContext = createContext({
-    data: {} as Record<RateType, number> | undefined,
-    isLoading: true,
-    isError: false,
-    error: null,
-    reFetch: () => {
-    }
-});
-
-export const RatesProvider = ({children}: { children: React.ReactNode }) => {
-    const {data, isLoading, isError, error, reFetch} = useRatesStore();
-
     return (
-        <RatesContext.Provider value={{data, isLoading, isError, error, reFetch}}>
+        <RatesContext.Provider
+            value={{
+                data,
+                isLoading: loading,
+                setLoading,
+                isError: !!error,
+                error,
+                reFetch: () => setReFetch(!reFetch)
+            }}>
             {children}
         </RatesContext.Provider>
     );
 }
+
+export const useRatesStore = () => useContext(RatesContext);

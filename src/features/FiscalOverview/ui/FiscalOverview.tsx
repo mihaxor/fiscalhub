@@ -1,12 +1,12 @@
 'use client';
 
 import {Tab, Tabs} from '@heroui/tabs';
-import React, {useContext, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useFiscalStore} from '@/shared/store/useFiscalStore';
 import useFiscalPayroll from '@/shared/hooks/useFiscalPayroll';
 import {CurrencySymbol, FiscalCalculationType, FiscalType} from '@/shared/hooks/fiscal.types';
 import useCurrency from '@/shared/hooks/useCurrency';
-import {RatesContext} from '@/shared/store/useRatesStore';
+import {useRatesStore} from '@/shared/store/useRatesStore';
 import FiscalCard from './FiscalCard';
 import AnimatedContent from '@/shared/components/AnimatedContent';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
@@ -16,7 +16,7 @@ import {FiscalConfig} from '@/config/fiscal';
 import {useTranslation} from 'react-i18next';
 
 const FiscalOverview = () => {
-    const {data: rates} = useContext(RatesContext);
+    const {data: rates} = useRatesStore();
     const {verifyCurrency, convertTo} = useCurrency(rates);
     const {fiscalInputs, fiscalYear} = useFiscalStore();
     const {calcPayroll, taxes} = useFiscalPayroll();
