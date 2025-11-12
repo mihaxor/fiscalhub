@@ -37,7 +37,7 @@ The application is available live on Vercel: [Fiscal Hub](https://fiscalhub.verc
 - **Smooth animations** with Framer Motion and GSAP
 - **Dark/light theme** with next-themes
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack 
 
 ### Frontend
 - **Next.js** with App Router and Turbopack
