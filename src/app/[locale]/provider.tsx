@@ -11,9 +11,7 @@ export const Providers = ({children}: { children: React.ReactNode }) => {
     useEffect(() => {
         window.scrollTo({top: 0, behavior: 'instant'});
 
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     }, []);
 
     return (

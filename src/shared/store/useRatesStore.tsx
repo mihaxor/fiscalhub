@@ -6,8 +6,6 @@ import {RateType} from '@/shared/hooks/fiscal.types';
 const RatesContext = createContext({
     data: {} as Record<RateType, number> | undefined,
     isLoading: true,
-    setLoading: (loading: boolean) => {
-    },
     isError: false,
     error: null,
     reFetch: () => {
@@ -43,7 +41,6 @@ export const RatesProvider = ({children}: { children: React.ReactNode }) => {
             value={{
                 data,
                 isLoading: loading,
-                setLoading,
                 isError: !!error,
                 error,
                 reFetch: () => setReFetch(!reFetch)
