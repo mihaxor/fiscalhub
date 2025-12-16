@@ -27,7 +27,7 @@
     "@heroui/toast": "^2.0.18",
     "framer-motion": "^12.23.26",
     "gsap": "^3.14.2",
-    "i18next": "^25.7.2",
+    "i18next": "^25.7.3",
     "i18next-resources-to-backend": "^1.2.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.561.0",
