@@ -14,7 +14,7 @@ const DEFAULT_FISCAL_INPUTS = {
     fromType: 'gross' as FiscalType,
     calculationType: ['CIM', 'SRL', 'MICRO3'] as FiscalCalculationType[]
 };
-const DEFAULT_FISCAL_YEAR = 2025;
+const DEFAULT_FISCAL_YEAR = 2026;
 
 type FiscalState = {
     fiscalInputs: {
