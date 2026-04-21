@@ -43,7 +43,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/postcss": "^4.2.3",
     "@types/lodash": "^4.17.24",
     "@types/node": "^24.12.2",
     "@types/react": "19.2.14",
@@ -51,7 +51,7 @@
     "@types/xml2js": "^0.4.14",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.4",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.2.3",
     "typescript": "^5.9.3"
   },
   "resolutions": {
