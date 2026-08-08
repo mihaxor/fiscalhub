@@ -1,25 +1,7 @@
-import {parseStringPromise} from 'xml2js';
 import {NextResponse} from 'next/server';
+import {parseBnrRates} from '@/app/api/rates/bnrRates';
 
 const CACHE_DURATION = 3600; // cached in seconds for 1 hour
-
-interface BnrRate {
-    $: {
-        currency: string;
-        multiplier?: string;
-    };
-    _: string;
-}
-
-interface BnrDataSet {
-    DataSet?: {
-        Body?: Array<{
-            Cube?: Array<{
-                Rate?: BnrRate[];
-            }>;
-        }>;
-    };
-}
 
 export async function GET() {
     const bnrAPIUrl = process.env.NEXT_APP_BNR_RATES_API_URL;
@@ -38,20 +20,7 @@ export async function GET() {
             throw new Error(`BNR rates returned an unsupported content type: ${contentType || 'unknown'}.`);
 
         const xml = await bnrAPIResponse.text();
-        const data = await parseStringPromise(xml) as BnrDataSet;
-        const bnrRates = data.DataSet?.Body?.[0]?.Cube?.[0]?.Rate;
-
-        if (!bnrRates?.length) throw new Error('BNR rates response has an invalid structure.');
-
-        const rates = bnrRates.reduce<Record<string, number>>((acc, rate) => {
-            const value = Number.parseFloat(rate._);
-
-            if (rate.$.currency && Number.isFinite(value)) acc[rate.$.currency] = value;
-            return acc;
-        }, {});
-
-        if (!rates.EUR || !rates.USD || !rates.GBP)
-            throw new Error('BNR rates response is missing required currencies.');
+        const rates = await parseBnrRates(xml);
 
         return NextResponse.json(rates);
     } catch (error: unknown) {
