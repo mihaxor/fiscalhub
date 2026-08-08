@@ -90,7 +90,7 @@ yarn local        # Open browser + dev server
 
 ### Environment Variables
 ```env
-NEXT_APP_BNR_RATES_API_URL=your_BNR_API_here
+NEXT_APP_BNR_RATES_API_URL=https://curs.bnr.ro/nbrfxrates.xml
 ```
 
 ## 💡 How to Use

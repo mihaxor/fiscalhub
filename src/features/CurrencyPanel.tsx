@@ -16,10 +16,10 @@ const DEFAULT_CURRENCY_OPTIONS = [
     'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW',
     'MDL', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RSD', 'RUB', 'SEK',
     'SGD', 'THB', 'TRY', 'UAH', 'USD', 'XAU', 'XDR', 'ZAR', 'EGP'
-].sort((a, b) => a.localeCompare(b));
+] satisfies RateType[];
 
 const CurrencyPanel = () => {
-    const {data: rates, isLoading} = useRatesStore();
+    const {data: rates, isLoading, isError} = useRatesStore();
     const {
         eur,
         setEur,
@@ -35,6 +35,9 @@ const CurrencyPanel = () => {
         calculateSwitchedCurrency
     } = useCurrency(rates);
     const {t} = useTranslation();
+    const currencyOptions = DEFAULT_CURRENCY_OPTIONS.filter(option =>
+        option === 'RON' || Number.isFinite(rates?.[option])
+    ).sort((a, b) => a.localeCompare(b));
 
     const handleValueChange =
         (e: React.ChangeEvent<HTMLInputElement>, cb: (
@@ -56,10 +59,16 @@ const CurrencyPanel = () => {
         }))
     }
 
-    if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
+    if (isLoading) return (
+        <div data-testid='currency-panel-loading' className='flex w-full justify-center sm:w-lg h-[250px]'>
+            <Spinner size='md' />
+        </div>
+    );
+    if (isError || !rates) return null;
 
     return (
-        <div className='flex flex-col justify-between gap-4 w-full sm:mx-8 lg:mx-0 lg:w-md xl:w-lg'>
+        <div data-testid='currency-panel'
+             className='flex flex-col justify-between gap-4 w-full sm:mx-8 lg:mx-0 lg:w-md xl:w-lg'>
             <div className='flex flex-row gap-4 w-full'>
                 <Input
                     color='primary'
@@ -155,6 +164,7 @@ const CurrencyPanel = () => {
             </div>
             <div className='flex flex-row gap-4 w-full'>
                 <Input
+                    aria-label='Left currency value'
                     color='primary'
                     size='sm'
                     type='number'
@@ -177,11 +187,11 @@ const CurrencyPanel = () => {
                     endContent={
                         <div className='flex items-center'>
                             <select
-                                aria-label='Select currency'
+                                aria-label='Left currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
                                 value={currency.left.currency}
-                                id='currency'
-                                name='currency'
+                                id='currency-left'
+                                name='currency-left'
                                 onChange={(e) => {
                                     setLastEditedSide('left');
                                     setCurrency(prev => ({
@@ -190,8 +200,8 @@ const CurrencyPanel = () => {
                                     }))
                                 }}
                             >
-                                {DEFAULT_CURRENCY_OPTIONS.map((option: string, key: number) => (
-                                    <option key={key} aria-label={option} value={option}>
+                                {currencyOptions.map(option => (
+                                    <option key={option} aria-label={option} value={option}>
                                         {option}
                                     </option>
                                 ))}
@@ -204,6 +214,7 @@ const CurrencyPanel = () => {
                     {lastEditedSide === 'left' ? <ArrowLeftRight /> : <ArrowRightLeft />}
                 </Button>
                 <Input
+                    aria-label='Right currency value'
                     color='primary'
                     size='sm'
                     type='number'
@@ -227,11 +238,11 @@ const CurrencyPanel = () => {
                     endContent={
                         <div className='flex items-center'>
                             <select
-                                aria-label='Select currency'
+                                aria-label='Right currency'
                                 className='outline-solid outline-transparent border-0 bg-transparent text-default-700 text-small'
                                 value={currency.right.currency}
-                                id='currency'
-                                name='currency'
+                                id='currency-right'
+                                name='currency-right'
                                 onChange={(e) => {
                                     setLastEditedSide('right');
                                     setCurrency(prev => ({
@@ -240,8 +251,8 @@ const CurrencyPanel = () => {
                                     }))
                                 }}
                             >
-                                {DEFAULT_CURRENCY_OPTIONS.map((option: string, key: number) => (
-                                    <option key={key} aria-label={option} value={option}>
+                                {currencyOptions.map(option => (
+                                    <option key={option} aria-label={option} value={option}>
                                         {option}
                                     </option>
                                 ))}

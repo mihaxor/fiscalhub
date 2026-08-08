@@ -16,6 +16,10 @@
 
 # testing
 /coverage
+/output/playwright/
+/playwright-report/
+/test-results/
+/.playwright-cli/
 
 # next.js
 /.next/
@@ -27,6 +31,7 @@
 # misc
 .DS_Store
 *.pem
+/AGENTS.md
 
 # debug
 npm-debug.log*
