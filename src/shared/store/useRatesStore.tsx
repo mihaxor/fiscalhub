@@ -1,40 +1,95 @@
 'use client';
 
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useCallback, useContext, useEffect, useState} from 'react';
 import {RateType} from '@/shared/hooks/fiscal.types';
 
-const RatesContext = createContext({
-    data: {} as Record<RateType, number> | undefined,
-    isLoading: true,
-    isError: false,
-    error: null,
-    reFetch: () => {
-    }
-});
+type Rates = Record<RateType, number>;
+
+interface RatesContextValue {
+    data: Rates | undefined;
+    isLoading: boolean;
+    isError: boolean;
+    error: Error | null;
+    reFetch: () => void;
+}
+
+interface RatesErrorResponse {
+    error: string;
+}
+
+const RatesContext = createContext<RatesContextValue | undefined>(undefined);
+
+const isRatesResponse = (value: unknown): value is Rates => {
+    if (!value || typeof value !== 'object') return false;
+
+    const rates = value as Partial<Record<RateType, unknown>>;
+    return ['EUR', 'USD', 'GBP'].every(currency =>
+        typeof rates[currency as RateType] === 'number'
+    );
+}
+
+const isRatesErrorResponse = (value: unknown): value is RatesErrorResponse =>
+    !!value && typeof value === 'object' &&
+    'error' in value && typeof value.error === 'string';
+
+const normalizeError = (error: unknown): Error =>
+    error instanceof Error ? error : new Error('Unknown rates error.');
 
 export const RatesProvider = ({children}: { children: React.ReactNode }) => {
-    const [data, setData] = useState<Record<RateType, number> | undefined>(undefined);
+    const [data, setData] = useState<Rates | undefined>(undefined);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [reFetch, setReFetch] = useState(false);
-
-    const getRates = async () => {
-        setLoading(true);
-
-        const data = await fetch('/api/rates')
-            .then(res => res.json())
-            .catch(err => {
-                console.error('Error fetching rates:', err);
-                setError(err);
-            })
-            .finally(() => setLoading(false));
-
-        setData(data);
-    }
+    const [error, setError] = useState<Error | null>(null);
+    const [requestVersion, setRequestVersion] = useState(0);
 
     useEffect(() => {
-        getRates();
-    }, [reFetch]);
+        let isActive = true;
+
+        const getRates = async () => {
+            try {
+                const response = await fetch('/api/rates');
+                const payload: unknown = await response.json();
+
+                if (!response.ok) {
+                    const message = isRatesErrorResponse(payload)
+                        ? payload.error
+                        : `Rates request failed with status ${response.status}.`;
+
+                    throw new Error(message);
+                }
+
+                if (!isRatesResponse(payload)) throw new Error('Rates response is invalid.');
+
+                if (isActive) {
+                    setData(payload);
+                    setError(null);
+                }
+            } catch (error: unknown) {
+                const normalizedError = normalizeError(error);
+
+                console.warn('Rates unavailable:', normalizedError.message);
+
+                if (isActive) {
+                    setData(undefined);
+                    setError(normalizedError);
+                }
+            } finally {
+                if (isActive) setLoading(false);
+            }
+        };
+
+        void getRates();
+
+        return () => {
+            isActive = false;
+        };
+    }, [requestVersion]);
+
+    const reFetch = useCallback(() => {
+        setData(undefined);
+        setError(null);
+        setLoading(true);
+        setRequestVersion(version => version + 1);
+    }, []);
 
     return (
         <RatesContext.Provider
@@ -43,11 +98,17 @@ export const RatesProvider = ({children}: { children: React.ReactNode }) => {
                 isLoading: loading,
                 isError: !!error,
                 error,
-                reFetch: () => setReFetch(!reFetch)
+                reFetch
             }}>
             {children}
         </RatesContext.Provider>
     );
 }
 
-export const useRatesStore = () => useContext(RatesContext);
+export const useRatesStore = (): RatesContextValue => {
+    const context = useContext(RatesContext);
+
+    if (!context) throw new Error('useRatesStore must be used within RatesProvider.');
+
+    return context;
+}

@@ -19,7 +19,7 @@ const DEFAULT_CURRENCY_OPTIONS = [
 ].sort((a, b) => a.localeCompare(b));
 
 const CurrencyPanel = () => {
-    const {data: rates, isLoading} = useRatesStore();
+    const {data: rates, isLoading, isError} = useRatesStore();
     const {
         eur,
         setEur,
@@ -57,6 +57,7 @@ const CurrencyPanel = () => {
     }
 
     if (isLoading) return <div className='flex w-full justify-center sm:w-lg h-[250px]'><Spinner size='md' /></div>;
+    if (isError || !rates) return null;
 
     return (
         <div className='flex flex-col justify-between gap-4 w-full sm:mx-8 lg:mx-0 lg:w-md xl:w-lg'>
